@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'home.css')}}">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebarLogo">
+            <div class="title">CPI</div>
+            <i class='bx bxl-python' id="python"></i>
+        </div>
+        
+        <ul class="menu">
+
+            <li>
+                <i class='bx bx-search-alt' id="research"></i>
+                <input type="search" name="search" class="search" 
+                placeholder="    Procurar...">
+                
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-menu' ></i>
+                    <span class="links-name">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-menu' ></i>
+                    <span class="links-name">Ranking</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-menu' ></i>
+                    <span class="links-name">Renda Fixa</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-menu' ></i>
+                    <span class="links-name">Infos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-menu' ></i>
+                    <span class="links-name">Usuario</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="gridContent">
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}} %</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="ranking">{{petr4_ranking}}</div>
+            <div class="stocInfo">
+                <div class="stockName">{{petr4_name}}</div>
+                <div class="stockDy">{{petr4_dy}}</div>
+                <div class="mdi">{{petr4_mdi}}</div>
+                <div class="highPrice">{{petr4_highprice}}</div>
+                <div class="value">{{petr4_value}}</div>
+                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+            </div>
+            <div class="complements">
+                <div class="dpa">{{petr4_dpa}}</div>
+                <div class="mdi_map">{{petr4_mdia_map}}</div>
+            </div>
+        </div>
+
+        
+
+        
+    </div>
+        
+        
+
+</body>
+</html>
