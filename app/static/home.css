@@ -1,12 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     text-decoration: none;
+    font-family: 'ROBOTO',sans-serif;
+    color: gray;
 }
 
 .sidebar{
     position: absolute;
-    background: rgb(73, 50, 50);
+    background: rgba(61, 51, 51, 0.952);
     height: 100vh;
     width: 350px;
 }
@@ -84,32 +88,178 @@
     display: grid;
     width: calc(100% - 350px);
     height: 100vh;
-    background-color: gray;
+    background-color: rgb(237, 234, 238);
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: stretch;
-    grid-gap: 10px;
+    grid-gap: -50px;
     margin-left: 350px;
     
 }
 
 .gridContent .card{
+    position: relative;
     border-radius: 12px;
-    background-color: red;
+    background-color: rgba(255,255,255);
     max-height: 300px;
+    width: 450px;
     margin: 20px;
 }
 
 .gridContent .card .stockName{
     text-align: center;
-    color: antiquewhite;
+    color: rgb(0, 0, 0);
 }
 
 .gridContent .card .ranking{
+    margin: 10px;
     text-align: left;
-    color: antiquewhite;
+    color: rgb(0, 0, 0);
+}
+
+.gridContent .card .circle{
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -15px;
+    width: 55px;
+    height: 55px;
+    background-color: #000;
+    color: #FFF;
+    border: 5px solid rgb(237, 234, 238);
+    border-radius: 50%;
+    
 }
 
 .gridContent .card .margin_porcent{
     text-align: right;
-    color: antiquewhite;
+    margin-right: 12px;
+    color: rgb(0, 0, 0);
+}
+
+.gridContent .card .stocInfo .margin{
+    text-align: center;
+    right: 0;
+    margin-right: 20px;
+}
+
+.gridContent .card .stockDy{
+    border-radius: 12px;
+    display: flex;
+    position: absolute;
+    right: 0;
+    width: 70px;
+    height: 30px;
+    align-items: center;
+    margin-right: 20px;
+    background-color: rgb(233, 233, 233);
+    justify-content: space-evenly;
+    
+}
+
+.gridContent .card .stockDy .stockdy_text, .dy_value{
+    color: black;
+}
+
+
+.gridContent .card .mdi{
+    position: absolute;
+    display: flex;
+    margin-top: 40px;
+    margin-right: 20px;
+    width: 70px;
+    height: 30px;
+    right: 0;
+    border-radius: 12px;
+    background-color: rgb(233, 233, 233);
+    float: right;
+    align-items: center;
+    justify-content: space-evenly;
+    color: black;
+
+}
+
+.gridContent .card .complements{
+    font-size: 110%;
+    margin-right: 28px;
+    right: 0;
+    margin-bottom: 8px;
+    position: absolute;
+    bottom: 0;
+}
+
+.gridContent .card .complements .mdi_text{
+    text-align: center;
+}
+
+.gridContent .card .complements .mdi_map{
+    text-align: center;
+    border-radius: 12px;
+    background-color: rgb(233, 233, 233);
+    width: 110%;
+    color: black;
+}
+
+.gridContent .card .stocInfo .margin{
+    font-size: 110%;
+    margin-top: 80px;
+    position: absolute;
+    right: 0;
+}
+
+.gridContent .card .stocInfo .margin .margin_value{
+    text-align: center;
+    color: black;
+    font-weight: bold;
+}
+
+.gridContent .card .stocInfo .highprice{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 140px;
+    margin-left: 40px;
+}
+
+.gridContent .card .stocInfo .highprice .highprice_text{
+    position: absolute;
+    color: black;
+}
+
+.gridContent .card .stocInfo .highprice .highprice_value{
+    margin-left: 8px;
+    background-color: green;
+    float: left;
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    color: white;
+    
+}
+
+.gridContent .card .stocInfo .value{
+    margin-bottom: 110px;
+    margin-left: 40px;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+}
+
+.gridContent .card .stocInfo .value .value_value{
+    margin-left: 8px;
+    background-color: rgb(247, 168, 0);
+    text-align: center;
+    width: 50px;
+    height: 20px;
+    color: white;
+}
+
+.gridContent .card .stocInfo .dpa{
+    position: absolute;
+    bottom: 0;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.gridContent .card .stocInfo .dpa .dpa_value{
+    text-align: center;
+    color: black;
 }

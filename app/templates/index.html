@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="30" /> -->
     <link rel="stylesheet" href="{{url_for('static', filename = 'home.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <title>Document</title>
+    <link rel="stylesheet" href="../static/home.css">
+    <title>CPI</title>
 </head>
 <body>
 
@@ -59,148 +61,325 @@
 
     <div class="gridContent">
         <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
+            <p class="ranking">Ranking {{petr4_ranking}}</p>
             <div class="stocInfo">
                 <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">{{petr4_dy}}</div>
+                    </div>
                 <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">{{petr4_highprice}}</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> {{petr4_value}}</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">{{petr4_margin}}</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
             </div>
             <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+        <div class="card">
+            <p class="ranking">Ranking 1</p>
+            <div class="stocInfo">
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
         </div>
 
         <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
+            <p class="ranking">Ranking 1</p>
             <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}} %</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
+                <div class="stockName">PETR4 - PETROBRÁS</div>
+
+                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">49.7</div>
+                    </div>
+                <div class="mdi">TRUE</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">277</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> 42.7</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">377%</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
             </div>
             <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
+        
 
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="ranking">{{petr4_ranking}}</div>
-            <div class="stocInfo">
-                <div class="stockName">{{petr4_name}}</div>
-                <div class="stockDy">{{petr4_dy}}</div>
-                <div class="mdi">{{petr4_mdi}}</div>
-                <div class="highPrice">{{petr4_highprice}}</div>
-                <div class="value">{{petr4_value}}</div>
-                <div class="margin_porcent">Margem de Segurança{{petr4_margin}}</div>
-            </div>
-            <div class="complements">
-                <div class="dpa">{{petr4_dpa}}</div>
-                <div class="mdi_map">{{petr4_mdia_map}}</div>
-            </div>
-        </div>
+        
 
         
 

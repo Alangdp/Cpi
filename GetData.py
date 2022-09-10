@@ -50,7 +50,7 @@ class BasicData():
         self.name = self.soup.findAll(attrs={'class':'lh-4'})[0].text
         try:
             self.value = self.soup.findAll(attrs={'class':'value'})[0].text
-            self.value = Formate_Number(self.value)
+            self.value = float(Formate_Number(self.value))
         except:
             return 'ERRO VALUE'
         try:
@@ -93,8 +93,10 @@ class BasicData():
     def Dy(self, args=None):
         info = {}
         
-        dy_6 = Formate_Number(self.Datas()['dy_value'])/0.06
-        
+        try:
+            dy_6 = Formate_Number(self.Datas()['dy_value'])/0.06
+        except:
+            return 'ERRO DY6'
         try:
             dy_8 = Formate_Number(self.Datas()['dy_value'])/0.08
         except:
@@ -121,3 +123,10 @@ class BasicData():
             return info
         except:
             return 'ERRO INFO DY'
+        
+    def Margin(self):
+        try:
+            margin = (self.Dy()['dy6']/self.Datas()['value'] -1)*100
+            return f'{margin:.2f}' + '%'
+        except:
+            return 'ERRO MARGIN'
