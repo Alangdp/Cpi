@@ -6,6 +6,20 @@ import requests
 
 # Global Methods
 
+def highdy():
+        info = []
+        try:
+            import fundamentus
+            df = fundamentus.get_resultado()
+            maiores = df.nlargest(150,'dy')
+            for index in maiores.index:
+                if df['dy'][index] > 1 or df['dy'][index] < 0.06:
+                    continue
+                info.append(index)
+            return info
+        except:
+            return 'ERRO HIGH DY'
+        
 def Formate_Number(x):
     lt = []
     for y in str(x):
@@ -23,8 +37,8 @@ def Formate_Number(x):
 
 class BasicData():
     def __init__(self,ticker) -> str:
-        self.ticker = ticker
-         
+        self.ticker = ticker.upper()
+        
     def Soup(self, args=None):
         try:
             link = BasicData(self.ticker)
@@ -55,6 +69,7 @@ class BasicData():
             return 'ERRO VALUE'
         try:
             self.dy_Value = self.soup.findAll(attrs={'class':'sub-value'})[3].text
+            self.dy_Value = Formate_Number(self.dy_Value)
         except:
             return 'ERRO DY_VALUE'
         try:
@@ -90,40 +105,27 @@ class BasicData():
         except:
             return 'ERRO INFO DATAS'
         
-    def Dy(self, args=None):
+    def Dy(self):
+        lt = []
         info = {}
-        
-        try:
-            dy_6 = Formate_Number(self.Datas()['dy_value'])/0.06
-        except:
-            return 'ERRO DY6'
-        try:
-            dy_8 = Formate_Number(self.Datas()['dy_value'])/0.08
-        except:
-            return 'ERRO DY8'
-        try:
-            dy_10 = Formate_Number(self.Datas()['dy_value'])/0.1
-        except:
-            return 'ERRO DY10'
-        try:
-            dy_12 = Formate_Number(self.Datas()['dy_value'])/0.12
-        except:
-            return 'ERRO DY12'
-        try:
-            actual_dy = (Formate_Number(self.Datas()['dy_value'])/(Formate_Number(self.Datas()['dy_porcent'])/100))*100
-        except:
-            return 'ERRO ACTUAL DY'
-        
-        try:
-            info['dy6'] = float(f'{dy_6:.2f}')
-            info['dy8'] = float(f'{dy_8:.2f}')
-            info['dy10'] = float(f'{dy_10:.2f}')
-            info['dy12'] = float(f'{dy_12:.2f}')
-            info['actual_dy'] = float(f'{actual_dy:.2f}')
-            return info
-        except:
-            return 'ERRO INFO DY'
-        
+        if len(self.ticker) > 6:
+            return 'ERRO TICKER LARGEST'
+        import os
+        import fundamentus
+        df = fundamentus.get_resultado()
+        for index in df.index:
+            if index == self.ticker:
+                info['dy6'] = float(f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['actual_dy'] = f"{self.Datas()['dy_value']/df['dy'][index]:.2f}"
+                try:
+                    info['margin'] = f"{((info['dy6']/df['cotacao'][index]) - 1) * 100:.2f}"
+                except:
+                    return 'ERRO MARGIN'
+                return info
+    
     def Margin(self):
         try:
             margin = (self.Dy()['dy6']/self.Datas()['value'] -1)*100
