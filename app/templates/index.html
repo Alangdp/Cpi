@@ -8,13 +8,26 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'home.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/home.css">
-    <title>CPI</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>CIP</title>
+    
+    <script>
+        $(function() {
+            setTime();
+            function setTime() {
+               var date = new Date().getTime();
+               var string = "Timestamp: "+date;
+               setTimeout(setTime, 3000);
+               $('#gridContent').html(string);
+            }
+          });
+    </script>
 </head>
 <body>
 
     <div class="sidebar">
         <div class="sidebarLogo">
-            <div class="title">CPI</div>
+            <div class="title">CIP</div>
             <i class='bx bxl-python' id="python"></i>
         </div>
         
@@ -59,7 +72,7 @@
         </ul>
     </div>
 
-    <div class="gridContent">
+    <div class="gridContent " id="gridContent">
         <div class="card">
             <p class="ranking">Ranking {{petr4_ranking}}</p>
             <div class="stocInfo">
@@ -375,15 +388,7 @@
                 <div class="mdi_text">MDI</div>
                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
-        </div>
-
-        
-
-        
-
-        
-
-        
+        </div>        
     </div>
         
         
