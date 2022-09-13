@@ -1,8 +1,5 @@
-from ast import For
 from bs4 import BeautifulSoup
-import html5lib
 import requests
-
 
 # Global Methods
 
@@ -44,7 +41,7 @@ class BasicData():
             link = BasicData(self.ticker)
             url = (link.links())
             page = requests.get(url)
-            soup = BeautifulSoup(page.text, 'html5lib')
+            soup = BeautifulSoup(page.text, 'html')
             return soup
         except:
             return 'ERRO SOUP'
@@ -105,8 +102,11 @@ class BasicData():
         except:
             return 'ERRO INFO DATAS'
         
+    def FundamentalDatas(self):
+        pass    
+    
     def Dy(self):
-        lt = []
+        
         info = {}
         if len(self.ticker) > 6:
             return 'ERRO TICKER LARGEST'
@@ -116,16 +116,12 @@ class BasicData():
         for index in df.index:
             if index == self.ticker:
                 info['dy6'] = float(f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
-                info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
-                info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
-                info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
-                info['actual_dy'] = f"{self.Datas()['dy_value']/df['dy'][index]:.2f}"
-                try:
-                    info['margin'] = f"{((info['dy6']/df['cotacao'][index]) - 1) * 100:.2f}"
-                except:
-                    return 'ERRO MARGIN'
+                info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
+                info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
+                info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
+                info['actual_dy'] = f"{(df['cotacao'][index])*(df['dy'][index])/df['dy'][index]:.2f}"
                 return info
-    
+            
     def Margin(self):
         try:
             margin = (self.Dy()['dy6']/self.Datas()['value'] -1)*100

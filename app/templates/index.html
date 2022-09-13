@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'home.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <title>CIP</title>
     
     <script>
@@ -78,12 +77,12 @@
             <div class="stocInfo">
                 <div class="stockName">{{petr4_name}}</div>
 
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+                <img class="circle" src={{petr4_img}}></img>
 
                 <div class="secondInfo">
                     <div class="stockDy">
                         <div class="stockdy_text">DY</div>
-                        <div class="dy_value">{{petr4_dy}}</div>
+                        <div class="dy_value">{{petr4_dy}}%</div>
                     </div>
                 <div class="mdi">{{petr4_mdi}}</div>
                 </div>
@@ -108,31 +107,32 @@
                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
         </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
 
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+        <div class="card">
+            <p class="ranking">Ranking {{bbas3_ranking}}</p>
+            <div class="stocInfo">
+                <div class="stockName">{{bbas3_name}}</div>
+
+                <img class="circle" src={{bbas3_img}}></img>
 
                 <div class="secondInfo">
                     <div class="stockDy">
                         <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
+                        <div class="dy_value">{{bbas3_dy}}%</div>
                     </div>
-                <div class="mdi">TRUE</div>
+                <div class="mdi">{{bbas3_mdi}}</div>
                 </div>
                 <div class="highprice">
                     <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
+                    <div class="highprice_value">{{bbas3_highprice}}</div>
                 </div>
                 <div class="value">
                     <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
+                    <div class="value_value"> {{bbas3_value}}</div>
                 </div>
                 <div class="margin">
                     <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
+                    <div class="margin_value">{{bbas3_margin}}</div>
                 </div>
                 <div class="dpa">
                     <div class="dpa_text">DPA projetivo</div>
@@ -143,206 +143,32 @@
                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
         </div>
+        
         <div class="card">
-            <p class="ranking">Ranking 1</p>
+            <p class="ranking">Ranking {{klbn3_ranking}}</p>
             <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
+                <div class="stockName">{{klbn3_name}}</div>
 
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
+                <img class="circle" src={{klbn3_img}}></img>
 
                 <div class="secondInfo">
                     <div class="stockDy">
                         <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
+                        <div class="dy_value">{{klbn3_dy}}%</div>
                     </div>
-                <div class="mdi">TRUE</div>
+                <div class="mdi">{{klbn3_mdi}}</div>
                 </div>
                 <div class="highprice">
                     <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
+                    <div class="highprice_value">{{klbn3_highprice}}</div>
                 </div>
                 <div class="value">
                     <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
+                    <div class="value_value"> {{klbn3_value}}</div>
                 </div>
                 <div class="margin">
                     <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
-            </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-            </div>
-        </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
-                    </div>
-                <div class="mdi">TRUE</div>
-                </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
-            </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-            </div>
-        </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
-                    </div>
-                <div class="mdi">TRUE</div>
-                </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
-            </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-            </div>
-        </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
-                    </div>
-                <div class="mdi">TRUE</div>
-                </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
-            </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-            </div>
-        </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
-                    </div>
-                <div class="mdi">TRUE</div>
-                </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
-            </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-            </div>
-        </div>
-        <div class="card">
-            <p class="ranking">Ranking 1</p>
-            <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
-                    </div>
-                <div class="mdi">TRUE</div>
-                </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
+                    <div class="margin_value">{{klbn3_margin}}</div>
                 </div>
                 <div class="dpa">
                     <div class="dpa_text">DPA projetivo</div>
@@ -355,30 +181,66 @@
         </div>
 
         <div class="card">
-            <p class="ranking">Ranking 1</p>
+             <p class="ranking">Ranking {{taee11_ranking}}</p>
+             <div class="stocInfo">
+                 <div class="stockName">{{taee11_name}}</div>
+            
+                 <img class="circle" src={{taee11_img}}></img>
+            
+                 <div class="secondInfo">
+                     <div class="stockDy">
+                         <div class="stockdy_text">DY</div>
+                         <div class="dy_value">{{taee11_dy}}%</div>
+                     </div>
+                 <div class="mdi">{{taee11_mdi}}</div>
+                 </div>
+                 <div class="highprice">
+                     <div class="highPrice_text">PreçoTeto</div>
+                     <div class="highprice_value">{{taee11_highprice}}</div>
+                 </div>
+                 <div class="value">
+                     <div class="value_text">Cotação</div>
+                     <div class="value_value"> {{taee11_value}}</div>
+                 </div>
+                 <div class="margin">
+                     <div class="margin_text">Margem de Segurança </div>
+                     <div class="margin_value">{{taee11_margin}}</div>
+                 </div>
+                 <div class="dpa">
+                     <div class="dpa_text">DPA projetivo</div>
+                     <div class="dpa_value">50</div>                </div>
+             </div>
+             <div class="complements">
+                 <div class="mdi_text">MDI</div>
+                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+             </div>
+         </div>
+        
+         <div class="card">
+            <p class="ranking">Ranking {{pssa3_ranking}}</p>
             <div class="stocInfo">
-                <div class="stockName">PETR4 - PETROBRÁS</div>
-
-                <img class="circle" src="https://s3-symbol-logo.tradingview.com/brasileiro-petrobras--600.png"></img>
-
+                <div class="stockName">{{pssa3_name}}</div>
+           
+                <img class="circle" src={{pssa3_img}}></img>
+           
                 <div class="secondInfo">
                     <div class="stockDy">
                         <div class="stockdy_text">DY</div>
-                        <div class="dy_value">49.7</div>
+                        <div class="dy_value">{{pssa3_dy}}%</div>
                     </div>
-                <div class="mdi">TRUE</div>
+                <div class="mdi">{{pssa3_mdi}}</div>
                 </div>
                 <div class="highprice">
                     <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">277</div>
+                    <div class="highprice_value">{{pssa3_highprice}}</div>
                 </div>
                 <div class="value">
                     <div class="value_text">Cotação</div>
-                    <div class="value_value"> 42.7</div>
+                    <div class="value_value"> {{pssa3_value}}</div>
                 </div>
                 <div class="margin">
                     <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">377%</div>
+                    <div class="margin_value">{{pssa3_margin}}</div>
                 </div>
                 <div class="dpa">
                     <div class="dpa_text">DPA projetivo</div>
@@ -388,8 +250,154 @@
                 <div class="mdi_text">MDI</div>
                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
-        </div>        
-    </div>
+        </div>
+
+        <div class="card">
+             <p class="ranking">Ranking{{rani3_ranking}}</p>
+             <div class="stocInfo">
+                 <div class="stockName">{{rani3_name}}</div>
+            
+                 <img class="circle" src={{rani3_img}}></img>
+            
+                 <div class="secondInfo">
+                     <div class="stockDy">
+                         <div class="stockdy_text">DY</div>
+                         <div class="dy_value">{{rani3_dy}}%</div>
+                     </div>
+                 <div class="mdi">{{rani3_mdi}}</div>
+                 </div>
+                 <div class="highprice">
+                     <div class="highPrice_text">PreçoTeto</div>
+                     <div class="highprice_value">{{rani3_highprice}}</div>
+                 </div>
+                 <div class="value">
+                     <div class="value_text">Cotação</div>
+                     <div class="value_value"> {{rani3_value}}</div>
+                 </div>
+                 <div class="margin">
+                     <div class="margin_text">Margem de Segurança </div>
+                     <div class="margin_value">{{rani3_margin}}</div>
+                 </div>
+                 <div class="dpa">
+                     <div class="dpa_text">DPA projetivo</div>
+                     <div class="dpa_value">50</div>                </div>
+             </div>
+             <div class="complements">
+                 <div class="mdi_text">MDI</div>
+                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+             </div>
+         </div>
+        
+         <div class="card">
+            <p class="ranking">Ranking{{sanb3_ranking}}</p>
+            <div class="stocInfo">
+                <div class="stockName">{{sanb3_name}}</div>
+           
+                <img class="circle" src={{sanb3_img}}></img>
+           
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">{{sanb3_dy}}%</div>
+                    </div>
+                <div class="mdi">{{sanb3_mdi}}</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">{{sanb3_highprice}}</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> {{sanb3_value}}</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">{{sanb3_margin}}</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <p class="ranking">Ranking{{itsa4_ranking}}</p>
+            <div class="stocInfo">
+                <div class="stockName">{{itsa4_name}}</div>
+           
+                <img class="circle" src={{itsa4_img}}></img>
+           
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">{{itsa4_dy}}%</div>
+                    </div>
+                <div class="mdi">{{itsa4_mdi}}</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">{{itsa4_highprice}}</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> {{itsa4_value}}</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">{{itsa4_margin}}</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <p class="ranking">Ranking{{cple6_ranking}}</p>
+            <div class="stocInfo">
+                <div class="stockName">{{cple6_name}}</div>
+           
+                <img class="circle" src={{cple6_img}}></img>
+           
+                <div class="secondInfo">
+                    <div class="stockDy">
+                        <div class="stockdy_text">DY</div>
+                        <div class="dy_value">{{cple6_dy}}%</div>
+                    </div>
+                <div class="mdi">{{cple6_mdi}}</div>
+                </div>
+                <div class="highprice">
+                    <div class="highPrice_text">PreçoTeto</div>
+                    <div class="highprice_value">{{cple6_highprice}}</div>
+                </div>
+                <div class="value">
+                    <div class="value_text">Cotação</div>
+                    <div class="value_value"> {{cple6_value}}</div>
+                </div>
+                <div class="margin">
+                    <div class="margin_text">Margem de Segurança </div>
+                    <div class="margin_value">{{cple6_margin}}</div>
+                </div>
+                <div class="dpa">
+                    <div class="dpa_text">DPA projetivo</div>
+                    <div class="dpa_value">50</div>                </div>
+            </div>
+            <div class="complements">
+                <div class="mdi_text">MDI</div>
+                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+            </div>
+        </div>
+
+
+
         
         
 
