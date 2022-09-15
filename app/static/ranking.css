@@ -66,6 +66,47 @@
 
 }
 
+.sidebar ul li a .links-name:hover{
+    color: black;
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+.sidebar ul li#addticker span{
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sidebar ul li#addticker span:hover{
+    color: black;
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.sidebar .addbutton{
+    margin-top: 10px;
+    border-radius: 12px;
+    width: 75px;
+    height: 25px;
+    border: 0px;
+}
+
+.sidebar .addbutton:hover{
+    border: black 2px;
+
+}
+
+.sidebar ul li#addticker{
+    display: flex;
+    flex-direction: column;
+}
+
 .sidebar ul li .bx-menu::before{
     color: white;
     font-size: 25px;
@@ -75,6 +116,7 @@
 
 .sidebar ul li .bx-search-alt::before{
     font-size: 25px;
+    color: white;
 }
 
 .sidebar ul li input.search {
@@ -93,16 +135,18 @@
     justify-content: stretch;
     grid-gap: -50px;
     margin-left: 350px;
-    
+    overflow: auto;
+
 }
 
 .gridContent .card{
     position: relative;
     border-radius: 12px;
     background-color: rgba(255,255,255);
-    max-height: 300px;
+    height: 300px;
     width: 450px;
     margin: 20px;
+    cursor: pointer;
 }
 
 .gridContent .card .stockName{
@@ -146,7 +190,7 @@
     display: flex;
     position: absolute;
     right: 0;
-    width: 70px;
+    width: 80px;
     height: 30px;
     align-items: center;
     margin-right: 20px;

@@ -4,23 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="30">
-    <link rel="stylesheet" href="{{url_for('static', filename = 'home.css')}}">
+    <!-- <meta http-equiv="refresh" content="30"> -->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/home.css">
+    <script src="{{url_for('static', filename = 'script.js')}}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="../static/script.js"></script>
     <title>CIP</title>
-    
-    <script>
-        $(function() {
-            setTime();
-            function setTime() {
-               var date = new Date().getTime();
-               var string = "Timestamp: "+date;
-               setTimeout(setTime, 3000);
-               $('#gridContent').html(string);
-            }
-          });
-    </script>
+
 </head>
 <body>
 
@@ -68,6 +60,14 @@
                     <span class="links-name">Usuario</span>
                 </a>
             </li>
+            <li id="addticker" class="links-name">
+                <div class="icoName">
+                    <i class='bx bx-menu' ></i>
+                    <span>Adicionar Ação</span>
+                </div> 
+                <input type="button" value="+" class="addbutton" onclick="getTicker()">
+            </li>
+            
         </ul>
     </div>
 
@@ -395,6 +395,7 @@
                 <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
             </div>
         </div>
+        
 
 
 

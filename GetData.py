@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
-
+import lxml
+import cchardet
 # Global Methods
 
 def highdy():
@@ -40,8 +41,9 @@ class BasicData():
         try:
             link = BasicData(self.ticker)
             url = (link.links())
-            page = requests.get(url)
-            soup = BeautifulSoup(page.text, 'html')
+            session = requests.Session()
+            page = session.get(url)
+            soup = BeautifulSoup(page.text, "lxml")
             return soup
         except:
             return 'ERRO SOUP'
@@ -59,36 +61,29 @@ class BasicData():
         self.soup = self.Soup()
         
         self.name = self.soup.findAll(attrs={'class':'lh-4'})[0].text
+        self.value_class = self.soup.findAll(attrs={'class':'value'})
         try:
-            self.value = self.soup.findAll(attrs={'class':'value'})[0].text
+            self.value = self.value_class[0].text
             self.value = float(Formate_Number(self.value))
-        except:
-            return 'ERRO VALUE'
-        try:
-            self.dy_Value = self.soup.findAll(attrs={'class':'sub-value'})[3].text
+            self.dy_Value = self.value_class[3].text
             self.dy_Value = Formate_Number(self.dy_Value)
-        except:
-            return 'ERRO DY_VALUE'
-        try:
-            self.dy_Porcent = self.soup.findAll(attrs={'class':'value'})[3].text
+            self.dy_Porcent = self.value_class[3].text
             if str(self.dy_Porcent) == '-':
                 self.dy_Porcent = '0.01'
             else:
                 self.dy_Porcent = Formate_Number(self.dy_Porcent)
+            self.tagAlong = self.value_class[6].text
         except:
-            return 'ERRO DY_PORCENT'
+            return 'ERRO VALUES'
         try:
-            self.tagAlong = self.soup.findAll(attrs={'class':'value'})[6].text
-        except:
-            return 'TAG_ALONG'
+            self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
+        except: 
+            return 'ERRO DB BLOCK CLASS'
         try:
-            self.p_vp = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})[3].text
+            self.p_vp = self.value_dblock_class[3].text
+            self.roe = self.value_dblock_class[24].text
         except:
-            return 'ERRO P_VP'
-        try:
-            self.roe = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})[24].text
-        except:
-            return 'ERRO ROE'
+            return 'ERRO DB BLOCK VALUES'
             
         try:
             info['name'] = self.name
