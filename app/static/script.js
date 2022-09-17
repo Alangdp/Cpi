@@ -1,3 +1,12 @@
+function httpGet(ticker)
+{
+    url = "/detalhes?ticker=$" + ticker;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false ); 
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
 function getTicker(){
     var ticker = prompt("Digite o ticker: ")
     if(!ticker ){
@@ -9,28 +18,40 @@ function getTicker(){
     }else{
         alert('Ticker válido')
     }
+
+    httpGet(ticker);
+
 }
 
+function alerta(){
+    alert('teste')
+}
 
+function httpGetL(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
 
-// $.ajax({
-//     url: '/',
-//     method: 'post',
-//     data: ticker_data,
-//     processData: false,
-//     contentType: false,
-//     sucess: function(resposta_ticker){
-//         alert(resposta_ticker)
-//     }
-// }).done(function(resposta){
-//     alert(resposta)
-// })
+function getTickerL(){
+    var ticker = prompt("Digite o ticker: ")
+    if(!ticker ){
+        alert('Ticker inválido');
+    }if(ticker.length > 6){
+        alert('Ticker inválido');
+    }if(ticker.length < 5){
+        alert('Ticker inválido')
+    }else{
+        alert('Ticker válido')
+    }
 
-// function sendData(event){
-//     data = ticker_data;
-//     let httpRequest = new XMLHttpRequest();
-//     httpRequest.setRequestHeader("X-Content-Type-Options", "multipart/form-data")
-//     httpRequest.send(data);
-//     httpRequest.onreadystatechange = response;
-// }
+    url = "/detalhes?ticker=" + ticker;
+    httpGetL(url);
 
+}
+
+function alerta(){
+    alert('teste')
+}

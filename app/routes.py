@@ -1,5 +1,6 @@
 from app import app
-from flask import render_template, request
+from flask import render_template 
+from flask import request
 
 import GetData
 petr4 = GetData.BasicData('petr4')
@@ -19,7 +20,7 @@ cple6 = GetData.BasicData('cple6')
 def ranking():
     return render_template('ranking.html',
                             petr4_name = petr4.Datas()['name'], petr4_dy = petr4.Datas()['dy_porcent'], petr4_margin = petr4.Margin(),petr4_ranking = 1, petr4_mdi = 'TRUE',
-                            petr4_value = petr4.Datas()['value'], petr4_highprice = petr4.Dy()['dy6'], petr4_img = 'static/images/petrlogo.png',
+                            petr4_value = petr4.Datas()['value'], petr4_highprice = petr4.Dy()['dy6'], petr4_img = 'static/images/petrlogo.png',petr4_ticker = petr4.ticker ,
                            
                             bbas3_name = bbas3.Datas()['name'], bbas3_dy = bbas3.Datas()['dy_porcent'], bbas3_margin = bbas3.Margin(),bbas3_ranking = 2, bbas3_mdi = 'TRUE',
                             bbas3_value = bbas3.Datas()['value'], bbas3_highprice = bbas3.Dy()['dy6'], bbas3_img = 'static/images/bbaslogo.png',
@@ -50,8 +51,13 @@ def ranking():
 def regristrar():
     return render_template('register.html')
 
-@app.route('/autenticar', methods=['GET','POST'])
-def autenticar():
-    usuario = request.args.get('usuario')
-    senha = request.args.get('senha')
-    return f"usuario {usuario} e senha {senha}"
+@app.route('/detalhes', methods=['GET','POST'])
+def detalhes():
+    
+    ticker = request.args.get('ticker')
+    print(ticker)
+    stock = GetData.BasicData(ticker)
+    
+    return render_template('details.html',
+                        stock_name = stock.Datas()['name'], stock_dy = stock.Datas()['dy_porcent'], stock_margin = stock.Margin(),stock_ranking = 1, stock_mdi = 'TRUE',
+                        stock_value = stock.Datas()['value'], stock_highprice = stock.Dy()['dy6'],stock_ticker = stock.ticker ,)

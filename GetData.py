@@ -35,7 +35,10 @@ def Formate_Number(x):
 
 class BasicData():
     def __init__(self,ticker) -> str:
-        self.ticker = ticker.upper()
+        try:
+            self.ticker = ticker.upper()
+        except:
+            pass
         
     def Soup(self, args=None):
         try:
@@ -61,29 +64,30 @@ class BasicData():
         self.soup = self.Soup()
         
         self.name = self.soup.findAll(attrs={'class':'lh-4'})[0].text
-        self.value_class = self.soup.findAll(attrs={'class':'value'})
         try:
-            self.value = self.value_class[0].text
-            self.value = float(Formate_Number(self.value))
-            self.dy_Value = self.value_class[3].text
-            self.dy_Value = Formate_Number(self.dy_Value)
-            self.dy_Porcent = self.value_class[3].text
-            if str(self.dy_Porcent) == '-':
-                self.dy_Porcent = '0.01'
-            else:
-                self.dy_Porcent = Formate_Number(self.dy_Porcent)
-            self.tagAlong = self.value_class[6].text
+            self.value_class = self.soup.findAll(attrs={'class':'value'})
         except:
-            return 'ERRO VALUES'
+            return 'ERRO VALUE CLASS'
+
+        self.value = self.value_class[0].text
+        self.value = float(Formate_Number(self.value))
+        self.dy_Value = self.value_class[3].text
+        self.dy_Value = Formate_Number(self.dy_Value)
+        self.dy_Porcent = self.value_class[3].text
+        if str(self.dy_Porcent) == '-':
+            self.dy_Porcent = '0.01'
+        else:
+            self.dy_Porcent = Formate_Number(self.dy_Porcent)
+        self.tagAlong = self.value_class[6].text
+        if '-' in self.tagAlong:
+            self.tagAlong = '0.00'
+
         try:
             self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
         except: 
             return 'ERRO DB BLOCK CLASS'
-        try:
-            self.p_vp = self.value_dblock_class[3].text
-            self.roe = self.value_dblock_class[24].text
-        except:
-            return 'ERRO DB BLOCK VALUES'
+        self.p_vp = self.value_dblock_class[3].text
+        self.roe = self.value_dblock_class[24].text
             
         try:
             info['name'] = self.name
@@ -97,8 +101,27 @@ class BasicData():
         except:
             return 'ERRO INFO DATAS'
         
-    def FundamentalDatas(self):
-        pass    
+    def fundamentalDatas(self):
+        info = {}
+        self.soup = self.Soup()
+        try:
+            self.strong_class = self.soup.findAll('strong', class_="value")
+        except:
+            return 'ERRO STRONG CLASS'
+        
+        self.valor_12 = self.strong_class[4].text
+        self.min_12 = self.strong_class[2].text
+        self.max_12 = self.strong_class[1].text
+        
+        info['valor_12'] = self.valor_12
+        info['min_12'] = self.min_12
+        info['max_12'] = self.max_12
+        return info
+        
+        
+        
+        
+          
     
     def Dy(self):
         
@@ -110,7 +133,8 @@ class BasicData():
         df = fundamentus.get_resultado()
         for index in df.index:
             if index == self.ticker:
-                info['dy6'] = float(f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['dy_actual'] = str(float(f"{df['dy'][index]:.2f}") * 100) + '%'
+                info['dy6'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
                 info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
                 info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
                 info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
@@ -123,3 +147,6 @@ class BasicData():
             return f'{margin:.2f}' + '%'
         except:
             return 'ERRO MARGIN'
+
+a = BasicData('petr4')
+print(a.Margin())

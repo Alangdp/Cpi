@@ -7,12 +7,13 @@
     <!-- <meta http-equiv="refresh" content="30"> -->
     <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../static/home.css">
+    <link rel="stylesheet" href="../static/ranking.css">
     <script src="{{url_for('static', filename = 'script.js')}}"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="../static/script.js"></script>
     <title>CIP</title>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+     crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -49,9 +50,9 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="#" onclick="getTickerL()">
                     <i class='bx bx-menu' ></i>
-                    <span class="links-name">Infos</span>
+                    <span class="links-name" >Infos</span>
                 </a>
             </li>
             <li>
@@ -77,7 +78,7 @@
             <div class="stocInfo">
                 <div class="stockName">{{petr4_name}}</div>
 
-                <img class="circle" src={{petr4_img}}></img>
+                <img class="circle" src={{petr4_img}} name="ticker" onclick="httpGet('petr4')"></img>
 
                 <div class="secondInfo">
                     <div class="stockDy">

@@ -1,7 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 *{
+    background-color: rgba(237, 234, 238);
+    margin: 0;
+    padding: 0;
+    font-family: 'ROBOTO',sans-serif;
+}
+
+.registerContent .sidebarLogo{
+    background-color: #463D3D;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left:  100;
+    text-align: center;
+    justify-content: center;
+}
+
+.registerContent .sidebarLogo .title{
+    background-color: #463D3D;
+    color: white;
+}
+
+.registerContent{
+    background-color: #463D3D;
+    height: 100vh;
+    width: 750px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: auto;
+    position: relative;
+}
+
+ul {
     background-color: #463D3D;
 }
 
-.infos{
-    text-align: center;
+.registerContent .auth{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
 }
+
+li{
+    color: white;
+}
+
+.auth{
+    background-color: red;
+    margin: 100px;
+}
+
+.registerContent .auth .infos, li{
+    background: #463D3D;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.registerContent .auth{
+    margin-top: 25%;
+    background: #463D3D;
+}
+
+input.input {
+    border-radius: 12px;
+}
+
+button {
+    width: 90px;
+    border-radius: 12px;
+}
+
+.registerContent .sidebarLogo, #python{
+    background: #463D3D;
+    font-size: 30px;
+    color: white;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }

@@ -146,7 +146,6 @@
     height: 300px;
     width: 450px;
     margin: 20px;
-    cursor: pointer;
 }
 
 .gridContent .card .stockName{
@@ -170,6 +169,7 @@
     color: #FFF;
     border: 5px solid rgb(237, 234, 238);
     border-radius: 50%;
+    cursor: pointer;
     
 }
 
