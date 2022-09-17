@@ -15,7 +15,6 @@ cple6 = GetData.BasicData('cple6')
 
 @app.route('/')
 @app.route('/index')
-
 @app.route('/ranking')
 def ranking():
     return render_template('ranking.html',
