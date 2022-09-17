@@ -7,6 +7,7 @@ function httpGet(ticker)
     return xmlHttp.responseText;
 }
 
+
 function getTicker(){
     var ticker = prompt("Digite o ticker: ")
     if(!ticker ){
@@ -23,9 +24,7 @@ function getTicker(){
 
 }
 
-function alerta(){
-    alert('teste')
-}
+///////////////////////////////////////////////////////
 
 function httpGetL(theUrl)
 {
@@ -52,6 +51,16 @@ function getTickerL(){
 
 }
 
-function alerta(){
-    alert('teste')
+//////////////////////////////////////////////////
+
+const content = document.querySelector('#content');
+content.style.transformOrigin = 'top left';
+
+window.addEventListener('resize', recalculateScale);
+
+function recalculateScale() {
+  const windowHeight = window.innerHeight;
+  content.style.transform = `scale(${windowHeight / content.offsetHeight})`;
 }
+
+recalculateScale();
