@@ -34,11 +34,9 @@ def Formate_Number(x):
 # Classe de coleta de dados
 
 class BasicData():
+    
     def __init__(self,ticker) -> str:
-        try:
-            self.ticker = ticker.upper()
-        except:
-            pass
+        self.ticker = ticker.upper()
         
     def Soup(self, args=None):
         try:
@@ -117,11 +115,6 @@ class BasicData():
         info['min_12'] = self.min_12
         info['max_12'] = self.max_12
         return info
-        
-        
-        
-        
-          
     
     def Dy(self):
         
@@ -147,6 +140,3 @@ class BasicData():
             return f'{margin:.2f}' + '%'
         except:
             return 'ERRO MARGIN'
-
-a = BasicData('petr4')
-print(a.Margin())
