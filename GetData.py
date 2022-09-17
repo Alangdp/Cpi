@@ -127,7 +127,7 @@ class BasicData():
         for index in df.index:
             if index == self.ticker:
                 info['dy_actual'] = str(float(f"{df['dy'][index]:.2f}") * 100) + '%'
-                info['dy6'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}")
+                info['dy6'] = float((f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}"))
                 info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
                 info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
                 info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
@@ -135,8 +135,8 @@ class BasicData():
                 return info
             
     def Margin(self):
-        try:
-            margin = (self.Dy()['dy6']/self.Datas()['value'] -1)*100
+            margin = ((self.Dy()['dy6'])/self.Datas()['value'] -1)*100
             return f'{margin:.2f}' + '%'
-        except:
-            return 'ERRO MARGIN'
+        
+a = BasicData('bbas3')
+print(a.Margin())
