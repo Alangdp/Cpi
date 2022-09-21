@@ -1,10 +1,9 @@
 from app import app
 from flask import render_template
 from flask import request
-import teste2
 import GetData
 
-Acoes = teste2.getLocalData()
+Acoes = GetData.getLocalData()
 quantidade = len(Acoes)
 
 @app.route('/')
