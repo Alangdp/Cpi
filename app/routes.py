@@ -4,6 +4,9 @@ from flask import request
 import teste2
 import GetData
 
+Acoes = teste2.getLocalData()
+quantidade = len(Acoes)
+
 @app.route('/')
 @app.route('/index')
 @app.route('/ranking')
@@ -26,10 +29,8 @@ def detalhes():
     print(stock)
     return stock
 
-Acoes = teste2.getLocalData()
-quantidade = len(Acoes)
 
-@app.route('/teste')
-def teste():
-    return render_template('teste.html',stock = Acoes, qt = quantidade)
+# @app.route('/test')
+# def test():
+#     return render_template('teste.html',stock = Acoes, qt = quantidade)
                         
