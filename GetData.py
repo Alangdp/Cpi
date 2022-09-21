@@ -2,21 +2,11 @@ from bs4 import BeautifulSoup
 import requests
 import lxml
 import cchardet
+import pandas
+import fundamentus
+import sqlite3
+import os   
 # Global Methods
-
-def highdy():
-        info = []
-        try:
-            import fundamentus
-            df = fundamentus.get_resultado()
-            maiores = df.nlargest(150,'dy')
-            for index in maiores.index:
-                if df['dy'][index] > 1 or df['dy'][index] < 0.06:
-                    continue
-                info.append(index)
-            return info
-        except:
-            return 'ERRO HIGH DY'
         
 def Formate_Number(x):
     lt = []
@@ -31,12 +21,104 @@ def Formate_Number(x):
     formated = float(''.join(lt))
     return float(f'{formated:.2f}')
 
+def highdy():
+        info = []
+        import fundamentus
+        df = fundamentus.get_resultado()
+        maiores = df.nlargest(250,'dy')
+        for index in maiores.index: 
+            if len(info) == 90:
+                break        
+            try:
+                print(index, len(info))
+                if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] > 0) :
+                    print(index, 'etapa 1', len(info))
+                    stock = BasicData(index)
+                    if float(stock.Margin().replace('%','')) > 400:
+                            continue
+                    else:
+                        if stock.Datas()['p_vp'] <= 2 and stock.Datas()['pl'] <= 15:
+                            info.append(index)
+                            print(index, 'etapa2', len(info))
+            except:
+                continue
+        return info
+
+        
+def highList(list):
+    
+    lt = []
+    for x in range(len(list)):
+          
+        tic = list[x]
+        if '33' in tic:
+            continue
+        a = BasicData(tic)
+        acao = {
+            'ticker':a.ticker,
+            'name':a.Datas()['name'],
+            'value':a.Datas()['value'],
+            'dy_porcent':a.Datas()['dy_porcent'],
+            'dy_value':a.Datas()['dy_value'],
+            'tag_along':a.Datas()['tag_along'],
+            'roe':a.Datas()['roe'],
+            'margin':a.Margin(),
+            'dy6':a.Dy()['dy6'],
+            'img':a.getImage(),
+        }
+        
+        lt.append(acao)
+    return lt
+
+def sqUpdate():
+    
+    con = sqlite3.connect('TopStocks.db')
+    cur = con.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text)")
+    
+    for x in (highList(highdy())):
+        cur.execute("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img']   ))
+        con.commit()
+        
+    con.close()
+
+def refreshSQ():
+    try:
+        os.remove('TopStocks.db')
+    except:
+        pass
+    sqUpdate()
+    
+def Showsq():
+    
+    con = sqlite3.connect('TopStocks.db')
+    cur = con.cursor()
+    
+    cur.execute("SELECT ticker FROM Acoes")
+    for x in cur:
+        print(x)
+    con.close()
+        
+def getLocalData():
+    con = sqlite3.connect('TopStocks.db')
+    cur = con.cursor()
+    tickers = []
+
+    cur.execute("SELECT * FROM Acoes")
+    for x in cur:
+        tickers.append(x)
+    con.close()
+    return tickers
+
 # Classe de coleta de dados
 
 class BasicData():
-    
-    def __init__(self,ticker) -> str:
-        self.ticker = ticker.upper()
+
+    def __init__(self,ticker):
+        if ticker == None:
+            exit()
+        else:
+            self.ticker = ticker.upper()
         
     def Soup(self, args=None):
         try:
@@ -61,21 +143,31 @@ class BasicData():
         info = {}
         self.soup = self.Soup()
         
-        self.name = self.soup.findAll(attrs={'class':'lh-4'})[0].text
+        self.name = self.soup.find('small').text
         try:
             self.value_class = self.soup.findAll(attrs={'class':'value'})
+        except:
+            return 'ERRO VALUE CLASS'
+        
+        try:
+            self.value_sub_class = self.soup.findAll('span' ,attrs={'class':'sub-value'})
         except:
             return 'ERRO VALUE CLASS'
 
         self.value = self.value_class[0].text
         self.value = float(Formate_Number(self.value))
-        self.dy_Value = self.value_class[3].text
+        
+        self.dy_Value = self.value_sub_class[3].text
+        if self.dy_Value == '-':
+            self.dy_Value = 0
         self.dy_Value = Formate_Number(self.dy_Value)
+        
         self.dy_Porcent = self.value_class[3].text
         if str(self.dy_Porcent) == '-':
             self.dy_Porcent = '0.01'
         else:
             self.dy_Porcent = Formate_Number(self.dy_Porcent)
+            
         self.tagAlong = self.value_class[6].text
         if '-' in self.tagAlong:
             self.tagAlong = '0.00'
@@ -83,11 +175,19 @@ class BasicData():
         try:
             self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
         except: 
-            return 'ERRO DB BLOCK CLASS'
+            return 'ERRO DB BLOCK LH CLASS '
+
         self.p_vp = self.value_dblock_class[3].text
-        self.roe = self.value_dblock_class[24].text
-            
+        self.p_vp = Formate_Number(self.p_vp)
+        self.roe = self.value_dblock_class[24].text   
+        self.pl = self.value_dblock_class[1].text
+        self.pl = Formate_Number(self.pl)
         try:
+            self.ri = self.soup.find_all("a", attrs={"rel": "noopener noreferrer nofollow", "class": "waves-effect waves-light btn btn-small btn-secondary"})[0]["href"]
+        except:
+            self.ri = None
+        try:
+            info['ticker'] = self.ticker
             info['name'] = self.name
             info['value'] = self.value
             info['dy_value'] = self.dy_Value
@@ -95,6 +195,9 @@ class BasicData():
             info['p_vp'] = self.p_vp
             info['roe'] = self.roe
             info['tag_along'] = self.tagAlong
+            info['pl'] = self.pl
+            info['ri_page'] = self.ri
+            
             return info
         except:
             return 'ERRO INFO DATAS'
@@ -135,8 +238,24 @@ class BasicData():
                 return info
             
     def Margin(self):
+        try:
             margin = ((self.Dy()['dy6'])/self.Datas()['value'] -1)*100
             return f'{margin:.2f}' + '%'
+        except:
+            return 0
         
-a = BasicData('bbas3')
-print(a.Margin())
+    def getImage(self):
+        self.soup = self.Soup()
+        if self.soup.find('div', title="Logotipo da empresa '" + self.Datas()['name']) != None:
+            getImagee = self.soup.find("div", title="Logotipo da empresa '"+self.Datas["name"].upper()+"'")
+            return "https://statusinvest.com.br" +getImagee.__str__().split("(")[1].split(")")[0]
+        else:
+            for x in self.soup.find_all("div"):
+                if str(x).__contains__("data-img"):
+                    try:
+                        print(str(x).split("(")[1].split(")")[0])
+                        return "https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0]
+                    except:
+                        return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+            return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+             

@@ -139,6 +139,7 @@
 
 }
 
+
 .gridContent .card{
     position: relative;
     border-radius: 12px;
@@ -149,8 +150,19 @@
 }
 
 .gridContent .card .stockName{
+    right: 50%;
     text-align: center;
     color: rgb(0, 0, 0);
+    position: absolute;
+    left: 50%;
+    margin-top: 25px;
+}
+
+
+.stockticker {
+    right: 50%;
+    position: absolute;
+    left: 50%;
 }
 
 .gridContent .card .ranking{
@@ -162,8 +174,8 @@
 .gridContent .card .circle{
     position: absolute;
     margin-left: 40px;
-    margin-top: -15px;
-    width: 55px;
+    margin-top: 10px;
+    width: 120px;
     height: 55px;
     background-color: #000;
     color: #FFF;
@@ -172,6 +184,10 @@
     cursor: pointer;
     
 }
+
+img {
+    transform: scale(1.3); 
+   }
 
 .gridContent .card .margin_porcent{
     text-align: right;
@@ -222,12 +238,11 @@
 }
 
 .gridContent .card .complements{
-    font-size: 110%;
-    margin-right: 28px;
-    right: 0;
-    margin-bottom: 8px;
+    margin-top: 80px;
     position: absolute;
-    bottom: 0;
+    top: 50%;  
+    left: 50%; 
+    transform: translate(-50%)
 }
 
 .gridContent .card .complements .mdi_text{
@@ -301,6 +316,7 @@
     bottom: 0;
     margin-left: 40px;
     margin-bottom: 20px;
+    opacity: 0;
 }
 
 .gridContent .card .stocInfo .dpa .dpa_value{
