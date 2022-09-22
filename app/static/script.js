@@ -7,7 +7,6 @@ function httpGet(ticker)
     return xmlHttp.responseText;
 }
 
-
 function getTicker(){
     var ticker = prompt("Digite o ticker: ")
     if(!ticker ){

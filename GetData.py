@@ -6,6 +6,7 @@ import pandas
 import fundamentus
 import sqlite3
 import os   
+
 # Global Methods
         
 def Formate_Number(x):
@@ -25,7 +26,7 @@ def highdy():
         info = []
         import fundamentus
         df = fundamentus.get_resultado()
-        maiores = df.nlargest(250,'dy')
+        maiores = df.nlargest(350,'dy')
         for index in maiores.index: 
             if len(info) == 90:
                 break        
@@ -34,7 +35,7 @@ def highdy():
                 if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] > 0) :
                     print(index, 'etapa 1', len(info))
                     stock = BasicData(index)
-                    if float(stock.Margin().replace('%','')) > 400:
+                    if float(stock.Margin().replace('%','')) > 150:
                             continue
                     else:
                         if stock.Datas()['p_vp'] <= 2 and stock.Datas()['pl'] <= 15:
@@ -186,6 +187,7 @@ class BasicData():
             self.ri = self.soup.find_all("a", attrs={"rel": "noopener noreferrer nofollow", "class": "waves-effect waves-light btn btn-small btn-secondary"})[0]["href"]
         except:
             self.ri = None
+            
         try:
             info['ticker'] = self.ticker
             info['name'] = self.name
@@ -220,7 +222,8 @@ class BasicData():
         return info
     
     def Dy(self):
-        
+        temp_dy = 0
+        lt = []
         info = {}
         if len(self.ticker) > 6:
             return 'ERRO TICKER LARGEST'
@@ -235,6 +238,13 @@ class BasicData():
                 info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
                 info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
                 info['actual_dy'] = f"{(df['cotacao'][index])*(df['dy'][index])/df['dy'][index]:.2f}"
+                if df['dy'][index] > 15 and df['dy'][index] < 20:
+                    temp_dy = df['dy'][index] - 5
+                if df['dy'][index] > 20:
+                    temp_dy = df['dy'][index] - 10
+                else:
+                    temp_dy = df['dy'][index]
+                info['dpa'] = (df['cotacao'][index] - (temp_dy* df['cotacao'][index]))/df['cotacao'][index]
                 return info
             
     def Margin(self):
@@ -258,4 +268,3 @@ class BasicData():
                     except:
                         return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
-             
