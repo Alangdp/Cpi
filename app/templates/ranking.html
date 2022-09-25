@@ -14,6 +14,9 @@
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
+     <script>
+        window.location.href('detalhes')
+     </script>
 </head>
 <body>
     <div class="content" id="content">
@@ -85,12 +88,12 @@
                 {% set margin = stock [i][7]%}
                 {% set img = stock[i][9]%}
                 <div class="card">
-                    <p class="ranking">Ranking {{numero}}</p>
+                    <p class="ranking"><small>Ranking {{numero}} </small></p>
                     <div class="stocInfo">
                         <div class="stockticker">{{ticker}}</div>
-                        <div class="stockName">{{name}}</div>
+                        <div class="stockName"><nobr>{{name}}</nobr></div>
                 
-                        <img class="circle" src={{img}}></img>
+                        <img class="circle" src={{img}} alt="logo"></img>
                 
                         <div class="secondInfo">
                             <div class="stockDy">

@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template
-from flask import request
+from flask import request, redirect, url_for, render_template
+import sqlite3
 import GetData
 
 Acoes = GetData.getLocalData()
@@ -16,17 +16,34 @@ def ranking():
 def regristrar():
     return render_template('register.html')
 
+@app.route('/autenticar', methods=['GET','POST'])
+def autenticar():
+    usuario = request.args.get('usuario')
+    email = request.args.get('email')
+    senha = request.args.get('senha')
+    return f'usuario :{usuario} \n email:{email} \n senha:{senha}'
+
+@app.route('/valid', methods=['GET','POST'])
+def valid():
+    lt = {}
+    ticker = request.args.get('ticker')
+    ticker.upper()
+    stock = GetData.BasicData(ticker)
+    lt['name'] = stock.Datas()['name'],
+    lt['value'] = stock.Datas()['value'],
+    lt['dy_porcent'] = stock.Datas()['dy_porcent'],
+    lt['dy6'] = stock.Dy()['dy6'],
+    lt['margin'] = stock.Margin(),
+    lt['ranking'] = 1,
+    lt['img'] = stock.getImage(),
+    return redirect(url_for('detalhes'), code=302)
+
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
-    try:
-        ticker = request.args.get('ticker')
-        ticker.upper()
-    except:
-        if ticker == None:
-            pass
-    stock = GetData.BasicData(ticker)
-    print(stock)
-    return stock
+    return render_template('details.html',)
+    
+
+    
 
 
 # @app.route('/test')

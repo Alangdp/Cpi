@@ -1,6 +1,6 @@
 function httpGet(ticker)
 {
-    url = "/detalhes?ticker=" + ticker;
+    url = "/valid?ticker=" + ticker;
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", url, false ); 
     xmlHttp.send( null );

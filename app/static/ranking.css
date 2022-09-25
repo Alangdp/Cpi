@@ -158,6 +158,8 @@
     min-height: 300px;
     min-width: 350px;
     margin: 20px;
+    max-width: 400px;
+    max-height: 350px;
 }
 
 .gridContent .card .stockName{
@@ -190,7 +192,6 @@
     max-height: 55px;
     background-color: #000;
     color: #FFF;
-    border: 5px solid rgb(237, 234, 238);
     border-radius: 50%;
     cursor: pointer;
     
@@ -219,6 +220,7 @@ img {
     right: 0;
     max-width: 80px;
     max-height: 30px;
+    min-height: 30px;
     align-items: center;
     margin-right: 20px;
     background-color: rgb(233, 233, 233);
@@ -238,6 +240,8 @@ img {
     margin-right: 20px;
     max-width: 70px;
     max-height: 30px;
+    min-height: 25px;
+    min-width: 70px;
     right: 0;
     border-radius: 12px;
     background-color: rgb(233, 233, 233);
@@ -299,6 +303,7 @@ img {
     background-color: green;
     float: left;
     max-width: 50px;
+    min-width: 45px;
     max-height: 20px;
     text-align: center;
     color: white;
@@ -318,6 +323,7 @@ img {
     background-color: rgb(247, 168, 0);
     text-align: center;
     max-width: 50px;
+    min-width: 45px;
     max-height: 20px;
     color: white;
 }
