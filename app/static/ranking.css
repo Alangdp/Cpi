@@ -96,7 +96,6 @@ ins.adsbygoogle {
     background: rgba(61, 51, 51, 0.952);
     height: 100vh;
     width: 350px;
-    max-height: 924px;
 }
 
 .sidebar .sidebarLogo{
@@ -221,7 +220,6 @@ ins.adsbygoogle {
     justify-content: stretch;
     grid-gap: -50px;
     margin-left: 350px;
-    max-height: 924px;
     overflow: auto;
 
 }
