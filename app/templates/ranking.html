@@ -9,14 +9,11 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/ranking.css">
     <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="../static/script.js"></script>
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
-     <script>
-        window.location.href('detalhes')
-     </script>
+
 </head>
 <body>
     <div class="content" id="content">
@@ -40,12 +37,12 @@
             
             <ul class="menu">
 
-                <li>
+                <!-- <li>
                     <i class='bx bx-search-alt' id="research"></i>
-                    <input type="search" name="search" class="search" 
-                    placeholder="    Procurar...">
+                    <input type="search" name="search" class="search" id="search"
+                    placeholder="    Procurar..." onkeyup="Search()">
                     
-                </li>
+                </li> -->
                 <li>
                     <a href="#">
                         <i class='bx bx-menu' ></i>
@@ -84,57 +81,78 @@
                     <input type="button" value="+" class="addbutton" onclick="getTicker()">
                 </li>
                 
+                <div class="anuncio">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+                        crossorigin="anonymous"></script>
+                    <!-- Teste -->
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-5601274938223308"
+                        data-ad-slot="4521666220"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </ul>
         </div>
 
         <div class="gridContent " id="gridContent">
-            {% for i in range(1,qt) %}
-                {% set numero = i %}
-                {% set name = stock[i][1]%}
-                {% set ticker = stock[i][0]%}
-                {% set dy = stock[i][3]%}
-                {% set mdi = 'wip' %}
-                {% set hidhprice = stock[i][8]%}
-                {% set value = stock [i][2]%}
-                {% set margin = stock [i][7]%}
-                {% set img = stock[i][9]%}
-                <div class="card">
-                    <p class="ranking"><small>Ranking {{numero}} </small></p>
-                    <div class="stocInfo">
-                        <div class="stockticker">{{ticker}}</div>
-                        <div class="stockName"><nobr>{{name}}</nobr></div>
-                
-                        <img class="circle" src={{img}} alt="logo"></img>
-                
-                        <div class="secondInfo">
-                            <div class="stockDy">
-                                <div class="stockdy_text">DY</div>
-                                <div class="dy_value">{{dy}}%</div>
+            {% block content %}
+                {% for i in range(1,qt) %}
+                    
+                    {% set numero = i %}
+                    {% set name = stock[i][1]%}
+                    {% set ticker = stock[i][0]%}
+                    {% set dy = stock[i][3]%}
+                    {% set mdi = 'wip' %}
+                    {% set hidhprice = stock[i][8]%}
+                    {% set value = stock [i][2]%}
+                    {% set margin = stock [i][7]%}
+                    {% set image = stock[i][9]%}
+                    {% set dpa = stock[i][9]%}
+                    {% if '-' in margin %}
+                        {% set margin = margin.replace('-','')%}
+                    {% endif%}
+                    <div class="card">
+                        <p class="ranking"><small>Ranking {{numero}} </small></p>
+                        <div class="stocInfo">
+                            <div class="stockticker">{{ticker}}</div>
+                            <div class="stockName"><nobr>{{name}}</nobr></div>
+                    
+                            <img class="circle" src="{{image}}" alt="logo"></img>
+                    
+                            <div class="secondInfo">
+                                <div class="stockDy">
+                                    <div class="stockdy_text">DY</div>
+                                    <div class="dy_value">{{dy}}%</div>
+                                </div>
+                            <div class="mdi">{{mdi}}</div>
                             </div>
-                        <div class="mdi">{{mdi}}</div>
+                            <div class="highprice">
+                                <div class="highPrice_text">PreçoTeto</div>
+                                <div class="highprice_value">{{hidhprice}}</div>
+                            </div>
+                            <div class="value">
+                                <div class="value_text">Cotação</div>
+                                <div class="value_value"> {{value}}</div>
+                            </div>
+                            <div class="margin">
+                                <div class="margin_text">Margem de Segurança </div>
+                                <div class="margin_value">{{margin}}</div>
+                            </div>
+                            <div class="dpa">
+                                <div class="dpa_text">DPA projetivo</div>
+                                <div class="dpa_value">{{dpa}}</div>                </div>
                         </div>
-                        <div class="highprice">
-                            <div class="highPrice_text">PreçoTeto</div>
-                            <div class="highprice_value">{{hidhprice}}</div>
+                        <div class="complements">
+                            <div class="mdi_text">MDI</div>
+                            <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
                         </div>
-                        <div class="value">
-                            <div class="value_text">Cotação</div>
-                            <div class="value_value"> {{value}}</div>
-                        </div>
-                        <div class="margin">
-                            <div class="margin_text">Margem de Segurança </div>
-                            <div class="margin_value">{{margin}}</div>
-                        </div>
-                        <div class="dpa">
-                            <div class="dpa_text">DPA projetivo</div>
-                            <div class="dpa_value">50</div>                </div>
-                    </div>
-                    <div class="complements">
-                        <div class="mdi_text">MDI</div>
-                        <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-                    </div>
-                </div> 
-            {% endfor %}
+                    </div> 
+                {% endfor %}
+            {% endblock content %}
 
         </div>
     

@@ -6,6 +6,7 @@ import pandas
 import fundamentus
 import sqlite3
 import os   
+import shutil
 
 # Global Methods
         
@@ -65,6 +66,7 @@ def highList(list):
             'roe':a.Datas()['roe'],
             'margin':a.Margin(),
             'dy6':a.Dy()['dy6'],
+            'dpa':a.Dy()['dpa'],
             'img':a.getImage(),
         }
         
@@ -75,16 +77,18 @@ def sqUpdate():
     
     con = sqlite3.connect('TopStocks.db')
     cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text, dpa text)")
     
     for x in (highList(highdy())):
-        cur.execute("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img']   ))
+        cur.execute("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa']   ))
         con.commit()
         
     con.close()
 
 def refreshSQ():
     try:
+        os.remove('TopStocksBU.db')
+        shutil.copy('TopStocks.db','TopStocksBU.db')
         os.remove('TopStocks.db')
     except:
         pass
@@ -101,15 +105,24 @@ def Showsq():
     con.close()
         
 def getLocalData():
-    con = sqlite3.connect('TopStocks.db')
-    cur = con.cursor()
-    tickers = []
-
-    cur.execute("SELECT * FROM Acoes")
-    for x in cur:
-        tickers.append(x)
-    con.close()
-    return tickers
+    try:
+        con = sqlite3.connect('TopStocks.db')
+        cur = con.cursor()
+        tickers = []
+        cur.execute("SELECT * FROM Acoes")
+        for x in cur:
+            tickers.append(x)
+        con.close()
+        return tickers
+    except:
+        con = sqlite3.connect('TopStocksBU.db')
+        cur = con.cursor()
+        tickers = []
+        cur.execute("SELECT * FROM Acoes")
+        for x in cur:
+            tickers.append(x)
+        con.close()
+        return tickers
 
 # Classe de coleta de dados
 
@@ -244,12 +257,13 @@ class BasicData():
                     temp_dy = df['dy'][index] - 10
                 else:
                     temp_dy = df['dy'][index]
-                info['dpa'] = (df['cotacao'][index] - (temp_dy* df['cotacao'][index]))/df['cotacao'][index]
+                info['dpa'] = (float((df['cotacao'][index] - (temp_dy* df['cotacao'][index]))/df['cotacao'][index]) * 10)
                 return info
             
     def Margin(self):
         try:
-            margin = ((self.Dy()['dy6'])/self.Datas()['value'] -1)*100
+            margin = ((self.Dy()['dpa'])/self.Datas()['value'] -1)*100
+            print(self.Dy()['dy6'], self.Datas()['value'])
             return f'{margin:.2f}' + '%'
         except:
             return 0
@@ -268,3 +282,5 @@ class BasicData():
                     except:
                         return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+
+
