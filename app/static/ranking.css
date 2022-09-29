@@ -32,12 +32,12 @@ ins.adsbygoogle {
     .card{
         margin: 10px !important;
         min-width: 330px !important;
-        min-height: 450px !important;
+        min-height: 430px !important;
     }
 
     .gridContent{
         margin-left: 300px !important;
-        grid-template-columns: 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
         width: calc(100% - 300px) !important;
     }
 }
