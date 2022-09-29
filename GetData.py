@@ -1,3 +1,4 @@
+import imp
 from bs4 import BeautifulSoup
 import requests
 import lxml
@@ -27,8 +28,7 @@ def highdy():
         info = []
         import fundamentus
         df = fundamentus.get_resultado()
-        maiores = df.nlargest(350,'dy')
-        for index in maiores.index: 
+        for index in df.index: 
             if len(info) == 90:
                 break        
             try:
@@ -46,14 +46,23 @@ def highdy():
                 continue
         return info
 
-        
+def test():
+    import fundamentus
+    import pandas as pd
+    d1 = fundamentus.get_resultado()
+    df = pd.DataFrame(d1)
+    for x in df.index:
+        if x == 'bbas3' or x == 'BBAS3':
+            print(df)
+    # df.to_csv(,)
+    
 def highList(list):
     
     lt = []
     for x in range(len(list)):
           
         tic = list[x]
-        if '33' in tic:
+        if '33' in tic or '5' in tic:
             continue
         a = BasicData(tic)
         acao = {
@@ -284,3 +293,4 @@ class BasicData():
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
 
 
+test()

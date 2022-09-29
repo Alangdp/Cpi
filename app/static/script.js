@@ -38,6 +38,5 @@ function recalculateScale() {
 
 function Search(){
     const Evento = document.getElementById('search').value;
-    document.find
 
 }
