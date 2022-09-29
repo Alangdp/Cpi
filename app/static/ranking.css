@@ -16,6 +16,32 @@ ins.adsbygoogle {
     }
 }
 
+@media screen and (max-width: 1366px){
+    .sidebar{
+        width: 300px !important;
+    }
+
+    .card .stocInfo .highprice{
+        margin-left: 10px !important;
+    }
+
+    .card .stocInfo .value{
+        margin-left: 10px !important;
+    }
+
+    .card{
+        margin: 10px !important;
+        min-width: 330px !important;
+        min-height: 450px !important;
+    }
+
+    .gridContent{
+        margin-left: 300px !important;
+        grid-template-columns: 1fr 1fr !important;
+        width: calc(100% - 300px) !important;
+    }
+}
+
 @media screen and (max-width: 1024px){
     .sidebar{
         width: 300px !important;
