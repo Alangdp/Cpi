@@ -115,13 +115,13 @@
                     {% if '-' in margin %}
                         {% set margin = margin.replace('-','')%}
                     {% endif%}
-                    <div class="card">
+                    <div class="card" >
                         <p class="ranking"><small>Ranking {{numero}} </small></p>
                         <div class="stocInfo">
                             <div class="stockticker">{{ticker}}</div>
                             <div class="stockName"><nobr>{{name}}</nobr></div>
                     
-                            <img class="circle" src="{{image}}" alt="logo"></img>
+                            <img onclick="location.href = 'https://statusinvest.com.br/acoes/{{ticker}}';" class="circle" src="{{image}}" alt="logo" ></img>
                     
                             <div class="secondInfo">
                                 <div class="stockDy">

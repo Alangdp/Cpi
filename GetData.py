@@ -1,4 +1,3 @@
-import imp
 from bs4 import BeautifulSoup
 import requests
 import lxml
@@ -28,20 +27,24 @@ def highdy():
         info = []
         import fundamentus
         df = fundamentus.get_resultado()
-        for index in df.index: 
-            if len(info) == 90:
-                break        
+        for index in df.index:  
             try:
                 print(index, len(info))
-                if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] > 0) :
-                    print(index, 'etapa 1', len(info))
+                print(index,df['dy'][index],df['mrgliq'][index])
+                print(index, 'etapa 1', len(info))
+                if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] >= 0) :
                     stock = BasicData(index)
                     if float(stock.Margin().replace('%','')) > 150:
                             continue
                     else:
-                        if stock.Datas()['p_vp'] <= 2 and stock.Datas()['pl'] <= 15:
-                            info.append(index)
-                            print(index, 'etapa2', len(info))
+                        if stock.Datas()['p_vp'] <= 2.5 and stock.Datas()['pl'] <= 15:
+                            if stock.Datas()['payout'] <= 10:
+                                continue
+                                
+                            else:
+                                info.append(index)
+                                print(index, 'etapa2', len(info))
+                            
             except:
                 continue
         return info
@@ -99,6 +102,7 @@ def refreshSQ():
         os.remove('TopStocksBU.db')
         shutil.copy('TopStocks.db','TopStocksBU.db')
         os.remove('TopStocks.db')
+        sqUpdate()
     except:
         pass
     sqUpdate()
@@ -153,6 +157,17 @@ class BasicData():
             return soup
         except:
             return 'ERRO SOUP'
+        
+    def SoupP(self, args=None):
+        try:
+            link = BasicData(self.ticker)
+            url = (link.linksP())
+            session = requests.Session()
+            page = session.get(url)
+            soup = BeautifulSoup(page.text, "lxml")
+            return soup
+        except:
+            return 'ERRO SOUP'
 
     def links(self, args=None):
         try:
@@ -161,10 +176,19 @@ class BasicData():
             return str(link)
         except:
             return 'ERRO LINK'
+    
+    def linksP(self, args=None):
+        try:
+            self.ticker = self.ticker.upper()
+            link = f'https://www.guiainvest.com.br/raiox/{self.ticker}.aspx'
+            return str(link)
+        except:
+            return 'ERRO LINK'
         
     def Datas(self, args=None):
         info = {}
         self.soup = self.Soup()
+        self.soupP = self.SoupP()
         
         self.name = self.soup.find('small').text
         try:
@@ -210,6 +234,11 @@ class BasicData():
         except:
             self.ri = None
             
+        try: 
+            self.payout = Formate_Number(self.soupP.find('span',attrs={'id': 'lbPayout1'}).text)
+        except:
+            self.payout = 0.001
+            
         try:
             info['ticker'] = self.ticker
             info['name'] = self.name
@@ -220,6 +249,7 @@ class BasicData():
             info['roe'] = self.roe
             info['tag_along'] = self.tagAlong
             info['pl'] = self.pl
+            info['payout'] = self.payout
             info['ri_page'] = self.ri
             
             return info
@@ -234,13 +264,17 @@ class BasicData():
         except:
             return 'ERRO STRONG CLASS'
         
+        self.title_segment = self.soup.findAll('h3', class_='title m-03')
+        
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
         self.max_12 = self.strong_class[1].text
+        self.market_segment = self.title_segment
         
         info['valor_12'] = self.valor_12
         info['min_12'] = self.min_12
         info['max_12'] = self.max_12
+        info['market_segment'] = self.market_segment
         return info
     
     def Dy(self):
@@ -291,6 +325,4 @@ class BasicData():
                     except:
                         return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
-
-
-test()
+        

@@ -17,7 +17,7 @@ function getTicker(){
         alert('Ticker inválido')
     }else{
         alert('Ticker válido')
-        httpGet(ticker);
+        location.href = 'https://statusinvest.com.br/acoes/{{ticker}}';
     }
 
 }

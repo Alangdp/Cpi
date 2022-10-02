@@ -9,102 +9,241 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/ranking.css">
     <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="../static/script.js"></script>
     <title>CIP</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+     crossorigin="anonymous"></script>
 
 </head>
 <body>
+    <div class="content" id="content">
 
-    <div class="sidebar">
-        <div class="sidebarLogo">
-            <div class="title">CIP</div>
-            <i class='bx bxl-python' id="python"></i>
+        <div class="mobileSidebar">
+            <a href="/ranking">
+                <div class="msdLogo">
+                    <div class="title">CIP</div>
+                    <i class='bx bxl-python' id="python"></i>
+                </div>
+            </a>
+                <i class='bx bx-menu' id="menum"></i>
+
         </div>
-        
-        <ul class="menu">
 
-            <li>
-                <i class='bx bx-search-alt' id="research"></i>
-                <input type="search" name="search" class="search" 
-                placeholder="    Procurar...">
-                
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-menu' ></i>
-                    <span class="links-name">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/ranking">
-                    <i class='bx bx-menu' ></i>
-                    <span class="links-name">Ranking</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-menu' ></i>
-                    <span class="links-name">Renda Fixa</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-menu' ></i>
-                    <span class="links-name">Infos</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-menu' ></i>
-                    <span class="links-name">Usuario</span>
-                </a>
-            </li>
-            <li id="addticker" class="links-name">
-                <div class="icoName">
-                    <i class='bx bx-menu' ></i>
-                    <span>Adicionar Ação</span>
-                </div> 
-                <input type="button" value="+" class="addbutton" onclick="getTicker()">
-            </li>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebarLogo">
+                <div class="title">CIP</div>
+                <i class='bx bxl-python' id="python"></i>
+            </div>
             
-        </ul>
-    </div> 
-    
-    <div class="gridContent " id="gridContent">
-        <div class="card">
-            <p class="ranking">Ranking {{stock_ranking}}</p>
-            <div class="stocInfo">
-                <div class="stockName">{{stock_name}}</div>
+            <ul class="menu">
 
-                <!-- <img class="circle" src={{stock_img}} name="ticker" onclick="httpGet('stock')"></img> -->
-
-                <div class="secondInfo">
-                    <div class="stockDy">
-                        <div class="stockdy_text">DY</div>
-                        <div class="dy_value">{{stock_dy}}%</div>
+                <!-- <li>
+                    <i class='bx bx-search-alt' id="research"></i>
+                    <input type="search" name="search" class="search" id="search"
+                    placeholder="    Procurar..." onkeyup="Search()">
+                    
+                </li> -->
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" onclick="console.log(getCurrentURL());">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ranking">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Ranking</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Renda Fixa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" >
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" onclick="getTicker()">Infos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Usuario</span>
+                    </a>
+                </li>
+                <li id="addticker" class="links-name">
+                    <div class="icoName">
+                        <i class='bx bx-menu' ></i>
+                        <span>Adicionar Ação</span>
+                    </div> 
+                    <input type="button" value="+" class="addbutton" onclick="getTicker()">
+                </li>
+                
+                <li>
+                    <div class="anuncio">
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+                            crossorigin="anonymous"></script>
+                        <!-- Teste -->
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-5601274938223308"
+                            data-ad-slot="4521666220"
+                            data-ad-format="auto"
+                            data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
-                <div class="mdi">{{stock_mdi}}</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="gridDetail " id="gridDetail">
+            <div class="initialInfo">
+
+                <div class="rowline">
+                    <div class="gridInit">
+                        <div class="logo"> <img src="https://static.guiainvest.com.br//Images/Ativo/sem_logo_120.gif" alt=""></div>
+                        <div class="info">
+                            <div class="name"><strong>Caixa Seguri</strong></div>
+                            <div class="ticker"> CXSE3</div>
+                        </div>
+                    </div>
+
+                    <div class="gridInit">
+                        <div class="segmento">
+                            <div class="title">Segmento Listagem Bovespa</div>
+                            <div class="text"><strong>Novo Mercado</strong></div>
+                        </div>
+
+                    </div>
+
+                    <div class="gridInit">
+                        <div class="subSetor">
+                            <div class="title">Subsetor Bovespa</div>  
+                            <div class="text"><strong>Previdência e seguros</strong></div>
+                        </div>
+
+                    </div>
+
+                    <div class="gridInit">
+                        <div class="partIbov">
+                            <div class="title">Particip. no Ibov</div>
+                            <div class="text"><strong>-</strong></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="highprice">
-                    <div class="highPrice_text">PreçoTeto</div>
-                    <div class="highprice_value">{{stock_highprice}}</div>
-                </div>
-                <div class="value">
-                    <div class="value_text">Cotação</div>
-                    <div class="value_value"> {{stock_value}}</div>
-                </div>
-                <div class="margin">
-                    <div class="margin_text">Margem de Segurança </div>
-                    <div class="margin_value">{{stock_margin}}</div>
-                </div>
-                <div class="dpa">
-                    <div class="dpa_text">DPA projetivo</div>
-                    <div class="dpa_value">50</div>                </div>
             </div>
-            <div class="complements">
-                <div class="mdi_text">MDI</div>
-                <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
+
+            <div class="gridInfos">
+
+                <div class="grid">
+                    
+                    <div class="content">
+                        <div class="title">Indicadores de Valores e Volumes</div>
+                        <div class="row">
+                            <div class="titles">
+                                <div class="text">Valor de Mercado(R$)</div>
+                                <div class="text">Cotação de Fechamento(R$)</div>
+                                <div class="text">Volume Médio Diário Três meses(mil)</div>
+                                <div class="text">Ações emitidas(Milhões)</div>
+                            </div>
+
+                            <div class="values">
+                                <div class="value" id="valordemercado">R$ {{valormercado}}</div>
+                                <div class="value">R$ {{cotacaofechamento}}</div>
+                                <div class="value">{{volumemediodiario}}</div>
+                                <div class="value">{{acoesemitidas}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    
+                    <div class="content">
+                        <div class="title">Indicadores de Caixa e Endividamento</div>
+                        <div class="row">
+                            <div class="titles">
+                                <div class="text">Valor de Mercado(R$)</div>
+                                <div class="text">Cotação de Fechamento(R$)</div>
+                                <div class="text">Volume Médio Diário Três meses(mil)</div>
+                                <div class="text">Ações emitidas(Milhões)</div>
+                            </div>
+
+                            <div class="values">
+                                <div class="value" id="valordemercado">R$ {{valormercado}}</div>
+                                <div class="value">R$ {{cotacaofechamento}}</div>
+                                <div class="value">{{volumemediodiario}}</div>
+                                <div class="value">{{acoesemitidas}}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="grid">
+                    
+                    <div class="content">
+                        <div class="title">Indicadores de Avaliação</div>
+                        <div class="row">
+                            <div class="titles">
+                                <div class="text">Preço teto para 6%(R$)</div>
+                                <div class="text">Diferença entre Preço de Mercado e Preço Teto (R$)</div>
+                                <div class="text">Preço de Mercado /Preço Teto(%)</div>
+                            </div>
+
+                            <div class="values">
+                                <div class="value" id="valordemercado">R$ {{dy6}}</div>
+                                <div class="value">R$ {{dy6_dif}}</div>
+                                <div class="value">{{margin}}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="grid">
+                    
+                    <div class="content">
+                        <div class="title">Indicadores de Rentabilidade</div>
+                        <div class="row">
+                            <div class="titles">
+                                <div class="text">Projeção de Lucro(R$ Milhões)</div>
+                                <div class="text">projeção de Lucro por Ação(R$)</div>
+                                <div class="text">Lucro Líquido 12 meses(R$ mil)</div>
+                                <div class="text">Lucro p/Ação 12 mese(R$)</div>
+                                <div class="text">Valor Patrimonial por Ação(R$)</div>
+                                <div class="text">P/VPA</div>
+
+
+
+                            </div>
+
+                            <div class="values">
+                                <div class="value" id="valordemercado">R$ {{pgl}}</div>
+                                <div class="value">R$ {{pgla}}</div>
+                                <div class="value">{{ll_12}}</div>
+                                <div class="value" id="valordemercado">R$ {{lpa_12}}</div>
+                                <div class="value">R$ {{vpa}}</div>
+                                <div class="value">{{p_vpa}}}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
             </div>
         </div>
+    
+    </div>
+
+
+
+        
+        
+
 </body>
+</html>
