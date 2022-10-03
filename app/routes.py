@@ -35,12 +35,16 @@ def valid():
     lt['dy6'] = stock.Dy()['dy6'],
     lt['margin'] = stock.Margin(),
     lt['ranking'] = 1,
-    lt['img'] = stock.getImage(),
-    return redirect(url_for('detalhes'), code=302)
+    lt['img'] = stock.getImage()
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
-    return render_template('details.html',)
+    lt = {}
+    ticker = request.args.get('ticker')
+    ticker.upper()
+    stock = GetData.BasicData(ticker)
+    
+    return render_template('details.html', infos = stock.Datas(), sinfo = stock.fundamentalDatas())
     
 
     

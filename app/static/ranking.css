@@ -506,7 +506,7 @@ body{
 
 .gridDetail{
     margin-left: 300px;
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(241 239 239);
     height: 100vh;
 }
 
@@ -517,7 +517,7 @@ body{
 }
 
 .gridInit{
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     margin: 9px;
     border-radius: 12px;
     width: 500px;
@@ -555,7 +555,7 @@ img{
 
 .gridInit .title{
     margin-top: 20px;
-    color:  white;
+    color:  rgb(0, 0, 0);
     text-align: center;
 }
 
@@ -568,7 +568,7 @@ img{
     border-radius: 12px;
     display: flex;
     flex-direction: row;
-    background: red;
+    background: rgb(255,255,255);
     width: 508px;
     min-height: 250px;
     max-height: 450px;
@@ -577,8 +577,13 @@ img{
 
 }
 
-.gridInfos .grid .value , .text {
-    color: white;
+.gridInfos .grid .text {
+    color: rgb(0, 0, 0);
+}
+
+.gridInfos .grid .value{
+    color: #00ffa9;
+    font-weight: bold;
 }
 
 .gridInfos .grid .content {
@@ -594,7 +599,7 @@ img{
 .gridInfos .grid .title {
     margin-top: 8px;
     flex-shrink: 0;
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: bold;
     display: flex;
     flex-direction: column;

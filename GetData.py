@@ -258,23 +258,31 @@ class BasicData():
         
     def fundamentalDatas(self):
         info = {}
-        self.soup = self.Soup()
+        self.soup = self.Soup() 
+        self.soupP = self.SoupP()
         try:
             self.strong_class = self.soup.findAll('strong', class_="value")
+            self.d_flex = self.soup.findAll('strong', attrs={'class':'value'})
         except:
             return 'ERRO STRONG CLASS'
         
-        self.title_segment = self.soup.findAll('h3', class_='title m-03')
+        self.segment = self.soupP.find(id="hlSubsetor").text
+        self.listing = self.soupP.find(id="lbGovernanca").text
+        self.market_value = int((Formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
+        self.part_ibov = f'{self.d_flex[8].text}%'
         
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
         self.max_12 = self.strong_class[1].text
-        self.market_segment = self.title_segment
+        
         
         info['valor_12'] = self.valor_12
         info['min_12'] = self.min_12
         info['max_12'] = self.max_12
-        info['market_segment'] = self.market_segment
+        info['segment'] = self.segment
+        info['listing'] = self.listing
+        info['ibov'] = self.part_ibov
+        info['market_value'] = self.market_value
         return info
     
     def Dy(self):
@@ -326,3 +334,5 @@ class BasicData():
                         return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         
+a = BasicData('bbas3')
+print(a.fundamentalDatas())

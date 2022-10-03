@@ -99,144 +99,151 @@
                 </li>
             </ul>
         </div>
+        {% block content %}
+            {% set name = infos['name']%}
+            {% set ticker = infos['ticker']%}
+            {% set listing = sinfo['listing']%}
+            {% set subsetor = sinfo['segment']%}
+            {% set ibov = sinfo['ibov']%}
+            {% set market_value = sinfo['market_value']%}
+            <div class="gridDetail " id="gridDetail">
+                <div class="initialInfo">
 
-        <div class="gridDetail " id="gridDetail">
-            <div class="initialInfo">
+                    <div class="rowline">
+                        <div class="gridInit">
+                            <div class="logo"> <img src="https://static.guiainvest.com.br//Images/Ativo/sem_logo_120.gif" alt=""></div>
+                            <div class="info">
+                                <div class="name"><strong>{{name}}</strong></div>
+                                <div class="ticker"> {{ticker}}</div>
+                            </div>
+                        </div>
 
-                <div class="rowline">
-                    <div class="gridInit">
-                        <div class="logo"> <img src="https://static.guiainvest.com.br//Images/Ativo/sem_logo_120.gif" alt=""></div>
-                        <div class="info">
-                            <div class="name"><strong>Caixa Seguri</strong></div>
-                            <div class="ticker"> CXSE3</div>
+                        <div class="gridInit">
+                            <div class="segmento">
+                                <div class="title">Segmento Listagem Bovespa</div>
+                                <div class="text"><strong>{{listing}}</strong></div>
+                            </div>
+
+                        </div>
+
+                        <div class="gridInit">
+                            <div class="subSetor">
+                                <div class="title">Subsetor Bovespa</div>  
+                                <div class="text"><strong>{{subsetor}}</strong></div>
+                            </div>
+
+                        </div>
+
+                        <div class="gridInit">
+                            <div class="partIbov">
+                                <div class="title">Particip. no Ibov</div>
+                                <div class="text"><strong>{{ibov}}</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gridInfos">
+
+                    <div class="grid">
+                        
+                        <div class="content">
+                            <div class="title">Indicadores de Valores e Volumes</div>
+                            <div class="row">
+                                <div class="titles">
+                                    <div class="text">Valor de Mercado(Milhões)</div>
+                                    <div class="text">Cotação de Fechamento(R$)</div>
+                                    <div class="text">Volume Médio Diário Três meses(mil)</div>
+                                    <div class="text">Ações emitidas(Milhões)</div>
+                                </div>
+
+                                <div class="values">
+                                    <div class="value" id="valordemercado"> R${{market_value}}</div>
+                                    <div class="value">R$ {{cotacaofechamento}}</div>
+                                    <div class="value">{{volumemediodiario}}</div>
+                                    <div class="value">{{acoesemitidas}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="gridInit">
-                        <div class="segmento">
-                            <div class="title">Segmento Listagem Bovespa</div>
-                            <div class="text"><strong>Novo Mercado</strong></div>
-                        </div>
+                    <div class="grid">
+                        
+                        <div class="content">
+                            <div class="title">Indicadores de Caixa e Endividamento</div>
+                            <div class="row">
+                                <div class="titles">
+                                    <div class="text">Valor de Mercado(R$)</div>
+                                    <div class="text">Cotação de Fechamento(R$)</div>
+                                    <div class="text">Volume Médio Diário Três meses(mil)</div>
+                                    <div class="text">Ações emitidas(Milhões)</div>
+                                </div>
 
+                                <div class="values">
+                                    <div class="value" id="valordemercado">R$ {{valormercado}}</div>
+                                    <div class="value">R$ {{cotacaofechamento}}</div>
+                                    <div class="value">{{volumemediodiario}}</div>
+                                    <div class="value">{{acoesemitidas}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
 
-                    <div class="gridInit">
-                        <div class="subSetor">
-                            <div class="title">Subsetor Bovespa</div>  
-                            <div class="text"><strong>Previdência e seguros</strong></div>
-                        </div>
+                    <div class="grid">
+                        
+                        <div class="content">
+                            <div class="title">Indicadores de Avaliação</div>
+                            <div class="row">
+                                <div class="titles">
+                                    <div class="text">Preço teto para 6%(R$)</div>
+                                    <div class="text">Diferença entre Preço de Mercado e Preço Teto (R$)</div>
+                                    <div class="text">Preço de Mercado /Preço Teto(%)</div>
+                                </div>
 
+                                <div class="values">
+                                    <div class="value" id="valordemercado">R$ {{dy6}}</div>
+                                    <div class="value">R$ {{dy6_dif}}</div>
+                                    <div class="value">{{margin}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
 
-                    <div class="gridInit">
-                        <div class="partIbov">
-                            <div class="title">Particip. no Ibov</div>
-                            <div class="text"><strong>-</strong></div>
+                    <div class="grid">
+                        
+                        <div class="content">
+                            <div class="title">Indicadores de Rentabilidade</div>
+                            <div class="row">
+                                <div class="titles">
+                                    <div class="text">Projeção de Lucro(R$ Milhões)</div>
+                                    <div class="text">projeção de Lucro por Ação(R$)</div>
+                                    <div class="text">Lucro Líquido 12 meses(R$ mil)</div>
+                                    <div class="text">Lucro p/Ação 12 mese(R$)</div>
+                                    <div class="text">Valor Patrimonial por Ação(R$)</div>
+                                    <div class="text">P/VP</div>
+
+
+
+                                </div>
+
+                                <div class="values">
+                                    <div class="value" id="valordemercado">R$ {{pgl}}</div>
+                                    <div class="value">R$ {{pgla}}</div>
+                                    <div class="value">{{ll_12}}</div>
+                                    <div class="value" id="valordemercado">R$ {{lpa_12}}</div>
+                                    <div class="value">R$ {{vpa}}</div>
+                                    <div class="value">{{p_vpa}}}</div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
+
                 </div>
             </div>
-
-            <div class="gridInfos">
-
-                <div class="grid">
-                    
-                    <div class="content">
-                        <div class="title">Indicadores de Valores e Volumes</div>
-                        <div class="row">
-                            <div class="titles">
-                                <div class="text">Valor de Mercado(R$)</div>
-                                <div class="text">Cotação de Fechamento(R$)</div>
-                                <div class="text">Volume Médio Diário Três meses(mil)</div>
-                                <div class="text">Ações emitidas(Milhões)</div>
-                            </div>
-
-                            <div class="values">
-                                <div class="value" id="valordemercado">R$ {{valormercado}}</div>
-                                <div class="value">R$ {{cotacaofechamento}}</div>
-                                <div class="value">{{volumemediodiario}}</div>
-                                <div class="value">{{acoesemitidas}}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid">
-                    
-                    <div class="content">
-                        <div class="title">Indicadores de Caixa e Endividamento</div>
-                        <div class="row">
-                            <div class="titles">
-                                <div class="text">Valor de Mercado(R$)</div>
-                                <div class="text">Cotação de Fechamento(R$)</div>
-                                <div class="text">Volume Médio Diário Três meses(mil)</div>
-                                <div class="text">Ações emitidas(Milhões)</div>
-                            </div>
-
-                            <div class="values">
-                                <div class="value" id="valordemercado">R$ {{valormercado}}</div>
-                                <div class="value">R$ {{cotacaofechamento}}</div>
-                                <div class="value">{{volumemediodiario}}</div>
-                                <div class="value">{{acoesemitidas}}</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <div class="grid">
-                    
-                    <div class="content">
-                        <div class="title">Indicadores de Avaliação</div>
-                        <div class="row">
-                            <div class="titles">
-                                <div class="text">Preço teto para 6%(R$)</div>
-                                <div class="text">Diferença entre Preço de Mercado e Preço Teto (R$)</div>
-                                <div class="text">Preço de Mercado /Preço Teto(%)</div>
-                            </div>
-
-                            <div class="values">
-                                <div class="value" id="valordemercado">R$ {{dy6}}</div>
-                                <div class="value">R$ {{dy6_dif}}</div>
-                                <div class="value">{{margin}}</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <div class="grid">
-                    
-                    <div class="content">
-                        <div class="title">Indicadores de Rentabilidade</div>
-                        <div class="row">
-                            <div class="titles">
-                                <div class="text">Projeção de Lucro(R$ Milhões)</div>
-                                <div class="text">projeção de Lucro por Ação(R$)</div>
-                                <div class="text">Lucro Líquido 12 meses(R$ mil)</div>
-                                <div class="text">Lucro p/Ação 12 mese(R$)</div>
-                                <div class="text">Valor Patrimonial por Ação(R$)</div>
-                                <div class="text">P/VPA</div>
-
-
-
-                            </div>
-
-                            <div class="values">
-                                <div class="value" id="valordemercado">R$ {{pgl}}</div>
-                                <div class="value">R$ {{pgla}}</div>
-                                <div class="value">{{ll_12}}</div>
-                                <div class="value" id="valordemercado">R$ {{lpa_12}}</div>
-                                <div class="value">R$ {{vpa}}</div>
-                                <div class="value">{{p_vpa}}}</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {% endblock content %}
     
     </div>
 
