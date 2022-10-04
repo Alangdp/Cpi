@@ -106,6 +106,9 @@
             {% set subsetor = sinfo['segment']%}
             {% set ibov = sinfo['ibov']%}
             {% set market_value = sinfo['market_value']%}
+            {% set volume = sinfo['volume']%}
+            {% set acoesemitidas = sinfo['paperM']%}
+            {% set end_value = sinfo['end']%}
             <div class="gridDetail " id="gridDetail">
                 <div class="initialInfo">
 
@@ -149,6 +152,7 @@
                         
                         <div class="content">
                             <div class="title">Indicadores de Valores e Volumes</div>
+                            <span class="cross"></span>
                             <div class="row">
                                 <div class="titles">
                                     <div class="text">Valor de Mercado(Milhões)</div>
@@ -159,8 +163,8 @@
 
                                 <div class="values">
                                     <div class="value" id="valordemercado"> R${{market_value}}</div>
-                                    <div class="value">R$ {{cotacaofechamento}}</div>
-                                    <div class="value">{{volumemediodiario}}</div>
+                                    <div class="value">R$ {{end_value}}</div>
+                                    <div class="value">{{volume}}</div>
                                     <div class="value">{{acoesemitidas}}</div>
                                 </div>
                             </div>
@@ -173,10 +177,10 @@
                             <div class="title">Indicadores de Caixa e Endividamento</div>
                             <div class="row">
                                 <div class="titles">
-                                    <div class="text">Valor de Mercado(R$)</div>
-                                    <div class="text">Cotação de Fechamento(R$)</div>
-                                    <div class="text">Volume Médio Diário Três meses(mil)</div>
-                                    <div class="text">Ações emitidas(Milhões)</div>
+                                    <div class="text">Div. Bruta 12 meses(R$ mil)</div>
+                                    <div class="text">Div. Liquida 12 meses(R$ mil)</div>
+                                    <div class="text">Dívida Líquida EBITDA 12 meses(vezes)</div>
+                                    <div class="text">Caixa 12 meses(mil)</div>
                                 </div>
 
                                 <div class="values">
@@ -234,7 +238,7 @@
                                     <div class="value">{{ll_12}}</div>
                                     <div class="value" id="valordemercado">R$ {{lpa_12}}</div>
                                     <div class="value">R$ {{vpa}}</div>
-                                    <div class="value">{{p_vpa}}}</div>
+                                    <div class="value">{{p_vpa}}</div>
                                 </div>
                             </div>
                             

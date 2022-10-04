@@ -10,7 +10,7 @@ import shutil
 
 # Global Methods
         
-def Formate_Number(x):
+def formate_Number(x):
     lt = []
     for y in str(x):
         if y == ',':
@@ -22,6 +22,23 @@ def Formate_Number(x):
             pass
     formated = float(''.join(lt))
     return float(f'{formated:.2f}')
+
+# def formate_Detail(x):
+#     lt = []
+#     num_char = 0
+#     for y in str(x):
+#         if y.isnumeric(x):
+#             num_char += 1
+#         if num_char % 3 == 0:
+#             lt.append('.')
+#         if y.isnumeric(x):
+#             lt.append(y)
+#         else: 
+#             pass
+#     formated = ''.join(lt)
+#     return str(formated)
+         
+    
 
 def highdy():
         info = []
@@ -202,18 +219,19 @@ class BasicData():
             return 'ERRO VALUE CLASS'
 
         self.value = self.value_class[0].text
-        self.value = float(Formate_Number(self.value))
-        
+        self.value = float(formate_Number(self.value))
         self.dy_Value = self.value_sub_class[3].text
         if self.dy_Value == '-':
             self.dy_Value = 0
-        self.dy_Value = Formate_Number(self.dy_Value)
+        self.dy_Value = formate_Number(self.dy_Value)
+        
+        # self.div_liq = formate_Detail(self.soup.find('div',title="A dívida Líquida que é a Dívida Bruta menos as Disponibilidades da companhia. De modo geral, representa a quantidade de dinheiro necessária para a empresa zerar o seu endividamento").text)
         
         self.dy_Porcent = self.value_class[3].text
         if str(self.dy_Porcent) == '-':
             self.dy_Porcent = '0.01'
         else:
-            self.dy_Porcent = Formate_Number(self.dy_Porcent)
+            self.dy_Porcent = formate_Number(self.dy_Porcent)
             
         self.tagAlong = self.value_class[6].text
         if '-' in self.tagAlong:
@@ -225,17 +243,17 @@ class BasicData():
             return 'ERRO DB BLOCK LH CLASS '
 
         self.p_vp = self.value_dblock_class[3].text
-        self.p_vp = Formate_Number(self.p_vp)
+        self.p_vp = formate_Number(self.p_vp)
         self.roe = self.value_dblock_class[24].text   
         self.pl = self.value_dblock_class[1].text
-        self.pl = Formate_Number(self.pl)
+        self.pl = formate_Number(self.pl)
         try:
             self.ri = self.soup.find_all("a", attrs={"rel": "noopener noreferrer nofollow", "class": "waves-effect waves-light btn btn-small btn-secondary"})[0]["href"]
         except:
             self.ri = None
             
         try: 
-            self.payout = Formate_Number(self.soupP.find('span',attrs={'id': 'lbPayout1'}).text)
+            self.payout = formate_Number(self.soupP.find('span',attrs={'id': 'lbPayout1'}).text)
         except:
             self.payout = 0.001
             
@@ -251,7 +269,8 @@ class BasicData():
             info['pl'] = self.pl
             info['payout'] = self.payout
             info['ri_page'] = self.ri
-            
+            # info['div_liq'] = self.div_liq
+             
             return info
         except:
             return 'ERRO INFO DATAS'
@@ -268,13 +287,15 @@ class BasicData():
         
         self.segment = self.soupP.find(id="hlSubsetor").text
         self.listing = self.soupP.find(id="lbGovernanca").text
-        self.market_value = int((Formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
+        self.market_value = int((formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
         self.part_ibov = f'{self.d_flex[8].text}%'
+        self.volume = self.soup.findAll('strong', attrs={'class':'m-md-0 mb-md-1 value mt-0 fs-3_5 lh-4'})[1].text
         
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
         self.max_12 = self.strong_class[1].text
-        
+        self.paper_volume = formate_Number(self.soupP.find('span', id="lbInformacaoAdicionalQuantidadeTotalAcao").text)*1000
+        self.end_value = formate_Number(self.soupP.find('span', id="lbUltimoFechamento"))
         
         info['valor_12'] = self.valor_12
         info['min_12'] = self.min_12
@@ -283,6 +304,9 @@ class BasicData():
         info['listing'] = self.listing
         info['ibov'] = self.part_ibov
         info['market_value'] = self.market_value
+        info['volume'] = self.volume
+        info['end'] = self.end_value
+        info['paperM'] = self.paper_volume
         return info
     
     def Dy(self):
@@ -334,5 +358,3 @@ class BasicData():
                         return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         
-a = BasicData('bbas3')
-print(a.fundamentalDatas())

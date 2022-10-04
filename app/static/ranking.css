@@ -16,6 +16,30 @@ ins.adsbygoogle {
     }
 }
 
+@media screen and (max-width: 1444px){
+    .card{
+        min-width: 300px !important;
+    }
+    .gridContent .card .stocInfo .highprice{
+        margin-left: 20px !important;
+    }    
+    .gridContent .card .stocInfo .value{
+        margin-left: 20px !important;
+    }
+}
+
+@media screen and (max-width: 1600px){
+    .card{
+        min-width: 400px !important;
+    }
+    .gridContent .card .stocInfo .highprice{
+        margin-left: 20px !important;
+    }    
+    .gridContent .card .stocInfo .value{
+        margin-left: 20px !important;
+    }
+}
+
 @media screen and (max-width: 1366px){
     .sidebar{
         width: 300px !important;
@@ -32,13 +56,24 @@ ins.adsbygoogle {
     .card{
         margin: 10px !important;
         min-width: 330px !important;
-        min-height: 430px !important;
     }
 
     .gridContent{
         margin-left: 300px !important;
         grid-template-columns: 1fr 1fr 1fr !important;
         width: calc(100% - 300px) !important;
+    }
+
+    .complements{
+        display: flex;
+        /* position: absolute; */
+        /* top: 50%; */
+        /* left: 50%; */
+        /* transform: translate(-50%); */
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
     }
 }
 
@@ -296,13 +331,13 @@ body{
 
 .gridContent{
     display: grid;
-    width: calc(100% - 350px);
+    width: calc(100% - 300px);
     height: 100vh;
     background-color: rgb(237, 234, 238);
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: stretch;
     grid-gap: -50px;
-    margin-left: 350px;
+    margin-left: 300px;
     overflow: auto;
 
 }
@@ -314,7 +349,7 @@ body{
     min-height: 300px;
     min-width: 450px;
     margin: 20px;
-    max-width: 400px;
+    /* max-width: 400px; */
     max-height: 350px;
     overflow: hidden;
 }
@@ -367,6 +402,7 @@ body{
     border-radius: 12px;
     display: flex;
     max-width: 80px;
+    min-width: 70px;
     max-height: 30px;
     min-height: 30px;
     align-items: center;
@@ -413,11 +449,16 @@ body{
 }
 
 .gridContent .card .complements{
-    margin-top: 80px;
-    position: absolute;
-    top: 50%;  
-    left: 50%; 
-    transform: translate(-50%)
+    display: flex;
+    /* margin-top: 80px; */
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%); */
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
 }
 
 .gridContent .card .complements .mdi_text{
@@ -475,10 +516,10 @@ body{
 
 .gridContent .card .stocInfo .value{
     margin-bottom: 110px;
+    margin-top: 45px;
     margin-left: 40px;
     display: flex;
     position: absolute;
-    bottom: 0;
 }
 
 .gridContent .card .stocInfo .value .value_value{
@@ -538,7 +579,8 @@ body{
     max-width: 60px;
     max-height: 60px;
     border: none;
-    margin: 10px;
+    margin-top: 2vh;
+    margin-left: 12px;
 }
 
 img{
@@ -582,7 +624,8 @@ img{
 }
 
 .gridInfos .grid .value{
-    color: #00ffa9;
+    margin-left: 60px;
+    color: #52572c;
     font-weight: bold;
 }
 
@@ -607,7 +650,23 @@ img{
 }
 
 .gridInfos .grid .content .text,.value{
-    margin: 14px;
+    margin-left: 20px;
+    margin-top: 18px;
     margin-bottom: 0 !important;
 }
 
+.gridInfos .grid .content .value{
+    margin-left: 100px;
+    color: #52572c;
+    font-weight: bold;
+    margin-top: 18px;
+}
+
+.cross{
+
+    border-top: 4px solid var(--yt-spec-10-percent-layer);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
