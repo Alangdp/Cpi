@@ -2,10 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 import lxml
 import cchardet
-import pandas
-import fundamentus
-import sqlite3
-import os   
 import shutil
 
 # Global Methods
@@ -103,7 +99,7 @@ def highList(list):
     return lt
 
 def sqUpdate():
-    
+    import sqlite3
     con = sqlite3.connect('TopStocks.db')
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text, dpa text)")
@@ -115,6 +111,7 @@ def sqUpdate():
     con.close()
 
 def refreshSQ():
+    import os
     try:
         os.remove('TopStocksBU.db')
         shutil.copy('TopStocks.db','TopStocksBU.db')
@@ -125,7 +122,7 @@ def refreshSQ():
     sqUpdate()
     
 def Showsq():
-    
+    import sqlite3
     con = sqlite3.connect('TopStocks.db')
     cur = con.cursor()
     
@@ -136,6 +133,7 @@ def Showsq():
         
 def getLocalData():
     try:
+        import sqlite3
         con = sqlite3.connect('TopStocks.db')
         cur = con.cursor()
         tickers = []
@@ -203,61 +201,95 @@ class BasicData():
             return 'ERRO LINK'
         
     def Datas(self, args=None):
-        info = {}
+        
         self.soup = self.Soup()
         self.soupP = self.SoupP()
         
-        self.name = self.soup.find('small').text
-        try:
-            self.value_class = self.soup.findAll(attrs={'class':'value'})
-        except:
-            return 'ERRO VALUE CLASS'
+        # Informações mais importantes, dados do html
         
-        try:
-            self.value_sub_class = self.soup.findAll('span' ,attrs={'class':'sub-value'})
-        except:
-            return 'ERRO VALUE CLASS'
-
-        self.value = self.value_class[0].text
-        self.value = float(formate_Number(self.value))
-        self.dy_Value = self.value_sub_class[3].text
-        if self.dy_Value == '-':
-            self.dy_Value = 0
-        self.dy_Value = formate_Number(self.dy_Value)
-        
-        # self.div_liq = formate_Detail(self.soup.find('div',title="A dívida Líquida que é a Dívida Bruta menos as Disponibilidades da companhia. De modo geral, representa a quantidade de dinheiro necessária para a empresa zerar o seu endividamento").text)
-        
-        self.dy_Porcent = self.value_class[3].text
-        if str(self.dy_Porcent) == '-':
-            self.dy_Porcent = '0.01'
-        else:
-            self.dy_Porcent = formate_Number(self.dy_Porcent)
-            
-        self.tagAlong = self.value_class[6].text
-        if '-' in self.tagAlong:
-            self.tagAlong = '0.00'
-
-        try:
-            self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
-        except: 
-            return 'ERRO DB BLOCK LH CLASS '
-
-        self.p_vp = self.value_dblock_class[3].text
-        self.p_vp = formate_Number(self.p_vp)
-        self.roe = self.value_dblock_class[24].text   
-        self.pl = self.value_dblock_class[1].text
-        self.pl = formate_Number(self.pl)
         try:
             self.ri = self.soup.find_all("a", attrs={"rel": "noopener noreferrer nofollow", "class": "waves-effect waves-light btn btn-small btn-secondary"})[0]["href"]
         except:
             self.ri = None
-            
+        
         try: 
             self.payout = formate_Number(self.soupP.find('span',attrs={'id': 'lbPayout1'}).text)
         except:
             self.payout = 0.001
             
         try:
+            self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
+        except: 
+            return 'ERRO DB BLOCK LH CLASS '
+        
+        try:
+            self.value_class = self.soup.findAll(attrs={'class':'value'})
+        except:
+            return 'ERRO VALUE CLASS'
+        
+        try:
+            self.strong_class = self.soup.findAll('strong',attrs={'class':'value'})
+        except:
+            return 'ERRO STRONG CLASS'
+        try:
+            self.value_sub_class = self.soup.findAll('span' ,attrs={'class':'sub-value'})
+        except:
+            return 'ERRO VALUE CLASS'
+        
+        try:
+            infoBB = {}
+            self.buyback = self.soup.find('div',class_='buyback card')
+            self.buyback = self.buyback.find('div', class_='card-body')
+            self.aproved = self.buyback.findAll('span',class_='d-block fw-700')[0].text
+            self.active = self.buyback.find('span', class_='badge main-badge white-text darken-3 green').text
+            self.type = self.buyback.findAll('span',class_='d-block fs-4 lh-4 fw-700')[0].text
+            self.quantify = self.buyback.findAll('span', class_='d-block fs-4 lh-4 fw-700')[1].text
+            self.init = self.buyback.findAll('span', class_='d-block fw-700')[1].text
+            self.end = self.buyback.findAll('span', class_='d-block fw-700')[2].text
+            
+            infoBB['buybakck_type'] = self.type
+            infoBB['buyback_quantify'] = self.quantify
+            infoBB['buyback_active'] = self.active
+            infoBB['buyback_aproved'] = self.aproved
+            infoBB['buyback_init'] = self.init
+            infoBB['buyback_end'] = self.end
+        except:
+            return 'ERRO INFO DATA BUYBACK'
+        # Dados e tratamento se nescessário
+
+        self.name = self.soup.find('small').text
+        self.value = self.value_class[0].text
+        self.value = float(formate_Number(self.value))
+        self.dy_Value = self.value_sub_class[3].text
+        self.div_liq = self.strong_class[91].text
+        self.div_brt = self.strong_class[89].text
+        self.dy_Porcent = self.value_class[3].text
+        self.dy_Value = formate_Number(self.dy_Value)
+        self.tagAlong = self.value_class[6].text
+        self.p_vp = self.value_dblock_class[3].text
+        self.p_vp = formate_Number(self.p_vp)
+        self.roe = self.value_dblock_class[24].text   
+        self.pl = self.value_dblock_class[1].text
+        self.pl = formate_Number(self.pl)
+        
+        
+        # Checagens se vazio substituir
+        
+        if str(self.dy_Porcent) == '-':
+            self.dy_Porcent = '0.01'
+        else:
+            self.dy_Porcent = formate_Number(self.dy_Porcent)
+            
+        if self.dy_Value == '-':
+            self.dy_Value = 0
+            
+        if '-' in self.tagAlong:
+            self.tagAlong = '0.00'
+            
+        # Montagem do dicionário
+            
+        try:
+            info = {}
             info['ticker'] = self.ticker
             info['name'] = self.name
             info['value'] = self.value
@@ -269,45 +301,61 @@ class BasicData():
             info['pl'] = self.pl
             info['payout'] = self.payout
             info['ri_page'] = self.ri
-            # info['div_liq'] = self.div_liq
-             
-            return info
+            info['div_liq'] = self.div_liq
+            info['div_brt'] = self.div_brt
+            # info['buybakck_type'] = self.type
+            # info['buyback_quantify'] = self.quantify
+            # info['buyback_active'] = self.active
+            # info['buyback_aproved'] = self.aproved
+            # info['buyback_init'] = self.init
+            # info['buyback_end'] = self.end
+            return info, infoBB
         except:
             return 'ERRO INFO DATAS'
         
     def fundamentalDatas(self):
-        info = {}
+        
+        
         self.soup = self.Soup() 
         self.soupP = self.SoupP()
+        
+        
+        # Informações mais importantes, dados do html
+        
         try:
             self.strong_class = self.soup.findAll('strong', class_="value")
             self.d_flex = self.soup.findAll('strong', attrs={'class':'value'})
         except:
             return 'ERRO STRONG CLASS'
         
+        # Coleta de informações e tratamento se nescessário
+        
         self.segment = self.soupP.find(id="hlSubsetor").text
         self.listing = self.soupP.find(id="lbGovernanca").text
         self.market_value = int((formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
         self.part_ibov = f'{self.d_flex[8].text}%'
         self.volume = self.soup.findAll('strong', attrs={'class':'m-md-0 mb-md-1 value mt-0 fs-3_5 lh-4'})[1].text
-        
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
         self.max_12 = self.strong_class[1].text
         self.paper_volume = formate_Number(self.soupP.find('span', id="lbInformacaoAdicionalQuantidadeTotalAcao").text)*1000
         self.end_value = formate_Number(self.soupP.find('span', id="lbUltimoFechamento"))
         
-        info['valor_12'] = self.valor_12
-        info['min_12'] = self.min_12
-        info['max_12'] = self.max_12
-        info['segment'] = self.segment
-        info['listing'] = self.listing
-        info['ibov'] = self.part_ibov
-        info['market_value'] = self.market_value
-        info['volume'] = self.volume
-        info['end'] = self.end_value
-        info['paperM'] = self.paper_volume
-        return info
+        try:
+            info = {}
+            info['valor_12'] = self.valor_12
+            info['min_12'] = self.min_12
+            info['max_12'] = self.max_12
+            info['segment'] = self.segment
+            info['listing'] = self.listing
+            info['ibov'] = self.part_ibov
+            info['market_value'] = self.market_value
+            info['volume'] = self.volume
+            info['end'] = self.end_value
+            info['paperM'] = self.paper_volume
+            return info
+        except:
+            return 'ERRO INFO DATA'
     
     def Dy(self):
         temp_dy = 0
@@ -345,16 +393,22 @@ class BasicData():
         
     def getImage(self):
         self.soup = self.Soup()
-        if self.soup.find('div', title="Logotipo da empresa '" + self.Datas()['name']) != None:
-            getImagee = self.soup.find("div", title="Logotipo da empresa '"+self.Datas["name"].upper()+"'")
-            return "https://statusinvest.com.br" +getImagee.__str__().split("(")[1].split(")")[0]
-        else:
-            for x in self.soup.find_all("div"):
-                if str(x).__contains__("data-img"):
-                    try:
-                        print(str(x).split("(")[1].split(")")[0])
-                        return "https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0]
-                    except:
-                        return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+        
+        try:
+            if self.soup.find('div', title="Logotipo da empresa '" + self.Datas()['name']) != None:
+                getImagee = self.soup.find("div", title="Logotipo da empresa '"+self.Datas["name"].upper()+"'")
+                return "https://statusinvest.com.br" +getImagee.__str__().split("(")[1].split(")")[0]
+            else:
+                for x in self.soup.find_all("div"):
+                    if str(x).__contains__("data-img"):
+                        try:
+                            print("https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0])
+                            return "https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0]
+                        except:
+                            return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+                return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+        except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         
+a = BasicData('petr4')
+print(a.Datas())        

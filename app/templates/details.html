@@ -109,6 +109,8 @@
             {% set volume = sinfo['volume']%}
             {% set acoesemitidas = sinfo['paperM']%}
             {% set end_value = sinfo['end']%}
+            {% set div_brt = infos['div_brt']%}
+            {% set div_liq = infos['div_liq']%}
             <div class="gridDetail " id="gridDetail">
                 <div class="initialInfo">
 
@@ -177,15 +179,15 @@
                             <div class="title">Indicadores de Caixa e Endividamento</div>
                             <div class="row">
                                 <div class="titles">
-                                    <div class="text">Div. Bruta 12 meses(R$ mil)</div>
-                                    <div class="text">Div. Liquida 12 meses(R$ mil)</div>
+                                    <div class="text">Div. Bruta 12 meses(R$)</div>
+                                    <div class="text">Div. Liquida 12 meses(R$)</div>
                                     <div class="text">Dívida Líquida EBITDA 12 meses(vezes)</div>
                                     <div class="text">Caixa 12 meses(mil)</div>
                                 </div>
 
                                 <div class="values">
-                                    <div class="value" id="valordemercado">R$ {{valormercado}}</div>
-                                    <div class="value">R$ {{cotacaofechamento}}</div>
+                                    <div class="value" id="valordemercado"> <nobr>R$ {{div_brt}}</nobr></div>
+                                    <div class="value"><nobr>R$ {{div_liq}}</nobr> </div>
                                     <div class="value">{{volumemediodiario}}</div>
                                     <div class="value">{{acoesemitidas}}</div>
                                 </div>
