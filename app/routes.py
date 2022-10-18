@@ -43,8 +43,7 @@ def detalhes():
     ticker = request.args.get('ticker')
     ticker.upper()
     stock = GetData.BasicData(ticker)
-    infos,infosBB = stock.Datas()
-    return render_template('details.html', infos = infos, sinfo = stock.fundamentalDatas())
+    return render_template('details.html', infos = stock.Datas(), sinfo = stock.fundamentalDatas(), infosBB = stock.buyBack())
     
 
     

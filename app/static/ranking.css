@@ -6,6 +6,18 @@ ins.adsbygoogle {
     max-height: 280px;
 }
 
+@media screen and (max-width: 1350px){
+    .gridContent .card .stocInfo .margin {
+        margin-right: 70px !important;
+        margin-top: 90px !important;
+    }
+
+    .gridContent .card{
+        min-height: 350px !important;
+    }
+
+}
+
 @media screen and (max-width: 280px){
     .mobileSidebar .msdLogo{
         margin-top: 3% !important;
@@ -185,7 +197,6 @@ body{
 
 .mobileSidebar #menum:hover{
     color: black;
-
 }
 
 .mobileSidebar .msdLogo{
@@ -261,9 +272,22 @@ body{
     color: white;
 }
 
+.sidebar ul li a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .sidebar ul li a .links-name{
     color: white;
     font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sidebar ul li a .name{
+    color: white;
+    font-size: 20px;
     cursor: pointer;
     text-decoration: none;
 
@@ -276,6 +300,11 @@ body{
     text-decoration: none;
 
 }
+
+:is(.sidebar ul li .bx-menu::before):hover {
+    color: black !important;
+}
+
 
 .sidebar ul li#addticker span{
     color: white;
@@ -315,6 +344,17 @@ body{
     font-size: 25px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.sidebar ul li .bx-menu:hover::before{
+    color: black;
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+:is(.sidebar ul li .bx-menu:hover::before, .sidebar ul li a .links-name) :hover{
+    color: black !important;
 }
 
 .sidebar ul li .bx-search-alt::before{

@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/ranking.css">
-    <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="../static/script.js"></script>
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
+     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
 
 </head>
 <body>
@@ -40,13 +39,13 @@
                 <!-- <li>
                     <i class='bx bx-search-alt' id="research"></i>
                     <input type="search" name="search" class="search" id="search"
-                    placeholder="    Procurar..." onkeyup="Search()">
+                    placeholder="    Procurar..." onkeyup="Search()">   
                     
                 </li> -->
                 <li>
                     <a href="#">
                         <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="console.log(getCurrentURL());">Home</span>
+                        <span class="links-name" onclick="mudaCord()">Home</span>
                     </a>
                 </li>
                 <li>
@@ -69,17 +68,16 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class='bx bx-menu' ></i>
+                        <i class='bx bx-menu' id="teste"></i>
                         <span class="links-name">Usuario</span>
                     </a>
                 </li>
-                <li id="addticker" class="links-name">
-                    <div class="icoName">
-                        <i class='bx bx-menu' ></i>
-                        <span>Adicionar Ação</span>
-                    </div> 
-                    <input type="button" value="+" class="addbutton" onclick="getTicker()">
+
+                <li>
+                    <a href="#" > <strong class="name">Álan Gabriel Dias Pedon</strong></a>
+
                 </li>
+                
                 
                 <div class="anuncio">
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
@@ -115,7 +113,7 @@
                     {% if '-' in margin %}
                         {% set margin = margin.replace('-','')%}
                     {% endif%}
-                    <div class="card" >
+                    <div class="card" id="teste" >
                         <p class="ranking"><small>Ranking {{numero}} </small></p>
                         <div class="stocInfo">
                             <div class="stockticker">{{ticker}}</div>
@@ -162,6 +160,7 @@
 
         
         
-
+    <script src="{{url_for('static', filename = 'script.js')}}"></script>
+    <script src="../static/script.js"></script>
 </body>
 </html>

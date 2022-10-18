@@ -1,8 +1,8 @@
+from calendar import c
 from bs4 import BeautifulSoup
 import requests
-import lxml
-import cchardet
-import shutil
+import lxml, cchardet, shutil
+# from selenium import webdriver
 
 # Global Methods
         
@@ -37,30 +37,45 @@ def formate_Number(x):
     
 
 def highdy():
-        info = []
-        import fundamentus
-        df = fundamentus.get_resultado()
-        for index in df.index:  
-            try:
-                print(index, len(info))
-                print(index,df['dy'][index],df['mrgliq'][index])
-                print(index, 'etapa 1', len(info))
-                if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] >= 0) :
-                    stock = BasicData(index)
-                    if float(stock.Margin().replace('%','')) > 150:
+    total = []
+    info = []
+    import fundamentus
+    df = fundamentus.get_resultado()
+    for index in df.index:  
+        try:
+            total.append(index)
+            print(index, len(info))
+            print(index,df['dy'][index],df['mrgliq'][index], )
+            print(index, 'etapa 1', len(info))
+            if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] >= 0):
+                stock = BasicData(index)
+                if float(stock.Margin().replace('%','')) > 150:
+                        continue
+                else:
+                    if stock.Datas()['p_vp'] <= 2.5 and stock.Datas()['pl'] <= 15:
+                        if stock.Datas()['payout'] <= 10:
                             continue
-                    else:
-                        if stock.Datas()['p_vp'] <= 2.5 and stock.Datas()['pl'] <= 15:
-                            if stock.Datas()['payout'] <= 10:
-                                continue
-                                
-                            else:
-                                info.append(index)
-                                print(index, 'etapa2', len(info))
                             
-            except:
-                continue
-        return info
+                        else:
+                            info.append(index)
+                            print(index, 'etapa2', len(info))
+                        
+        except:
+            continue
+    listaTotal(total)
+    return info
+
+def listaTotal(lista):
+    import sqlite3
+    try:
+        con = sqlite3.connect('TopStocks.db')
+        cur = con.cursor()
+        for ticker in lista:
+            cur.execute('CREATE TABLE IF NOT EXISTS total(ticker, )')
+            
+    except: 
+        return 'ERRO LISTA TOTAL'
+        
 
 def test():
     import fundamentus
@@ -173,6 +188,20 @@ class BasicData():
         except:
             return 'ERRO SOUP'
         
+        # driver = webdriver.Chrome('chromedriver.exe') 
+        # website = self.links()
+        # driver.get(website) 
+        # html = driver.page_source
+        # soup = BeautifulSoup(html, "lxml")
+        # return soup
+    
+        # driver = webdriver.Chrome('chromedriver.exe') 
+        # website = self.links()
+        # driver.get(website) 
+        # html = driver.page_source
+        # soup = BeautifulSoup(html, "lxml")
+        # print(soup)
+        
     def SoupP(self, args=None):
         try:
             link = BasicData(self.ticker)
@@ -200,6 +229,30 @@ class BasicData():
         except:
             return 'ERRO LINK'
         
+    def buyBack(self, args=None):
+        self.soup = self.Soup()
+        try:
+            infoBB = {}
+            self.buyback = self.soup.find('div',class_='buyback card')
+            self.buyback = self.buyback.find('div', class_='card-body')
+            self.aproved = self.buyback.findAll('span',class_='d-block fw-700')[0].text
+            self.active = self.buyback.find('span', class_='badge main-badge white-text darken-3 green').text
+            self.type = self.buyback.findAll('span',class_='d-block fs-4 lh-4 fw-700')[0].text
+            self.quantify = self.buyback.findAll('span', class_='d-block fs-4 lh-4 fw-700')[1].text
+            self.init = self.buyback.findAll('span', class_='d-block fw-700')[1].text
+            self.end = self.buyback.findAll('span', class_='d-block fw-700')[2].text
+            
+            infoBB['buybakck_type'] = self.type
+            infoBB['buyback_quantify'] = self.quantify
+            infoBB['buyback_active'] = self.active
+            infoBB['buyback_aproved'] = self.aproved
+            infoBB['buyback_init'] = self.init
+            infoBB['buyback_end'] = self.end
+            
+            return infoBB
+        except:
+            return 'ERRO INFO DATA BUYBACK'
+    
     def Datas(self, args=None):
         
         self.soup = self.Soup()
@@ -236,25 +289,6 @@ class BasicData():
         except:
             return 'ERRO VALUE CLASS'
         
-        try:
-            infoBB = {}
-            self.buyback = self.soup.find('div',class_='buyback card')
-            self.buyback = self.buyback.find('div', class_='card-body')
-            self.aproved = self.buyback.findAll('span',class_='d-block fw-700')[0].text
-            self.active = self.buyback.find('span', class_='badge main-badge white-text darken-3 green').text
-            self.type = self.buyback.findAll('span',class_='d-block fs-4 lh-4 fw-700')[0].text
-            self.quantify = self.buyback.findAll('span', class_='d-block fs-4 lh-4 fw-700')[1].text
-            self.init = self.buyback.findAll('span', class_='d-block fw-700')[1].text
-            self.end = self.buyback.findAll('span', class_='d-block fw-700')[2].text
-            
-            infoBB['buybakck_type'] = self.type
-            infoBB['buyback_quantify'] = self.quantify
-            infoBB['buyback_active'] = self.active
-            infoBB['buyback_aproved'] = self.aproved
-            infoBB['buyback_init'] = self.init
-            infoBB['buyback_end'] = self.end
-        except:
-            return 'ERRO INFO DATA BUYBACK'
         # Dados e tratamento se nescessário
 
         self.name = self.soup.find('small').text
@@ -271,6 +305,7 @@ class BasicData():
         self.roe = self.value_dblock_class[24].text   
         self.pl = self.value_dblock_class[1].text
         self.pl = formate_Number(self.pl)
+        self.divLiq_ebitda = self.soup.findAll('div', class_='d-flex align-items-center justify-between pr-1 pr-xs-2')[15]
         
         
         # Checagens se vazio substituir
@@ -303,15 +338,19 @@ class BasicData():
             info['ri_page'] = self.ri
             info['div_liq'] = self.div_liq
             info['div_brt'] = self.div_brt
+            info['divliq_ebitda'] = self.divLiq_ebitda
             # info['buybakck_type'] = self.type
             # info['buyback_quantify'] = self.quantify
             # info['buyback_active'] = self.active
             # info['buyback_aproved'] = self.aproved
             # info['buyback_init'] = self.init
             # info['buyback_end'] = self.end
-            return info, infoBB
         except:
             return 'ERRO INFO DATAS'
+        
+        return info
+        
+            
         
     def fundamentalDatas(self):
         
@@ -409,6 +448,6 @@ class BasicData():
                 return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
-        
-a = BasicData('petr4')
-print(a.Datas())        
+    
+
+
