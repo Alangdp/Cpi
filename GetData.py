@@ -2,6 +2,7 @@ from calendar import c
 from bs4 import BeautifulSoup
 import requests
 import lxml, cchardet, shutil
+from mechanize import Browser
 # from selenium import webdriver
 
 # Global Methods
@@ -19,83 +20,78 @@ def formate_Number(x):
     formated = float(''.join(lt))
     return float(f'{formated:.2f}')
 
-# def formate_Detail(x):
-#     lt = []
-#     num_char = 0
-#     for y in str(x):
-#         if y.isnumeric(x):
-#             num_char += 1
-#         if num_char % 3 == 0:
-#             lt.append('.')
-#         if y.isnumeric(x):
-#             lt.append(y)
-#         else: 
-#             pass
-#     formated = ''.join(lt)
-#     return str(formated)
-         
-    
+def sqlString(valor):
+    string = ''.join(valor)
+    return string
 
 def highdy():
+    acao = []
     total = []
     info = []
     import fundamentus
     df = fundamentus.get_resultado()
     for index in df.index:  
         try:
-            total.append(index)
             print(index, len(info))
-            print(index,df['dy'][index],df['mrgliq'][index], )
             print(index, 'etapa 1', len(info))
+            total.append(index)
+            acao.append(coletaDados(str(index)))
+            stock = BasicData(index)
+            print(df['dy'][index], df['mrgliq'][index])
             if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] >= 0):
-                stock = BasicData(index)
-                if float(stock.Margin().replace('%','')) > 150:
+                if stock.Margin() > 100:
                         continue
                 else:
                     if stock.Datas()['p_vp'] <= 2.5 and stock.Datas()['pl'] <= 15:
                         if stock.Datas()['payout'] <= 10:
                             continue
-                            
                         else:
                             info.append(index)
                             print(index, 'etapa2', len(info))
                         
         except:
             continue
-    listaTotal(total)
-    return info
+    sqUpdate(acao)
+    selecionados(info)
 
-def listaTotal(lista):
+def selecionados(lista):
     import sqlite3
-    try:
-        con = sqlite3.connect('TopStocks.db')
-        cur = con.cursor()
-        for ticker in lista:
-            cur.execute('CREATE TABLE IF NOT EXISTS total(ticker, )')
-            
-    except: 
-        return 'ERRO LISTA TOTAL'
-        
+    con = sqlite3.connect('Selecionados.db')
+    cur = con.cursor()
+    cur.execute('CREATE TABLE IF NOT EXISTS selecionados(ticker text)')
+    print(lista)
+    for ticker in lista:
+        print(ticker)
+        cur.execute("INSERT INTO selecionados VALUES (?)", (ticker,))
+        con.commit()
+    con.close
+    return print('Selecionados atualizado')
 
-def test():
-    import fundamentus
-    import pandas as pd
-    d1 = fundamentus.get_resultado()
-    df = pd.DataFrame(d1)
-    for x in df.index:
-        if x == 'bbas3' or x == 'BBAS3':
-            print(df)
-    # df.to_csv(,)
+def selecionadosCard():
+    import sqlite3 
+    con = sqlite3.connect('Selecionados.db')
+    cur = con.cursor()
+    lista = []
     
-def highList(list):
-    
-    lt = []
-    for x in range(len(list)):
-          
-        tic = list[x]
+    cur.execute("SELECT ticker FROM Selecionados")
+    for x in cur:
+        x = sqlString(x)
+        con2 = sqlite3.connect('TopStocks.db')
+        cur2 = con2.cursor()
+        cur2.execute("SELECT * FROM Acoes WHERE ticker = (?) ORDER BY margin", (x,))
+        for y in cur2:
+            lista.append(y)
+    return lista
+        
+def coletaDados(x):
+    tic = x
+    try:
+        
         if '33' in tic or '5' in tic:
-            continue
+            pass
+        print("ETAPA 1")
         a = BasicData(tic)
+        print("ETAPA 2")
         acao = {
             'ticker':a.ticker,
             'name':a.Datas()['name'],
@@ -104,28 +100,35 @@ def highList(list):
             'dy_value':a.Datas()['dy_value'],
             'tag_along':a.Datas()['tag_along'],
             'roe':a.Datas()['roe'],
-            'margin':a.Margin(),
+            'margin':float(a.Margin()),
             'dy6':a.Dy()['dy6'],
             'dpa':a.Dy()['dpa'],
             'img':a.getImage(),
         }
-        
-        lt.append(acao)
-    return lt
+        print("ETAPA 3")
+        print("Retornando")
+        return acao
+    except:
+        pass
+    
 
-def sqUpdate():
+def sqUpdate(data):
+    data = list(data)
     import sqlite3
     con = sqlite3.connect('TopStocks.db')
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text, dpa text)")
-    
-    for x in (highList(highdy())):
+    for x in (data):
+        if x == None:
+            continue
+        print(x)
         cur.execute("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa']   ))
         con.commit()
         
     con.close()
 
 def refreshSQ():
+    
     import os
     try:
         os.remove('TopStocksBU.db')
@@ -136,27 +139,19 @@ def refreshSQ():
         pass
     sqUpdate()
     
-def Showsq():
-    import sqlite3
-    con = sqlite3.connect('TopStocks.db')
-    cur = con.cursor()
-    
-    cur.execute("SELECT ticker FROM Acoes")
-    for x in cur:
-        print(x)
-    con.close()
-        
 def getLocalData():
+    
+    import sqlite3
     try:
-        import sqlite3
         con = sqlite3.connect('TopStocks.db')
         cur = con.cursor()
+        cur.execute("SELECT * FROM Acoes ORDER BY margin")
         tickers = []
         cur.execute("SELECT * FROM Acoes")
         for x in cur:
             tickers.append(x)
         con.close()
-        return tickers
+        return list(tickers)
     except:
         con = sqlite3.connect('TopStocksBU.db')
         cur = con.cursor()
@@ -165,7 +160,7 @@ def getLocalData():
         for x in cur:
             tickers.append(x)
         con.close()
-        return tickers
+        return list(tickers)
 
 # Classe de coleta de dados
 
@@ -179,28 +174,15 @@ class BasicData():
         
     def Soup(self, args=None):
         try:
-            link = BasicData(self.ticker)
-            url = (link.links())
-            session = requests.Session()
-            page = session.get(url)
-            soup = BeautifulSoup(page.text, "lxml")
+            b = Browser()
+            b.set_handle_robots(False)
+            b.addheaders = [('Referer', 'https://statusinvest.com.br'), ('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+            b.open(f'{self.links()}')
+            page = b.response().read()
+            soup = BeautifulSoup(page, "html.parser")
             return soup
         except:
             return 'ERRO SOUP'
-        
-        # driver = webdriver.Chrome('chromedriver.exe') 
-        # website = self.links()
-        # driver.get(website) 
-        # html = driver.page_source
-        # soup = BeautifulSoup(html, "lxml")
-        # return soup
-    
-        # driver = webdriver.Chrome('chromedriver.exe') 
-        # website = self.links()
-        # driver.get(website) 
-        # html = driver.page_source
-        # soup = BeautifulSoup(html, "lxml")
-        # print(soup)
         
     def SoupP(self, args=None):
         try:
@@ -338,7 +320,7 @@ class BasicData():
             info['ri_page'] = self.ri
             info['div_liq'] = self.div_liq
             info['div_brt'] = self.div_brt
-            info['divliq_ebitda'] = self.divLiq_ebitda
+            info['divliq_ebitda'] = 0
             # info['buybakck_type'] = self.type
             # info['buyback_quantify'] = self.quantify
             # info['buyback_active'] = self.active
@@ -353,7 +335,6 @@ class BasicData():
             
         
     def fundamentalDatas(self):
-        
         
         self.soup = self.Soup() 
         self.soupP = self.SoupP()
@@ -425,8 +406,10 @@ class BasicData():
     def Margin(self):
         try:
             margin = ((self.Dy()['dpa'])/self.Datas()['value'] -1)*100
-            print(self.Dy()['dy6'], self.Datas()['value'])
-            return f'{margin:.2f}' + '%'
+            if margin < 0:
+                margin = margin * -1
+                return float(f'{margin:.2f}')
+            return float(f'{margin:.2f}')
         except:
             return 0
         
@@ -448,6 +431,3 @@ class BasicData():
                 return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
-    
-
-

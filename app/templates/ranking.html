@@ -7,7 +7,7 @@
     <!-- <meta http-equiv="refresh" content="30"> -->
     <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../static/ranking.css">
+    <link rel="stylesheet" href="../static/Ranking/css/ranking.css">
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
@@ -138,7 +138,7 @@
                             </div>
                             <div class="margin">
                                 <div class="margin_text">Margem de Segurança </div>
-                                <div class="margin_value">{{margin}}</div>
+                                <div class="margin_value">{{margin}}%</div>
                             </div>
                             <div class="dpa">
                                 <div class="dpa_text">DPA projetivo</div>
@@ -155,12 +155,7 @@
         </div>
     
     </div>
+    <script src="{{url_for('static', filename = '/Ranking/js/ranking.js')}}"></script>
 
-
-
-        
-        
-    <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="../static/script.js"></script>
 </body>
 </html>

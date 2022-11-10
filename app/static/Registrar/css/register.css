@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 *{
-    background-color: rgba(237, 234, 238);
     margin: 0;
     padding: 0;
     font-family: 'ROBOTO',sans-serif;
+}
+
+body{
+    background-image: linear-gradient(to bottom right, rgb(0, 132, 255), rgb(4, 0, 255));
+}
+
+
+body::-webkit-scrollbar { 
+    display: none;
 }
 
 .registerContent .sidebarLogo{
@@ -26,6 +34,7 @@
 }
 
 .registerContent{
+    position: fixed;
     background-color: #463D3D;
     height: 100vh;
     width: 750px;
@@ -57,7 +66,6 @@ li{
 
 .registerContent .auth .infos, li{
     background: #463D3D;
-    text-align: center;
     margin-top: 20px;
     font-size: 25px;
 }
@@ -67,28 +75,50 @@ ul {
 }
 
 .registerContent .auth{
-    margin-top: 25%;
     background: #463D3D;
 }
 
-input.input {
-    border-radius: 12px;
+.auth button {
+    width: 550px;
+    height: 40px;
+    border-radius: 12px
 }
 
-button {
-    width: 90px;
-    border-radius: 12px;
+.auth button:hover {
+    background: gray;
 }
 
 .registerContent .sidebarLogo, #python{
     background: #463D3D;
-    font-size: 30px;
+    font-size: 45px;
     color: white;
 }
 
-input[type=text] {
+.auth input{
+    border-radius: 12px;
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-  }
+    font-size: 20px;
+}
+
+.auth input::placeholder{
+    font-size: 20px;
+}
+
+.auth li .title{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+
+.auth .valid{
+    display: flex;
+    align-items: center;
+}
+
+.error-text{
+    color: red;
+}
