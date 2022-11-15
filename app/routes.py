@@ -6,14 +6,35 @@ from Registro import *
 Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
-@app.route('/')
-@app.route('/ranking')
+def validaDiferença(senha, email):
+    if(senha == None or email == None):
+        senha = request.cookies.get('senha')
+        email = request.cookies.get('email')
+
+    return email,senha
+
+@app.route('/', methods=['GET','POST'])
+@app.route('/ranking', methods=['GET','POST'])
 def ranking():
-    return render_template('ranking.html',stock = Acoes, qt = quantidade)
+
+    email = request.form.get("email")
+    senha  = request.form.get("senha")
+    senhas_cookie = validaDiferença(senha, email)
+
+    print(logar(senhas_cookie[0], senhas_cookie[1]))
+    if not logar(senhas_cookie[0], senhas_cookie[1]):
+        return render_template('login.html')
+    
+    user = retornDB(senhas_cookie[0], senhas_cookie[1])
+    return render_template('ranking.html',stock = Acoes, qt = quantidade, user = user)
     
 @app.route('/registrar')
 def regristrar():
     return render_template('register.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/autenticar', methods=['POST','POST'])
 def autenticar():
@@ -22,7 +43,6 @@ def autenticar():
     senha = request.form.get('senha')
     cpf = request.form.get('cpf')
     registrar(usuario,senha,email,cpf)
-
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():

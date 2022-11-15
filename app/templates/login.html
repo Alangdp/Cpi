@@ -19,13 +19,8 @@
             </div>
 
             <div class="auth">
-                <form action="/autenticar" class="formulario" method="post">
-                    <li>
-                        <div class="title"><h2>Usuario:</h2> </div>
-                        <div class="warning"></div>
-                        <input type="text" name="usuario" class="Usuario input" placeholder="Username">
-                    </li>
-                    
+                <form action="ranking" class="formulario" method="post">
+            
                     <li>
                         <div class="valid">
                             <div class="title"><h2>Email:</h2> </div>
@@ -39,26 +34,10 @@
                             <div class="title"><h2>Senha:</h2> </div>
                             <h3 class="warning password_warning"></h3>
                         </div>
-                        <input type="password" name="senha" class="Senha input" placeholder="*************"><br>
+                        <input type="password" name="senha" class="Senha input" placeholder="*************" id="senha"><br>
                     </li>
 
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Repetir Senha:</h2> </div>
-                            <h3 class="warning passwordrepeat_warning"></h3>
-                        </div>
-                        <input type="password" name="senha" class="Senha-Repetida input" placeholder="*************"><br>
-                    </li>
-
-                    <li>
-                        <div class="valid">
-                            <div class="title" ><h2>CPF:</h2> </div>
-                            <h3 class="warning cpf_warning"></h3>
-                        </div>
-                        <input type="text" name="cpf" class="CPF input" placeholder="000.000.000-00" maxlength="11" ><br>
-                    </li>
-
-                    <button type="submit" class="submit" >Registrar</button>
+                    <button type="submit" class="submit" >Entrar</button>
                 </form>
             </div>
         </ul>
@@ -66,6 +45,6 @@
     </div>
 
 </body>
-    <script src="{{url_for('static', filename = 'Registrar/js/register.js')}}"></script>
-    <script src="{{url_for('static', filename = 'Registrar/js/validaCPF.js')}}"></script>
+    <script src="{{url_for('static', filename = 'Login/js/login.js')}}"></script>
+    <script src="{{url_for('static', filename = 'Login/js/validaCPF.js')}}"></script>
 </html>

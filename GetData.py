@@ -1,7 +1,7 @@
 from calendar import c
 from bs4 import BeautifulSoup
 import requests
-import lxml, cchardet, shutil
+import lxml, shutil
 from mechanize import Browser
 # from selenium import webdriver
 

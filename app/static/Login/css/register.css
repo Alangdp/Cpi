@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'ROBOTO',sans-serif;
+}
+
+body{
+    background-image: linear-gradient(to bottom right, rgb(0, 132, 255), rgb(4, 0, 255));
+}
+
+
+body::-webkit-scrollbar { 
+    display: none;
+}
+
+.registerContent .sidebarLogo{
+    background-color: #463D3D;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left:  100;
+    text-align: center;
+    justify-content: center;
+}
+
+.registerContent .sidebarLogo .title{
+    background-color: #463D3D;
+    color: white;
+}
+
+.registerContent{
+    position: fixed;
+    background-color: #463D3D;
+    height: 100vh;
+    width: 750px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: auto;
+    position: relative;
+}
+
+ul {
+    background-color: #463D3D;
+}
+
+.registerContent .auth{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+}
+
+li{
+    color: white;
+}
+
+.auth{
+    background-color: red;
+    margin: 100px;
+}
+
+.registerContent .auth .infos, li{
+    background: #463D3D;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.registerContent .auth{
+    background: #463D3D;
+}
+
+.auth button {
+    width: 550px;
+    height: 40px;
+    border-radius: 12px
+}
+
+.auth button:hover {
+    background: gray;
+}
+
+.registerContent .sidebarLogo, #python{
+    background: #463D3D;
+    font-size: 45px;
+    color: white;
+}
+
+.auth input{
+    border-radius: 12px;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.auth input::placeholder{
+    font-size: 20px;
+}
+
+.auth li .title{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+
+.auth .valid{
+    display: flex;
+    align-items: center;
+}
+
+.error-text{
+    color: red;
+}

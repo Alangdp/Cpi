@@ -5,7 +5,8 @@ function setCookie(nome, valor) {
 class ValidaRegistro{
     constructor () {
 
-        this.formulario = document.querySelector(".formulario")
+        this.chargeInputs();
+        this.formulario = document.querySelector(".formulario");
         this.events();
     }
 
@@ -55,29 +56,28 @@ class ValidaRegistro{
         document.cookie = nome +'=; path=/ Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
     }
 
+    chargeInputs() {
+        const senha = document.getElementById('senha');
+        const email = document.getElementById('email');
+
+        senha.value = this.getCookie('senha');
+        email.value = this.getCookie('email');
+    }
+
     validaFormulario() {
         let valid = true;
 
         for(const erro of this.formulario.querySelectorAll('.error-text')) {
             erro.remove();
         }
-
         for(const campo of this.formulario.querySelectorAll('.input')){
             const labelName = campo.classList[0];
-            if(!campo.value){
-                this.createError(campo, `${labelName} não pode ficar vazio`);
+            if(!campo.value) {
+                this.createError(campo, `${labelName} não pode ficar vazio`)
                 valid = false;
             }
-
-            if(campo.classList.contains('CPF')) {
-                if(!this.validaCPF(campo)) valid = false;
-            }
-
-            if(campo.classList.contains('Usuario')){
-                if(!this.validaUsuario(campo)) valid = false;
-            }
-
         }
+
 
         return valid;
     }
@@ -85,48 +85,20 @@ class ValidaRegistro{
     isValidPassword(){
         let valid = true;
         const senha = this.formulario.querySelector('.Senha');
-        const repetirSenha = this.formulario.querySelector('.Senha-Repetida');
-
-        console.log()
-        if(senha.value !== repetirSenha.value) {
-            this.createError(senha, 'Campos repetir senha e senha precisam ser iguais');
-            valid = false;
-        }
+        const regex = /^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
 
         if(senha.value.length < 6 || senha.value.length > 12) {
             this.createError(senha, 'Senha precisa estar entre 6 e 12 caracteres');
             valid = false;
         }
-
-        return valid;
-
-    }
-
-    validaUsuario(campo) {
-        const usuario = campo.value;
-        let valid = true;
-        if(usuario.length > 12 || usuario.length < 3) {
-            this.createError(campo, 'Usuário precisa ter entre 3 e 12 caracteres')
-            valid = false;
-        }
-
-        if(!usuario.match(/[a-zA-Z0-9]+$/g)){
-            this.createError(campo, 'Nome de usuário precisa conter apenas letras e números')
-            valid = false;
-        }
-        return valid;
-    }
-
-    validaCPF(campo) {
-        let valid = true;
-        const cpf = new ValidaCPF(campo.value)
-
-        if(!cpf.VerificaCPF()) {
-            this.createError(campo, 'CPF inválido')
+        
+        if(!senha.value.match(regex)){
+            this.createError(senha, 'Senha inválida')
             valid = false;
         }
 
         return valid;
+
     }
 
     createError(campo, msg) {
