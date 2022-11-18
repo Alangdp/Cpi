@@ -1,4 +1,3 @@
-from calendar import c
 from bs4 import BeautifulSoup
 import requests
 import lxml, shutil
@@ -21,8 +20,11 @@ def formate_Number(x):
     return float(f'{formated:.2f}')
 
 def sqlString(valor):
-    string = ''.join(valor)
-    return string
+    try:
+        string = ''.join(valor)
+        return string
+    except:
+        return valor
 
 def highdy():
     acao = []

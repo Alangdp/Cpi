@@ -12,3 +12,20 @@ function detalhes(){
     }
 }
 
+function Deslogar() {
+    const botaoSair = document.getElementById('sair');
+
+    botaoSair.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        cleanCookie('email');
+        cleanCookie('senha');
+
+        window.location.replace("/");
+    })
+}
+
+function cleanCookie(nome) {
+    document.cookie = `${nome}=John Smith; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
+}
+Deslogar()

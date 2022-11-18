@@ -24,8 +24,11 @@ class ValidaRegistro{
 
         if(camposvalidos && senhasValidas) {
 
+            const usuario = this.formulario.querySelector('.Usuario').value;
             const senha  = this.formulario.querySelector('.Senha').value;
             const email = this.formulario.querySelector('.Email').value;
+            const cpf = this.formulario.querySelector('.CPF').value;
+
 
             this.cleanCookie('senha');
             this.cleanCookie('email')
@@ -34,8 +37,25 @@ class ValidaRegistro{
             setCookie('email', email);
 
 
-            this.formulario.submit();
+            if(this.postJSON(usuario,email,senha,cpf)) {
+                window.location.href = '/login';
+            }
         }
+    }
+
+    postJSON(usuario, email, senha, cpf){
+        axios.post('/validaregistro', { 
+            usuario : usuario,
+            email : email,
+            senha : senha,
+            cpf : cpf 
+        }).then( (succes) => {
+            alert('Registro concluido')
+            return true;
+        }).then( (err) => {
+            alert('Impossível concluir o registro, tente mais tarde')
+            return false;
+        })
     }
 
     getCookie(nome) {
@@ -138,3 +158,4 @@ class ValidaRegistro{
 }
 
 const valida = new ValidaRegistro();
+
