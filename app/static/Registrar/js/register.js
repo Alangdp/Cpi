@@ -1,5 +1,5 @@
 function setCookie(nome, valor) { 
-    document.cookie = nome + "=" + (valor || '') + "; expires=Fri, 31 Dec 9999 23:59:59 GMT" + "; path=/";
+    document.cookie = nome + "=" + (valor || '') + "; expires=Fri, 31 Dec 9999 23:59:59 GMT" + "; path=/ invisible";
 }
 
 class ValidaRegistro{
@@ -37,22 +37,23 @@ class ValidaRegistro{
             setCookie('email', email);
 
 
-            if(this.postJSON(usuario,email,senha,cpf)) {
-                window.location.href = '/login';
-            }
+            this.postJSON(usuario,email,senha,cpf)
+            
         }
     }
 
     postJSON(usuario, email, senha, cpf){
-        axios.post('/validaregistro', { 
+        axios.post('/validar', { 
             usuario : usuario,
             email : email,
             senha : senha,
-            cpf : cpf 
+            cpf : cpf,
+            action: 'registro'
         }).then( (succes) => {
             alert('Registro concluido')
+            window.location.href = "/login";
             return true;
-        }).then( (err) => {
+        }).catch( (err) => {
             alert('Impossível concluir o registro, tente mais tarde')
             return false;
         })
@@ -72,7 +73,7 @@ class ValidaRegistro{
     }
 
     cleanCookie(nome) {
-        document.cookie = nome +'=; path=/ Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+        document.cookie = nome +'=; path=/ Expires=Thu, 01 Jan 1970 00:00:00 GMT; ';
     }
 
     validaFormulario() {

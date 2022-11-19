@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="30"> -->
     <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/app/static/Ranking/css/ranking.css">
-    <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/Detalhes/css/details.css">
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
+     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
 
 </head>
 <body>
@@ -39,13 +39,13 @@
                 <!-- <li>
                     <i class='bx bx-search-alt' id="research"></i>
                     <input type="search" name="search" class="search" id="search"
-                    placeholder="    Procurar..." onkeyup="Search()">
+                    placeholder="    Procurar..." onkeyup="Search()">   
                     
                 </li> -->
                 <li>
                     <a href="#">
                         <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="console.log(getCurrentURL());">Home</span>
+                        <span class="links-name" onclick="mudaCord()">Home</span>
                     </a>
                 </li>
                 <li>
@@ -63,199 +63,134 @@
                 <li>
                     <a href="#" >
                         <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="getTicker()">Infos</span>
+                        <span class="links-name" onclick="detalhes()">Infos</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class='bx bx-menu' ></i>
+                        <i class='bx bx-menu' id="teste"></i>
                         <span class="links-name">Usuario</span>
                     </a>
                 </li>
-                <li id="addticker" class="links-name">
-                    <div class="icoName">
+
+                <li>
+                    <i class='bx bx-menu' ></i>
+                    <a href="#" > <strong class="name">{{user}}</strong></a>
+                </li>
+
+                <li>
+                    <a href="#" >
                         <i class='bx bx-menu' ></i>
-                        <span>Adicionar Ação</span>
-                    </div> 
-                    <input type="button" value="+" class="addbutton" onclick="getTicker()">
+                        <span class="links-name" ><button id="sair">Sair</button></span>
+                    </a>
                 </li>
                 
-                <li>
-                    <div class="anuncio">
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
-                            crossorigin="anonymous"></script>
-                        <!-- Teste -->
-                        <ins class="adsbygoogle"
-                            style="display:block"
-                            data-ad-client="ca-pub-5601274938223308"
-                            data-ad-slot="4521666220"
-                            data-ad-format="auto"
-                            data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </li>
+                
+                <div class="anuncio">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+                        crossorigin="anonymous"></script>
+                    <!-- Teste -->
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-5601274938223308"
+                        data-ad-slot="4521666220"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </ul>
         </div>
-        {% block content %}
-            {% set name = infos['name']%}
-            {% set ticker = infos['ticker']%}
-            {% set listing = sinfo['listing']%}
-            {% set subsetor = sinfo['segment']%}
-            {% set ibov = sinfo['ibov']%}
-            {% set market_value = sinfo['market_value']%}
-            {% set volume = sinfo['volume']%}
-            {% set acoesemitidas = sinfo['paperM']%}
-            {% set end_value = sinfo['end']%}
-            {% set div_brt = infos['div_brt']%}
-            {% set div_liq = infos['div_liq']%}
-            <div class="gridDetail " id="gridDetail">
-                <div class="initialInfo">
 
-                    <div class="rowline">
-                        <div class="gridInit">
-                            <div class="logo"> <img src="https://static.guiainvest.com.br//Images/Ativo/sem_logo_120.gif" alt=""></div>
-                            <div class="info">
-                                <div class="name"><strong>{{name}}</strong></div>
-                                <div class="ticker"> {{ticker}}</div>
-                            </div>
-                        </div>
-
-                        <div class="gridInit">
-                            <div class="segmento">
-                                <div class="title">Segmento Listagem Bovespa</div>
-                                <div class="text"><strong>{{listing}}</strong></div>
-                            </div>
-
-                        </div>
-
-                        <div class="gridInit">
-                            <div class="subSetor">
-                                <div class="title">Subsetor Bovespa</div>  
-                                <div class="text"><strong>{{subsetor}}</strong></div>
-                            </div>
-
-                        </div>
-
-                        <div class="gridInit">
-                            <div class="partIbov">
-                                <div class="title">Particip. no Ibov</div>
-                                <div class="text"><strong>{{ibov}}</strong></div>
+        <div class="detalhes">
+            <div class="column">
+                <div class="first-card">
+    
+                    <div class="simple-card">
+                        <div class="center">
+                            <img src="https://www.sindsegsp.org.br/site//content/images/noticias/637291106091039050.png" alt="" class="circle">
+                            <div class="column-content cent-column">
+                                <div class="name-b">Caixa seguridade</div>
+                                <div class="name-t">CXSE3</div>
                             </div>
                         </div>
                     </div>
+    
+                    <div class="simple-card">
+                        <div class="center">
+                            <div class="column-content cent-column" >
+                                <div class="name-t">Segmento Listagem Bovespa</div>
+                                <div class="name-b">Novo Mercado</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="center">
+                            <div class="column-content cent-column" >
+                                <div class="name-t">Subsetor Bovespa</div>
+                                <div class="name-b">Previdência e seguros</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="center">
+                            <div class="column-content cent-column" >
+                                <div class="name-t">Particip. no Ibov</div>
+                                <div class="name-b">-</div>
+                            </div>
+                        </div>
+                    </div>
+    
                 </div>
 
-                <div class="gridInfos">
-
-                    <div class="grid">
+                <div class="stock-infos">
+                    <div class="cards">
+                        <div class="title"> <h2>Indicadores de Valores e Volumes</h2></div>
                         
-                        <div class="content">
-                            <div class="title">Indicadores de Valores e Volumes</div>
-                            <span class="cross"></span>
-                            <div class="row">
-                                <div class="titles">
-                                    <div class="text">Valor de Mercado(Milhões)</div>
-                                    <div class="text">Cotação de Fechamento(R$)</div>
-                                    <div class="text">Volume Médio Diário Três meses(mil)</div>
-                                    <div class="text">Ações emitidas(Milhões)</div>
-                                </div>
+                        <div class="teste">
 
-                                <div class="values">
-                                    <div class="value" id="valordemercado"> R${{market_value}}</div>
-                                    <div class="value">R$ {{end_value}}</div>
-                                    <div class="value">{{volume}}</div>
-                                    <div class="value">{{acoesemitidas}}</div>
-                                </div>
+                            <div class="row">
+                                <div class="col name-b">Valores(RS$)</div>
+                                <div class="col rowL">RS123123</div>
                             </div>
-                        </div>
-                    </div>
+                            <div class="line"></div>
 
-                    <div class="grid">
-                        
-                        <div class="content">
-                            <div class="title">Indicadores de Caixa e Endividamento</div>
                             <div class="row">
-                                <div class="titles">
-                                    <div class="text">Div. Bruta 12 meses(R$)</div>
-                                    <div class="text">Div. Liquida 12 meses(R$)</div>
-                                    <div class="text">Dívida Líquida EBITDA 12 meses(vezes)</div>
-                                    <div class="text">Caixa 12 meses(mil)</div>
-                                </div>
+                                <div class="col name-b">Valores(RS$)</div>
+                                <div class="col rowL">RS123123</div>
+                            </div>
+                            <div class="line"></div>
 
-                                <div class="values">
-                                    <div class="value" id="valordemercado"> <nobr>R$ {{div_brt}}</nobr></div>
-                                    <div class="value"><nobr>R$ {{div_liq}}</nobr> </div>
-                                    <div class="value">{{volumemediodiario}}</div>
-                                    <div class="value">{{acoesemitidas}}</div>
-                                </div>
+                            <div class="row">
+                                <div class="col name-b">Valores(RS$)</div>
+                                <div class="col rowL">RS123123</div>
+                            </div>
+                            <div class="line"></div>
+
+                            <div class="row">
+                                <div class="col name-b">Valores(RS$)</div>
+                                <div class="col rowL">RS123123</div>
                             </div>
                             
+
                         </div>
+
                     </div>
+                    <div class="cards">
+                        <div class="title"> <h3>Indicadores de Valores e Volumes</h3></div>
 
-                    <div class="grid">
-                        
-                        <div class="content">
-                            <div class="title">Indicadores de Avaliação</div>
-                            <div class="row">
-                                <div class="titles">
-                                    <div class="text">Preço teto para 6%(R$)</div>
-                                    <div class="text">Diferença entre Preço de Mercado e Preço Teto (R$)</div>
-                                    <div class="text">Preço de Mercado /Preço Teto(%)</div>
-                                </div>
-
-                                <div class="values">
-                                    <div class="value" id="valordemercado">R$ {{dy6}}</div>
-                                    <div class="value">R$ {{dy6_dif}}</div>
-                                    <div class="value">{{margin}}</div>
-                                </div>
-                            </div>
-                            
-                        </div>
                     </div>
+                    <div class="cards">
+                        <div class="title"> <h3>Indicadores de Valores e Volumes</h3></div>
 
-                    <div class="grid">
-                        
-                        <div class="content">
-                            <div class="title">Indicadores de Rentabilidade</div>
-                            <div class="row">
-                                <div class="titles">
-                                    <div class="text">Projeção de Lucro(R$ Milhões)</div>
-                                    <div class="text">projeção de Lucro por Ação(R$)</div>
-                                    <div class="text">Lucro Líquido 12 meses(R$ mil)</div>
-                                    <div class="text">Lucro p/Ação 12 mese(R$)</div>
-                                    <div class="text">Valor Patrimonial por Ação(R$)</div>
-                                    <div class="text">P/VP</div>
-
-
-
-                                </div>
-
-                                <div class="values">
-                                    <div class="value" id="valordemercado">R$ {{pgl}}</div>
-                                    <div class="value">R$ {{pgla}}</div>
-                                    <div class="value">{{ll_12}}</div>
-                                    <div class="value" id="valordemercado">R$ {{lpa_12}}</div>
-                                    <div class="value">R$ {{vpa}}</div>
-                                    <div class="value">{{p_vpa}}</div>
-                                </div>
-                            </div>
-                            
-                        </div>
                     </div>
 
                 </div>
             </div>
-        {% endblock content %}
-    
+        </div>
     </div>
-
-
-
-        
-        
-
 </body>
-</html>

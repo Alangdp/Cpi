@@ -8,45 +8,68 @@ Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
 
-def validaDiferença(senha, email):
+def validaDiferença(senha = None, email = None):
     if(senha == None or email == None):
         senha = request.cookies.get('senha')
         email = request.cookies.get('email')
 
     return email,senha
 
+
+def isLogged():
+    senhas_cookie = validaDiferença()
+
+    email = senhas_cookie[0]
+    senha = senhas_cookie[1]
+    user = retornDB(senhas_cookie[0], senhas_cookie[1])
+
+    if not logar(senhas_cookie[0], senhas_cookie[1]):
+        print('A')
+        return False , user
+    else:
+        print('B')
+        return True ,  user
+        
 @app.route('/', methods=['GET','POST'])
 @app.route('/ranking', methods=['GET','POST'])
 def ranking():
-    email = request.form.get("email")
-    senha  = request.form.get("senha")
-    senhas_cookie = validaDiferença(senha, email)
-
-    print(logar(senhas_cookie[0], senhas_cookie[1]))
-    if not logar(senhas_cookie[0], senhas_cookie[1]):
+    par = isLogged()
+    if not par[0]:
         return render_template('login.html')
-        
-    user = retornDB(senhas_cookie[0], senhas_cookie[1])
-    return render_template('ranking.html',stock = Acoes, qt = quantidade, user = user)
+    else:
+        return render_template('ranking.html',stock = Acoes, qt = quantidade, user = par[1])
     
 @app.route('/registrar')
 def regristrar():
-        return render_template('register.html')
-    
-@app.route('/validaregistro', methods=['GET','POST'])
-def validaregistro():
+        return render_template('register.html', )
 
+@app.route('/validar', methods=['GET','POST'])
+def validar():
     json_dados = request.get_json('usuario')
-    usuario = json_dados['usuario']
-    email = json_dados['email']
-    senha = json_dados['senha']
-    cpf = json_dados['cpf']
 
-    if(validaPost(usuario,email,senha,cpf)):
-        registrar(usuario,senha,email,cpf)
-        return redirect('/registrar', code=302)
-    else:
-        return redirect('/registrar', code=304)
+    if json_dados['action'] == 'registro':
+        usuario = json_dados['usuario']
+        email = json_dados['email'] 
+        senha = json_dados['senha']
+        cpf = json_dados['cpf']
+
+        if(validaPostR(usuario,email,senha,cpf)):
+            registrar(usuario,senha,email,cpf)
+            return redirect('/registrar', code=302)
+        else:
+            return redirect('/registrar', code=304)
+    
+    if json_dados['action'] == 'login':
+        email = json_dados['email']
+        senha = json_dados['senha']
+
+        if(validaPostL(email, senha)):
+            if(logar(email, senha)):
+                return redirect('/registrar', code=302)
+            else:
+                return redirect('/registrar', code=304)
+        else:
+            return redirect('/registrar', code=304)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -55,9 +78,11 @@ def login():
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
-    lt = {}
-    ticker = request.args.get('ticker')
-    ticker.upper()
-    stock = GetData.BasicData(ticker)
-    return render_template('details.html', infos = stock.Datas(), sinfo = stock.fundamentalDatas(), infosBB = stock.buyBack())
+    par = isLogged()
+    if not par[0]:
+        return render_template('login.html')
+    else:
+        return render_template('details.html',user = par[1])
+
+    
     

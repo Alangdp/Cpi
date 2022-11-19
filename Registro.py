@@ -32,30 +32,47 @@ def logar(email= '', senha = ''):
             for password_sql in cur.fetchall():
                 password_sql = sqlString(password_sql)
                 if password_sql == senha:
+                    con.close()
                     return True
+
     con.close()
+    return False
 
 def retornDB(email = '', senha = ''):
     con = sqlite3.connect("Usuarios.db")
     cur = con.cursor()
-
-
     cur.execute("SELECT email FROM usuarios")
-    for email_sql in cur.fetchall():
-        email_sql = sqlString(email_sql)
-        if email_sql == '' or email_sql == None:
-            print(email_sql)
-            con.execute("DELETE FROM usuarios WHERE email = ?", (email_sql,))
-            con.commit()
-    con.close()
-        
+    try:
+        for emailSQL in cur:
+            emailSQL = sqlString(emailSQL)
+            if email == emailSQL:
+                cur.execute("SELECT password FROM usuarios")
+                for senhaSQL in cur:
+                    senhaSQL = sqlString(senhaSQL)
+                    if senha == senhaSQL:
+                        cur.execute("SELECT user FROM usuarios WHERE email =?", (email, ))
+                        for user in cur:
+                            user = sqlString(user)
+                            return user
+                            con.close()
+    except:
+        con.close()
+
+
+
 def fecharDB():
     con = sqlite3.connect("Usuarios.db")
     cur = con.cursor()
     con.close()
 
-def validaPost(usuario = '', email = '',senha = '' , cpf = ''):
+def validaPostR(usuario = '', email = '',senha = '' , cpf = ''):
     if usuario == '' or email == '' or senha == '' or cpf == '':
+        return false
+    else:
+        return True
+
+def validaPostL(email = '', senha = '' ):
+    if email == '' or senha == '':
         return false
     else:
         return True

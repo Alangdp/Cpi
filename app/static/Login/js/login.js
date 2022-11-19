@@ -35,8 +35,23 @@ class ValidaRegistro{
             setCookie('email', email);
 
 
-            this.formulario.submit();
+            this.postJSON(email, senha)
         }
+    }
+
+    postJSON(email, senha){
+        axios.post('/validar', { 
+            email : email,
+            senha : senha,
+            action: 'login'
+        }).then( (succes) => {
+            alert('Login concluido')
+            window.location.href = "/ranking";
+            return true;
+        }).catch( (err) => {
+            alert('Senha ou Email, Invalidos!')
+            return false;
+        })
     }
 
     getCookie(nome) {

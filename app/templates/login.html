@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/Registrar/css/register.css">
+    <link rel="stylesheet" href="../static/Login/css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
     <title>CPI</title>
@@ -39,12 +39,18 @@
 
                     <button type="submit" class="submit" >Entrar</button>
                 </form>
+
+                <div class="nao-tem-conta">
+                    <a href="/registrar"><h3>Não tem conta?</h3></a>
+                </div>
+
             </div>
         </ul>
         
     </div>
 
 </body>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="{{url_for('static', filename = 'Login/js/login.js')}}"></script>
     <script src="{{url_for('static', filename = 'Login/js/validaCPF.js')}}"></script>
 </html>
