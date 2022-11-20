@@ -24,13 +24,14 @@ def isLogged():
     user = retornDB(senhas_cookie[0], senhas_cookie[1])
 
     if not logar(senhas_cookie[0], senhas_cookie[1]):
-        print('A')
         return False , user
     else:
-        print('B')
         return True ,  user
         
 @app.route('/', methods=['GET','POST'])
+def main():
+    return render_template('main.html')
+
 @app.route('/ranking', methods=['GET','POST'])
 def ranking():
     par = isLogged()

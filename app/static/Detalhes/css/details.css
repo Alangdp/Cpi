@@ -392,13 +392,14 @@ body{
     height: 100vh;
     width: Calc(100% - 300px);
     margin-left: 300px;
+    background: rgb(237, 234, 238);;
+
 }
 
 .detalhes .column {
     display: flex;
     flex-direction: column;
     position: absolute;
-    background: rgb(237, 234, 238);;
 }
 
 .detalhes .first-card {
@@ -433,10 +434,12 @@ body{
 .name-b {
     font-weight: bold;
     font-size: 22px;
+    white-space: nowrap;
 }
 
 .name-t {
     font-size: 22px;
+    white-space: nowrap;
 }
 
 .cent-column {
@@ -474,14 +477,9 @@ body{
     display: flex;
     flex-direction: column;
     height: Calc(100% - 54px);
-    width: 95%;
+    width: 100%;
 }
 
-
-.col {
-    flex: 1; 
-    padding: 1em;
-}
 
 .line {
     display: flex;
@@ -493,10 +491,48 @@ body{
     margin: 8px 2vh;
 }
 
-.row {
-    display: flex;
+.line:last-of-type {
+    margin-bottom: 4vh;
 }
 
-.rowL {
-    margin-left: 24vh;
+.value {
+    color: #3efa9c;
+    font-weight: bold;
+}
+
+.valueM {
+    color: #ffdc17;
+    font-weight: bold;
+}
+
+.valueR {
+    color: #35c6f7;
+    font-weight: bold;
+}
+
+.cont {
+    display: flex;
+    margin-left: 2vh;
+}
+
+.left {
+    display: flex;
+    width: 56%;
+    float: left;
+    flex-direction: row;
+    align-items: center;
+}
+
+.right {
+    width: 37%;
+    float: right;
+    display: flex;
+    justify-content: flex-end;;
+    
+}
+
+.name-bc {
+    font-size: 17px;
+    font-weight: bold;
+    white-space: pre-wrap;
 }
