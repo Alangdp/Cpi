@@ -30,7 +30,6 @@ w3lib==2.0.1
 webencodings==0.5.1
 requests-cache==0.9.6
 wsproto==1.2.0
-requests-cache==0.9.7
 itemadapter==0.7.0
 pyOpenSSL==22.1.0
 Scrapy==2.7.1
