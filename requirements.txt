@@ -85,4 +85,6 @@ MarkupSafe==2.1.1
 pycparser==2.21
 cffi==1.15.1
 outcome==1.2.0
-Twisted==22.10.0
+channels==3.0.3
+daphne==3.0.1
+Twisted==21.2.0
