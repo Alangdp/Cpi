@@ -1,8 +1,4 @@
 
-function setCookie(nome, valor) { 
-    document.cookie = nome + "=" + (valor || '') + "; expires=Fri, 31 Dec 9999 23:59:59 GMT" + "; path=/ ";
-}
-
 class ValidaRegistro{
     constructor () {
 
@@ -27,16 +23,8 @@ class ValidaRegistro{
         if(camposvalidos && senhasValidas) {
 
             const senha  = this.formulario.querySelector('.Senha').value;
-            const email = this.formulario.querySelector('.Email').value;
-
-            console.log(senha,email)
-
-            setCookie('senha', senha);
-            setCookie('email', email);
-
-
+            const email = this.formulario.querySelector('.Email').value.toLowerCase();
             this.postJSON(email,senha)
-            
         }
     }
 
@@ -53,23 +41,6 @@ class ValidaRegistro{
             alert('Senha ou Email, Invalidos!')
             return false;
         })
-    }
-
-    getCookie(nome) {
-        var cookieName = nome + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) ==' ') c = c.substring(1,c.length);
-            if (c.indexOf(cookieName) == 0) return c.substring(cookieName.length, c.length);
-
-        }
-
-        return null;
-    }
-
-    cleanCookie(nome) {
-        document.cookie = nome +'=; path=/ Expires=Thu, 01 Jan 1970 00:00:00 GMT; ';
     }
 
     validaFormulario() {

@@ -18,10 +18,10 @@ function Deslogar() {
     botaoSair.addEventListener('click', (e) => {
         e.preventDefault();
         
-        cleanCookie('email');
-        cleanCookie('senha');
+        axios.post('/validar', { action: 'logout'})
+        .then( (succes) => {window.location.href = "/login";})
+        .catch( (err) => {window.location.href = "/login";})
 
-        window.location.replace("/login");
     })
 }
 

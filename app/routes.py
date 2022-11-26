@@ -1,6 +1,5 @@
 from app import app
-from flask import request, redirect, url_for, render_template, Flask
-from flask_session import Session
+from flask import request, redirect, url_for, render_template, Flask, g, session
 import sqlite3
 import GetData
 from Registro import *
@@ -8,25 +7,30 @@ import json
 Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
+def baseSession():
+    session['email'] = 'none'
+    session['senha'] = 'none'
+    session['logged'] = False
 
-def validaDiferença(senha = None, email = None):
-    if(senha == None or email == None):
-        senha = request.cookies.get('senha')
-        email = request.cookies.get('email')
 
-    return email,senha
 
 def isLogged():
-    senhas_cookie = validaDiferença()
+    try:
+        email = session['email']
+        senha = session['senha']
+        user = retornDB(email, senha)
 
-    email = senhas_cookie[0]
-    senha = senhas_cookie[1]
-    user = retornDB(senhas_cookie[0], senhas_cookie[1])
+        if 'logged' in session:
+            if session['logged'] == True:
+                return True, user
+            else:
+                return False, user
 
-    if not logar(senhas_cookie[0], senhas_cookie[1]):
-        return False , user
-    else:
-        return True ,  user
+        else:
+            return False, user
+    except:
+        baseSession()
+        return None, None
         
 @app.route('/', methods=['GET','POST'])
 def main():
@@ -34,11 +38,11 @@ def main():
 
 @app.route('/ranking', methods=['GET','POST'])
 def ranking():
-    par = isLogged()
-    if not par[0]:
-        return redirect(url_for('login'))
+    info = isLogged()
+    if info[0]:
+        return render_template('ranking.html',stock = Acoes, qt = quantidade, user = info[1])
     else:
-        return render_template('ranking.html',stock = Acoes, qt = quantidade, user = par[1])
+        return redirect(url_for('login'))
     
 @app.route('/registrar')
 def regristrar():
@@ -60,16 +64,30 @@ def validar():
             return redirect('/registrar', code=304)
     
     if json_dados['action'] == 'login':
+        if 'email' in session:
+            session.pop('email', None)
+        if 'senha' in session:
+            session.pop('senha', None)
         email = json_dados['email']
         senha = json_dados['senha']
-
         if(validaPostL(email, senha)):
             if(logar(email, senha)):
-                return redirect('/registrar', code=302)
+                session['email'] = email
+                session['senha'] = senha
+                session['logged'] = True
+                return redirect(url_for('ranking'))
             else:
-                return redirect('/registrar', code=304)
+                session['logged'] = False
+                return redirect('/login', code=304)
         else:
             return redirect('/registrar', code=304)
+
+    if json_dados['action'] == 'logout':
+        print('teste')
+        session.pop('email', 'None')
+        session.pop('senha', 'None')
+        session['logged'] = False
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -78,9 +96,9 @@ def login():
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
-    par = isLogged()
-    if not par[0]:
-        return render_template('login.html')
+    info = isLogged()
+    if info[0] == True:
+        return render_template('details.html',user = info[1])
     else:
-        return render_template('details.html',user = par[1])
+        return redirect(url_for('login'))
 
