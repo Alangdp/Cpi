@@ -11,46 +11,42 @@
 </head>
 <body>
 
-    <div class="registerContent">
-        <ul>
-            <div class="sidebarLogo">
-                <div class="title">CPI</div>
-                <i class='bx bxl-python' id="python"></i>
+    <div class="content">
+
+        <div class="register">
+            <div class="title" >
+                <a href="" style="display: flex; align-items: center; color: white; text-decoration: none;">
+                    <h2>CPI</h2>
+                    <i class='bx bxl-python'></i>
+                </a>
             </div>
 
-            <div class="auth">
-                <form action="" class="formulario" method="post">
-            
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Email:</h2> </div>
-                            <h3 class="warning email_warning"></h3>
-                        </div>
-                        <input type="email" name="email" class="Email input" id="email" placeholder="Email@gmail.com"> <br>
-                    </li>
-                    
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Senha:</h2> </div>
-                            <h3 class="warning password_warning"></h3>
-                        </div>
-                        <input type="password" name="senha" class="Senha input" placeholder="*************" id="senha"><br>
-                    </li>
-
-                    <button type="submit" class="submit" >Entrar</button>
-                </form>
-
-                <div class="nao-tem-conta">
-                    <a href="/registrar"><h3>Não tem conta?</h3></a>
-                </div>
-
-            </div>
-        </ul>
+            <div class="column">
+                    <label for="" class="text-in">Email</label>
+                    <label for="" class="field">
+                        <input type="email" class="Email"></input>
+                        <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                    </label>
         
-    </div>
+                    <label for="" class="text-in">Senha</label>
+                    <label for="" class="field">
+                        <input type="password" class="Senha"></input>
+                        <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                    </label>
+    
+                    <button type="submit" class="registrar">Logar</button>
+    
+                    <a href="/registrar" style="font-size: 20px; display:flex;justify-content: center; margin-top: 8px; color:white;">Não tem conta?</a>
+    
+            </div>
 
+        </div>
+
+
+    </div>
 </body>
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="{{url_for('static', filename = 'Login/js/login.js')}}"></script>
     <script src="{{url_for('static', filename = 'Login/js/validaCPF.js')}}"></script>
+    
 </html>

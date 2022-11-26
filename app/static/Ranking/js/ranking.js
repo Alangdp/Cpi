@@ -21,7 +21,7 @@ function Deslogar() {
         cleanCookie('email');
         cleanCookie('senha');
 
-        window.location.replace("/");
+        window.location.replace("/login");
     })
 }
 

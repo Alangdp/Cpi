@@ -67,21 +67,23 @@ def linkToSoup_selenium(l, ecx=None, clickFirst=None, strictMode=False, tmout=25
     except Exception as e:
         print(str(e))
         return str(e) if returnErr else None
-        
+
 soup = linkToSoup_selenium(
     'https://statusinvest.com.br/acoes/petr4', 
-    clickFirst='//strong[@data-item="avg_F"]', # it actually just has to scroll, not click [but I haven't added an option for that yet], 
+    clickFirst='//strong[@data-item="avg_F"]',# it actually just has to scroll, not click [but I haven't added an option for that yet], 
     ecx='//strong[@data-item="avg_F"][text()!="-"]' # waits till this loads
 )
 if soup is not None:
-    {
+    print({
         t.find_previous_sibling().get_text(' ').strip(): t.get_text(' ').strip()
         for t in soup.select('div#payout-section span.title + strong.value')
-    }
+    })
 
 payout = soup.select_one('#payout-section[data-company][data-code]')
 if payout:
     compId, dCode = payout.get('data-company'), payout.get('data-code')
-    apiUrl = f'https://statusinvest.com.br/acao'
+    apiUrl = f'https://statusinvest.com.br/bbas3'
     apiUrl = f'{apiUrl}/payoutresult?code={dCode}&companyid={compId}&type=0'
 
+headers = {'content-type': 'application/json'}
+print(requests.get(apiUrl, headers=headers).json())

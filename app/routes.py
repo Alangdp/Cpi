@@ -1,5 +1,6 @@
 from app import app
 from flask import request, redirect, url_for, render_template, Flask
+from flask_session import Session
 import sqlite3
 import GetData
 from Registro import *
@@ -14,7 +15,6 @@ def validaDiferença(senha = None, email = None):
         email = request.cookies.get('email')
 
     return email,senha
-
 
 def isLogged():
     senhas_cookie = validaDiferença()
@@ -36,7 +36,7 @@ def main():
 def ranking():
     par = isLogged()
     if not par[0]:
-        return render_template('login.html')
+        return redirect(url_for('login'))
     else:
         return render_template('ranking.html',stock = Acoes, qt = quantidade, user = par[1])
     
@@ -47,7 +47,6 @@ def regristrar():
 @app.route('/validar', methods=['GET','POST'])
 def validar():
     json_dados = request.get_json('usuario')
-
     if json_dados['action'] == 'registro':
         usuario = json_dados['usuario']
         email = json_dados['email'] 
@@ -85,5 +84,3 @@ def detalhes():
     else:
         return render_template('details.html',user = par[1])
 
-    
-    

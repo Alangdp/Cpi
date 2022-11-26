@@ -11,67 +11,66 @@
 </head>
 <body>
 
-    <div class="registerContent">
-        <ul>
-            <div class="sidebarLogo">
-                <div class="title">CPI</div>
-                <i class='bx bxl-python' id="python"></i>
+    <div class="content">
+
+        <div class="register">
+            <div class="title" >
+                <a href="" style="display: flex; align-items: center; color: white; text-decoration: none;">
+                    <h2>CPI</h2>
+                    <i class='bx bxl-python'></i>
+                </a>
             </div>
 
-            <div class="auth">
-                <form action="" class="formulario" method="post">
-                    <li>
-                        <div class="title"><h2>Usuario:</h2> </div>
-                        <div class="warning"></div>
-                        <input type="text" name="usuario" class="Usuario input" placeholder="Username">
-                    </li>
-                    
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Email:</h2> </div>
-                            <h3 class="warning email_warning"></h3>
-                        </div>
-                        <input type="email" name="email" class="Email input" id="email" placeholder="Email@gmail.com"> <br>
-                    </li>
-                    
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Senha:</h2> </div>
-                            <h3 class="warning password_warning"></h3>
-                        </div>
-                        <input type="password" name="senha" class="Senha input" placeholder="*************"><br>
-                    </li>
+            <div class="column">
 
-                    <li>
-                        <div class="valid">
-                            <div class="title"><h2>Repetir Senha:</h2> </div>
-                            <h3 class="warning passwordrepeat_warning"></h3>
-                        </div>
-                        <input type="password" name="senha" class="Senha-Repetida input" placeholder="*************"><br>
-                    </li>
+                <label for="" class="text-in">Usuario</label>
+                <label for="" class="field">
+                    <input type="text" class="Usuario"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
+    
+                <label for="" class="text-in">Email</label>
+                <label for="" class="field">
+                    <input type="email" class="Email"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
+    
+                <label for="" class="text-in">Senha</label>
+                <label for="" class="field">
+                    <input type="password" class="Senha"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
+    
+                <label for="" class="text-in">Repetir Senha</label>
+                <label for="" class="field">
+                    <input type="password" class="Senha-Repetida"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
+    
+                <label for="" class="text-in" >CPF</label>
+                <label for="" class="field">
+                    <input type="text" class="CPF"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
 
-                    <li>
-                        <div class="valid">
-                            <div class="title" ><h2>CPF:</h2> </div>
-                            <h3 class="warning cpf_warning"></h3>
-                        </div>
-                        <input type="text" name="cpf" class="CPF input" placeholder="000.000.000-00" maxlength="11" ><br>
-                    </li>
+                <button type="submit" class="registrar">Registrar</button>
 
-                    <button type="submit" class="submit" >Registrar</button>
-                </form>
-
-                <div class="tem-conta">
-                    <a href="/login"><h3>Já tem conta?</h3></a>
-                </div>
-                
+                <a href="/login" style="font-size: 20px; display:flex;justify-content: center; margin-top: 8px; color:white;">Já tem conta?</a>
             </div>
-        </ul>
-        
+
+
+
+
+            
+
+
+        </div>
+
+
     </div>
-
 </body>
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="{{url_for('static', filename = 'Registrar/js/register.js')}}"></script>
     <script src="{{url_for('static', filename = 'Registrar/js/validaCPF.js')}}"></script>
+    
 </html>

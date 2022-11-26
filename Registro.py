@@ -1,12 +1,12 @@
 import sqlite3
 from GetData import sqlString
-
 def criaDB():
     con = sqlite3.connect("Usuarios.db")
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS usuarios (user TEXT , password TEXT , email TEXT UNIQUE, cpf TEXT UNIQUE)")
     con.close()
-    
+criaDB()
+
 def registrar(nome = None ,senha = None ,email = None, cpf = None):
     email = str(email).lower()
     con = sqlite3.connect("Usuarios.db")
