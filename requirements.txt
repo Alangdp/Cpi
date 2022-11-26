@@ -1,7 +1,5 @@
-soupsieve==2.3.2.post1
 cssselect==1.2.0
 jsonschema==4.17.1
-=======
 Flask==2.2.2
 html5lib==1.1
 fundamentus==0.2.0
