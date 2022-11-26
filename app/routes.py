@@ -1,5 +1,5 @@
 from app import app
-from flask import request, redirect, url_for, render_template, Flask, g, session
+from flask import request, redirect, url_for, render_template, Flask, g, session, make_response
 import sqlite3
 import GetData
 from Registro import *
@@ -11,8 +11,7 @@ def baseSession():
     session['email'] = 'none'
     session['senha'] = 'none'
     session['logged'] = False
-
-
+    session['admin'] = 'False'
 
 def isLogged():
     try:
@@ -31,7 +30,23 @@ def isLogged():
     except:
         baseSession()
         return None, None
-        
+
+def usuariosRegistrados():
+    con = sqlite3.connect('Usuarios.db')
+    cur = con.cursor()
+    dados = []
+    cur.execute("SELECT * FROM usuarios")
+    for x in cur:
+        dados.append({
+            'user': x[0],
+            'password': x[1],
+            'email': x[2],
+            'cpf': x[3],
+        })
+    return dados
+    
+usuariosRegistrados()
+
 @app.route('/', methods=['GET','POST'])
 def main():
     return render_template('main.html')
@@ -83,11 +98,26 @@ def validar():
             return redirect('/registrar', code=304)
 
     if json_dados['action'] == 'logout':
-        print('teste')
         session.pop('email', 'None')
         session.pop('senha', 'None')
         session['logged'] = False
+        session['admin'] = 'false'
         return redirect(url_for('login'))
+
+    if json_dados['action'] == 'admin':
+        email = json_dados['email']
+        senha = json_dados['senha']
+        print(email, senha, session)
+
+        if email != 'admin@gmail.com':
+            return make_response(304)
+        else:
+            if senha != '(Alant34t)':
+                return make_response(304)
+            else:
+                session['admin'] = 'True'
+                return redirect(url_for('admin'))
+                
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -101,4 +131,10 @@ def detalhes():
         return render_template('details.html',user = info[1])
     else:
         return redirect(url_for('login'))
+
+@app.route('/admin', methods=['GET', 'Post'])
+def admin():
+    isLogged()
+    data = usuariosRegistrados()
+    return render_template('admin.html', admin = session['admin'], data = data, qtd = len(data))
 

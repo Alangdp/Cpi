@@ -26,8 +26,8 @@ class ValidaRegistro{
         if(camposvalidos && senhasValidas) {
 
             const usuario = this.formulario.querySelector('.Usuario').value;
-            const senha  = this.formulario.querySelector('.Senha').value.lowerCase();
-            const email = this.formulario.querySelector('.Email').value.lowerCase();
+            const senha  = this.formulario.querySelector('.Senha').value;
+            const email = this.formulario.querySelector('.Email').value.toLowerCase();
             const cpf = this.formulario.querySelector('.CPF').value;
 
 

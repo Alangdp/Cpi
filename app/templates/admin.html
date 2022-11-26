@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/Admin/css/admin.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
+    <title>CPI</title>
+</head>
+<body>
+    {% if admin == 'True' %}
+    <div class="content" id="content">
+
+        <div class="mobileSidebar">
+            <a href="/ranking">
+                <div class="msdLogo">
+                    <div class="title">CIP</div>
+                    <i class='bx bxl-python' id="python"></i>
+                </div>
+            </a>
+                <i class='bx bx-menu' id="menum"></i>
+
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebarLogo">
+                <div class="title">CIP</div>
+                <i class='bx bxl-python' id="python"></i>
+            </div>
+            
+            <ul class="menu">
+
+                <!-- <li>
+                    <i class='bx bx-search-alt' id="research"></i>
+                    <input type="search" name="search" class="search" id="search"
+                    placeholder="    Procurar..." onkeyup="Search()">   
+                    
+                </li> -->
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" onclick="mudaCord()">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ranking">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Ranking</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Renda Fixa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" >
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" onclick="detalhes()">Infos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' id="teste"></i>
+                        <span class="links-name">Usuario</span>
+                    </a>
+                </li>
+
+                <li>
+                    <i class='bx bx-menu' ></i>
+                    <a href="#" > <strong class="name">Admin    </strong></a>
+                </li>
+
+                <li>
+                    <i class='bx bx-menu' onclick="Deslogar()"></i>
+                    <h2 style="color: white; cursor: pointer;" id="sair" onclick="Deslogar()">Sair</h2>
+                </li>
+                
+            </ul>
+
+            
+        </div>
+
+        <div class="ContentGrid">
+            <div class="card">
+                <div class="title">
+                    <h2>Usuarios Registrados</h2>
+
+                </div>
+
+                <div class="column">
+                    <div class="table">
+                        {% for x in range(0, qtd) %}
+
+                            <div class="row">{{data[x]['user']}}</div>
+                            <div class="row">{{data[x]['email']}}</div>
+                            <div class="rowP">{{data[x]['password']}}</div>
+                            <div class="row">{{data[x]['cpf']}}</div>
+                        {% endfor%}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+            </div>
+
+            <div class="card">
+
+            </div>
+
+            <div class="card">
+
+            </div>
+
+        </div>
+    {% else %}
+        <div class="contentL">
+
+            <div class="register">
+                <div class="title" >
+                    <a href="" style="display: flex; align-items: center; color: white; text-decoration: none;">
+                        <h2>CPI</h2>
+                        <i class='bx bxl-python'></i>
+                    </a>
+                    
+                </div>
+
+                <div class="column">
+                        <h3 style="color: white;">ADMIN LOGIN</h3>
+
+                        <label for="" class="text-in">Email</label>
+                        <label for="" class="field">
+                            <input type="email" class="Email"></input>
+                            <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                        </label>
+            
+                        <label for="" class="text-in">Senha</label>
+                        <label for="" class="field">
+                            <input type="password" class="Senha"></input>
+                            <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                        </label>
+        
+                        <button type="submit" class="registrar">Logar</button>
+        
+                        <a href="/registrar" style="font-size: 20px; display:flex;justify-content: center; margin-top: 8px; color:white;">Não tem conta?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+        
+
+
+    </div>
+</body>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="{{url_for('static', filename = 'Admin/js/admin.js')}}"></script>
+    
+</html>
