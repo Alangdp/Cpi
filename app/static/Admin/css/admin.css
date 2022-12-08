@@ -549,7 +549,7 @@ body{
 .ContentGrid .card {
     border-radius: 12px;
     width: 98%;
-    overflow: auto;
+    overflow-y: scroll;
     background: rgb(252, 252, 252);
 }
 
@@ -569,7 +569,7 @@ body{
 }
 
 .row {
-    overflow: scroll;
+    overflow: hidden;
     display: flex;
     align-items: center;
 }

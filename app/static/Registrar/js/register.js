@@ -1,7 +1,3 @@
-function setCookie(nome, valor) { 
-    document.cookie = nome + "=" + (valor || '') + "; expires=Fri, 31 Dec 9999 23:59:59 GMT" + "; path=/ invisible";
-}
-
 class ValidaRegistro{
     constructor () {
 
@@ -10,11 +6,16 @@ class ValidaRegistro{
     }
 
     events() {
+        document.addEventListener('keydown', (e) => {
+            if(e.key == `Enter`) {
+                this.handleSubmit()
+            }
+        })
+
         const registrar = this.formulario.querySelector('.registrar')
         registrar.addEventListener('click', (e) => {
             this.handleSubmit(e);
-            
-            
+        
         })
     }
 
@@ -30,16 +31,9 @@ class ValidaRegistro{
             const email = this.formulario.querySelector('.Email').value.toLowerCase();
             const cpf = this.formulario.querySelector('.CPF').value;
 
-
-            this.cleanCookie('senha');
-            this.cleanCookie('email')
-
-            setCookie('senha', senha);
-            setCookie('email', email);
-
-
             this.postJSON(usuario,email,senha,cpf)
-            
+        } else {
+            alert(`Algumma informacao invalida`);
         }
     }
 
@@ -141,15 +135,14 @@ class ValidaRegistro{
         const senhaRepetida = this.formulario.querySelector('.Senha-Repetida');
         const regex = /^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
 
-        if(senha.value.length < 6 || senha.value.length > 12) {
-            this.createError(senha), this.createError(senhaRepetida);
+        if(senha.value.length < 8 || senha.value.length > 12) {
+            this.createError(senha), this.createError(senhaRepetida);   
             valid = false;
         }
         
         if(senha.value !== senhaRepetida.value) {
             this.createError(senha), this.createError(senhaRepetida);
             valid = false;
-
         }
 
         if(!senha.value.match(regex)){

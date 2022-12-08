@@ -2,6 +2,7 @@ from threading import Thread
 from GetData import *
 import sqlite3
 import fundamentus
+# Prototipo de uso de threads para auxilar na velocidade do refresh.
 
 def threads(n):
     db = fundamentus.get_resultado()
@@ -16,8 +17,6 @@ def getDatas(tickers, thread_name):
         print(ticker, thread_name)
         stock_info.append(coletaDados(ticker))
     print(stock_info)
-
-
 
 def activeThreads(fragmentos):
     cont = 0

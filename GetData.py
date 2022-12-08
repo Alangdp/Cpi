@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import lxml, shutil
 from mechanize import Browser
+import threading, fundamentus
 # from selenium import webdriver
 
 # Global Methods
@@ -49,11 +50,9 @@ def highdy():
                             continue
                         else:
                             info.append(index)
-                            print(index, 'etapa2', len(info))
-                        
+                            print(index, 'etapa2', len(info))              
         except:
             continue
-    sqUpdate(acao)
     selecionados(info)
 
 def selecionados(lista):
@@ -91,9 +90,7 @@ def coletaDados(x):
         
         if '33' in tic or '5' in tic:
             pass
-        print("ETAPA 1")
         a = BasicData(tic)
-        print("ETAPA 2")
         acao = {
             'ticker':a.ticker,
             'name':a.Datas()['name'],
@@ -107,8 +104,7 @@ def coletaDados(x):
             'dpa':a.Dy()['dpa'],
             'img':a.getImage(),
         }
-        print("ETAPA 3")
-        print("Retornando")
+        print(f'Retornado {tic}')
         return acao
     except:
         pass
@@ -395,7 +391,7 @@ class BasicData():
                 info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
                 info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
                 info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
-                info['actual_dy'] = f"{(df['cotacao'][index])*(df['dy'][index])/df['dy'][index]:.2f}"
+                info['actual_dy'] = f"{((df['cotacao'][index])*(df['dy'][index]))/df['dy'][index]:.2f}"
                 if df['dy'][index] > 15 and df['dy'][index] < 20:
                     temp_dy = df['dy'][index] - 5
                 if df['dy'][index] > 20:

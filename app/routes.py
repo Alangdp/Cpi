@@ -7,12 +7,14 @@ import json
 Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
+# Cria uma session vazia, para evitar erros
 def baseSession():
     session['email'] = 'none'
     session['senha'] = 'none'
     session['logged'] = False
     session['admin'] = 'False'
 
+# verifica se está logado
 def isLogged():
     try:
         email = session['email']
@@ -23,7 +25,7 @@ def isLogged():
             if session['logged'] == True:
                 return True, user
             else:
-                return False, user
+                return False, user  
 
         else:
             return False, user
@@ -31,6 +33,7 @@ def isLogged():
         baseSession()
         return None, None
 
+# Retorna algumas informações dos usuarios para teste!! SERA REMOVIDO
 def usuariosRegistrados():
     con = sqlite3.connect('Usuarios.db')
     cur = con.cursor()
@@ -44,13 +47,12 @@ def usuariosRegistrados():
             'cpf': x[3],
         })
     return dados
-    
-usuariosRegistrados()
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/home')
 def main():
     return render_template('main.html')
 
+@app.route('/', methods=['GET','POST'])
 @app.route('/ranking', methods=['GET','POST'])
 def ranking():
     info = isLogged()
@@ -63,9 +65,19 @@ def ranking():
 def regristrar():
         return render_template('register.html', )
 
+@app.route('/home')
+def home():
+    info = isLogged()
+    if info[0]:
+        return render_template('home.html', user = info[1])
+    else: 
+        return redirect(url_for('login'))
+
+# valida registros/logins/admin
 @app.route('/validar', methods=['GET','POST'])
 def validar():
     json_dados = request.get_json('usuario')
+    print(json_dados)
     if json_dados['action'] == 'registro':
         usuario = json_dados['usuario']
         email = json_dados['email'] 
@@ -101,7 +113,6 @@ def validar():
         session.pop('email', 'None')
         session.pop('senha', 'None')
         session['logged'] = False
-        session['admin'] = 'false'
         return redirect(url_for('login'))
 
     if json_dados['action'] == 'admin':
@@ -117,7 +128,10 @@ def validar():
             else:
                 session['admin'] = 'True'
                 return redirect(url_for('admin'))
-                
+
+    if json_dados['action'] == 'logoutAdmin':
+        session['admin'] = 'false'
+        return redirect(url_for('admin'))
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -137,4 +151,3 @@ def admin():
     isLogged()
     data = usuariosRegistrados()
     return render_template('admin.html', admin = session['admin'], data = data, qtd = len(data))
-

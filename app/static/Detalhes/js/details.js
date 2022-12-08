@@ -1,1 +1,4 @@
-alert('teste')
+alert('ESTA PÁGINA ESTA EM DESENVOLVIMENTO')
+alert('AINDA NÃO HÁ ATUALIZAÇÃO DINÂMICA')
+alert('SE TRATA DE UM EXEMPLO FUTURO')
+

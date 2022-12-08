@@ -8,10 +8,14 @@ class ValidaRegistro{
 
     events() {
         const registrar = this.formulario.querySelector('.registrar')
+        document.addEventListener('keydown', (e) => {
+            if(e.key == `Enter`) {
+                this.handleSubmit()
+            }
+        })
+
         registrar.addEventListener('click', (e) => {
             this.handleSubmit(e);
-            
-            
         })
     }
 
@@ -24,7 +28,9 @@ class ValidaRegistro{
 
             const senha  = this.formulario.querySelector('.Senha').value;
             const email = this.formulario.querySelector('.Email').value.toLowerCase();
-            this.postJSON(email,senha)
+            this.postJSON(email,senha);
+        } else {
+            alert(`Alguma informacao inválida`);
         }
     }
 

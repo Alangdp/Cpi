@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="30"> -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../static/Home/css/home.css">
+    <title>CIP</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+     crossorigin="anonymous"></script>
+     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
+
+</head>
+<body>
+    <div class="content" id="content">
+
+        <div class="mobileSidebar">
+            <a href="/ranking">
+                <div class="msdLogo">
+                    <div class="title">CIP</div>
+                    <i class='bx bxl-python' id="python"></i>
+                </div>
+            </a>
+                <i class='bx bx-menu' id="menum"></i>
+
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebarLogo">
+                <div class="title">CIP</div>
+                <i class='bx bxl-python' id="python"></i>
+            </div>
+            
+            <ul class="menu">
+
+                <!-- <li>
+                    <i class='bx bx-search-alt' id="research"></i>
+                    <input type="search" name="search" class="search" id="search"
+                    placeholder="    Procurar..." onkeyup="Search()">   
+                    
+                </li> -->
+                <li>
+                    <a href="/home">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" >Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ranking">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Ranking</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name">Renda Fixa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" >
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" onclick="detalhes()">Infos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-menu' id="teste"></i>
+                        <span class="links-name">Usuario</span>
+                    </a>
+                </li>
+
+                <li>
+                    <i class='bx bx-menu' ></i>
+                    <a href="#" > <strong class="name">{{user}}</strong></a>
+                </li>
+
+                <li>
+                    <a href="#" >
+                        <i class='bx bx-menu' ></i>
+                        <span class="links-name" ><button id="sair">Sair</button></span>
+                    </a>
+                </li>
+                
+                
+                <div class="anuncio">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
+                        crossorigin="anonymous"></script>
+                    <!-- Teste -->
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-5601274938223308"
+                        data-ad-slot="4521666220"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </ul>
+
+            <div class="gridContent">
+            </div>
+        </div>
+    </div>
+</body>

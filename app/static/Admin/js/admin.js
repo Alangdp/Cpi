@@ -57,10 +57,9 @@ function detalhes(){
 }
 
 function Deslogar() {
-    axios.post('/validar', { action: 'logout'})
+    axios.post('/validar', { action: 'logoutAdmin'})
     .then( (succes) => window.location.href = '/admin')
     .catch( (err) => true)
-    
 }
 
 function cleanCookie(nome) {

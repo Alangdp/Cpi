@@ -304,6 +304,10 @@ body{
 
 }
 
+.sidebar ul li a .name:hover {
+    color: black;
+}
+
 .sidebar ul li a .links-name:hover{
     color: black;
     font-size: 25px;
