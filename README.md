@@ -10,3 +10,4 @@ Correções:
 
 1. Possiveis falhas no sistema de login [ ]
 2. Implementar a criptografia no sistema de login usando md5 [ ]
+3. Dinamização das páginas [ ]
