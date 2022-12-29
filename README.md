@@ -9,5 +9,5 @@ Futuras Atualizações:
 Correções:
 
 1. Possiveis falhas no sistema de login [ ]
-2. Implementar a criptografia no sistema de login usando md5 [ ]
-3. Dinamização das páginas [ ]
+2. Implementar a criptografia no sistema de login usando md5 [ x ] - usado sha256
+3. Dinamização das páginas [ x ] - todas as páginas até o momento
