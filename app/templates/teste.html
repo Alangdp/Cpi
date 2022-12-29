@@ -1,135 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="refresh" content="30"> -->
-    <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
-    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../static/ranking.css">
-    <script src="{{url_for('static', filename = 'script.js')}}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="../static/script.js"></script>
-    <title>CIP</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
-     crossorigin="anonymous"></script>
-</head >
-<body onload="recalculateScale()">
-    <div class="content" id="content">
+    <title>Document</title>
+</head>
+<body>
+    <div class="content">
+        <form action="">
+            <input type="text">
+            <button type="submit"></button>
+        </form>
 
-        <div class="sidebar">
-            <div class="sidebarLogo">
-                <div class="title">CIP</div>
-                <i class='bx bxl-python' id="python"></i>
-            </div>
-            
-            <ul class="menu">
-
-                <li>
-                    <i class='bx bx-search-alt' id="research"></i>
-                    <input type="search" name="search" class="search" 
-                    placeholder="    Procurar...">
-                    
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="console.log(getCurrentURL());">Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name">Ranking</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name">Renda Fixa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" >
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="getTicker()">Infos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name">Usuario</span>
-                    </a>
-                </li>
-                <li id="addticker" class="links-name">
-                    <div class="icoName">
-                        <i class='bx bx-menu' ></i>
-                        <span>Adicionar Ação</span>
-                    </div> 
-                    <input type="button" value="+" class="addbutton" onclick="getTicker()">
-                </li>
-                
-            </ul>
-        </div>
-
-        <div class="gridContent " id="gridContent">
-            {% for i in range(1,qt) %}
-                {% set numero = i %}
-                {% set name = stock[i][1]%}
-                {% set ticker = stock[i][0]%}
-                {% set dy = stock[i][3]%}
-                {% set mdi = 'wip' %}
-                {% set hidhprice = stock[i][8]%}
-                {% set value = stock [i][2]%}
-                {% set margin = stock [i][7]%}
-                <div class="card">
-                    <p class="ranking">Ranking {{numero}}</p>
-                    <div class="stocInfo">
-                        <div class="stockticker">{{ticker}}</div>
-                        <div class="stockName">{{name}}</div>
-                
-
-                        <img class="circle" src="https://statusinvest.com.br/img/company/cover/408.jpg?v=6"></img>
-                
-                        <div class="secondInfo">
-                            <div class="stockDy">
-                                <div class="stockdy_text">DY</div>
-                                <div class="dy_value">{{dy}}%</div>
-                            </div>
-                        <div class="mdi">{{mdi}}</div>
-                        </div>
-                        <div class="highprice">
-                            <div class="highPrice_text">PreçoTeto</div>
-                            <div class="highprice_value">{{hidhprice}}</div>
-                        </div>
-                        <div class="value">
-                            <div class="value_text">Cotação</div>
-                            <div class="value_value"> {{value}}</div>
-                        </div>
-                        <div class="margin">
-                            <div class="margin_text">Margem de Segurança </div>
-                            <div class="margin_value">{{margin}}</div>
-                        </div>
-                        <div class="dpa">
-                            <div class="dpa_text">DPA projetivo</div>
-                            <div class="dpa_value">50</div>                </div>
-                    </div>
-                    <div class="complements">
-                        <div class="mdi_text">MDI</div>
-                        <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-                    </div>
-                </div> 
-            {% endfor %}
-
-        </div>
-    
     </div>
-
-
-
-        
-        
-
 </body>
 </html>

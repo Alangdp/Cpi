@@ -1,7 +1,6 @@
 from app import app
 from flask import request, redirect, url_for, render_template, Flask, g, session, make_response
-import sqlite3
-import GetData
+import sqlite3, GetData, fundamentus
 from Registro import *
 import json
 Acoes = GetData.selecionadosCard()
@@ -26,14 +25,12 @@ def isLogged():
                 return True, user
             else:
                 return False, user  
-
         else:
             return False, user
     except:
         baseSession()
         return None, None
 
-# Retorna algumas informações dos usuarios para teste!! SERA REMOVIDO
 def usuariosRegistrados():
     con = sqlite3.connect('Usuarios.db')
     cur = con.cursor()
@@ -59,7 +56,7 @@ def ranking():
     if info[0]:
         return render_template('ranking.html',stock = Acoes, qt = quantidade, user = info[1])
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('detalhes'))
     
 @app.route('/registrar')
 def regristrar():
@@ -76,8 +73,7 @@ def home():
 # valida registros/logins/admin
 @app.route('/validar', methods=['GET','POST'])
 def validar():
-    json_dados = request.get_json('usuario')
-    print(json_dados)
+    json_dados = request.get_json()
     if json_dados['action'] == 'registro':
         usuario = json_dados['usuario']
         email = json_dados['email'] 
@@ -107,7 +103,7 @@ def validar():
                 session['logged'] = False
                 return redirect('/login', code=304)
         else:
-            return redirect('/registrar', code=304)
+            return make_response(304)
 
     if json_dados['action'] == 'logout':
         session.pop('email', 'None')
@@ -133,10 +129,19 @@ def validar():
         session['admin'] = 'false'
         return redirect(url_for('admin'))
 
+    if json_dados['action'] == 'validaTicker':
+        ticker = (json_dados['ticker']).upper()
+        acoes = fundamentus.get_resultado()
+        for tick in acoes.index:
+            if tick == ticker:
+                return make_response(302)
+            else:
+                continue
+        return make_response(304)
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     return render_template('login.html')
-    
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():

@@ -1,5 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
+@media screen and (min-width: 375px){  
+  .register {
+    width: 350px !important;
+    margin-top: 50px !important; 
+  }
+
+  .register .text-in {
+    font-size: 18px !important;
+    margin-top: 0px !important;
+  }
+
+  .register .field {
+    max-height: 25px;
+  }
+
+  .register .title {
+    position: relative !important;
+    margin-top: 20px !important;
+  }
+}
+
+@media screen and (min-height: 740px){  
+  .register .title {
+    position: relative !important;
+    margin-top: 20px !important;
+  }
+
+  .register .text-in {
+    margin-top: 0px !important;
+  }
+}
+
 *{
     overflow: hidden;
     color: whi;
@@ -135,7 +167,6 @@ button:hover {
 
 
 body {
-  margin-top: 13.5rem;
   color: #999;
   font: 400 16px/1.5 exo, ubuntu, "segoe ui", helvetica, arial, sans-serif;
   text-align: center;
