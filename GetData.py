@@ -86,28 +86,29 @@ def selecionadosCard():
         
 def coletaDados(x):
     tic = x
-    try:
-        
-        if '33' in tic or '5' in tic:
-            pass
-        a = BasicData(tic)
-        acao = {
-            'ticker':a.ticker,
-            'name':a.Datas()['name'],
-            'value':a.Datas()['value'],
-            'dy_porcent':a.Datas()['dy_porcent'],
-            'dy_value':a.Datas()['dy_value'],
-            'tag_along':a.Datas()['tag_along'],
-            'roe':a.Datas()['roe'],
-            'margin':float(a.Margin()),
-            'dy6':a.Dy()['dy6'],
-            'dpa':a.Dy()['dpa'],
-            'img':a.getImage(),
-        }
-        print(f'Retornado {tic}')
-        return acao
-    except:
+    if '33' in tic or '5' in tic:
         pass
+    stock = BasicData(tic)
+    data = stock.Datas()
+    dy = stock.Dy()
+    # ERRO NO DB BLOCK LH CLASS
+
+    info = {
+        'ticker':stock.ticker,
+        'name':data['name'],
+        'value':data['value'],
+        'dy_porcent':data['dy_porcent'],
+        'dy_value':data['dy_value'],
+        'tag_along':data['tag_along'],
+        'roe':data['roe'],
+        'margin':float(stock.Margin()),
+        'dy6':dy['dy6'],
+        'dpa':dy['dpa'],
+        'img':stock.getImage(),
+    }
+
+    print(f'Retornado {tic}')
+    return info
     
 
 def sqUpdate(data):
@@ -125,18 +126,6 @@ def sqUpdate(data):
         
     con.close()
 
-def refreshSQ():
-    
-    import os
-    try:
-        os.remove('TopStocksBU.db')
-        shutil.copy('TopStocks.db','TopStocksBU.db')
-        os.remove('TopStocks.db')
-        sqUpdate()
-    except:
-        pass
-    sqUpdate()
-    
 def getLocalData():
     
     import sqlite3

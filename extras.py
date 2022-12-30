@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 
 def linkToSoup_selenium(l, ecx=None, clickFirst=None, strictMode=False, tmout=25, returnErr=False):
     # pass strictMode=True if you don't want to continue when ecx/clickFirst can't be loaded/clicked
