@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
-import requests
-import lxml, shutil
 from mechanize import Browser
-import threading, fundamentus
+from extras import comandoSQL
+import threading, fundamentus, lxml, shutil, requests
 # from selenium import webdriver
 
 # Global Methods
@@ -28,17 +27,12 @@ def sqlString(valor):
         return valor
 
 def highdy():
-    acao = []
-    total = []
-    info = []
-    import fundamentus
+    total = [], info = []
     df = fundamentus.get_resultado()
     for index in df.index:  
         try:
             print(index, len(info))
             print(index, 'etapa 1', len(info))
-            total.append(index)
-            acao.append(coletaDados(str(index)))
             stock = BasicData(index)
             print(df['dy'][index], df['mrgliq'][index])
             if (( not (df['dy'][index]  > 0.5 or df['dy'][index] < 0.06)) and df['mrgliq'][index] >= 0):
@@ -55,60 +49,72 @@ def highdy():
             continue
     selecionados(info)
 
+def filtraMelhores():
+    selecionadosValido = [] 
+    df = fundamentus.get_resultado()
+    for ticker in df.index:
+        try:
+            stock = BasicData(ticker)
+            data = stock.Datas()
+            if not (df['dy'][ticker] > 0.5 or df['dy'][ticker] < 0.05): continue
+            elif df['mrgliq'][ticker] <= 0: continue
+            elif stock.Margin() > 100: continue
+            elif data['p_vp'] > 2.5 and data['pl'] > 15: continue
+            elif data['payout'] <= 10: continue
+            else: selecionadosValido.append(ticker)
+        except:
+            continue
+    selecionados(selecionadosValido)
+        
 def selecionados(lista):
-    import sqlite3
-    con = sqlite3.connect('Selecionados.db')
-    cur = con.cursor()
-    cur.execute('CREATE TABLE IF NOT EXISTS selecionados(ticker text)')
-    print(lista)
+    comandoSQL("UPDATE Acoes set filtered = False = ?", (ticker, ))
     for ticker in lista:
-        print(ticker)
-        cur.execute("INSERT INTO selecionados VALUES (?)", (ticker,))
-        con.commit()
-    con.close
-    return print('Selecionados atualizado')
+        comandoSQL("UPDATE Acoes set filtered = True WHERE ticker = ?", (ticker, ))
+    
 
 def selecionadosCard():
-    import sqlite3 
-    con = sqlite3.connect('Selecionados.db')
-    cur = con.cursor()
     lista = []
     
-    cur.execute("SELECT ticker FROM Selecionados")
-    for x in cur:
-        x = sqlString(x)
-        con2 = sqlite3.connect('TopStocks.db')
-        cur2 = con2.cursor()
-        cur2.execute("SELECT * FROM Acoes WHERE ticker = (?) ORDER BY margin", (x,))
-        for y in cur2:
-            lista.append(y)
-    return lista
+    tickers = comandoSQL("SELECT ticker FROM Acoes WHERE filtered = ?", ("True",))
+    for tickerSet in tickers:
+        tickerString = sqlString(tickerSet)
+        infos = comandoSQL("SELECT * FROM Acoes WHERE ticker = (?) ORDER BY CAST(margin as REAL)", (tickerString,))
+        lista = [info for info in infos]
+        return lista
+
         
 def coletaDados(x):
+    listaDeErros = []
     tic = x
-    if '33' in tic or '5' in tic:
+    try:
+        
+        if '33' in tic or '5' in tic:
+            pass
+        stock = BasicData(tic)
+        data = stock.Datas()
+        dy = stock.Dy()
+
+        # ERRO NO DB BLOCK LH CLASS
+
+        info = {
+            'ticker':stock.ticker,
+            'name':data['name'],
+            'value':data['value'],
+            'dy_porcent':data['dy_porcent'],
+            'dy_value':data['dy_value'],
+            'tag_along':data['tag_along'],
+            'roe':data['roe'],
+            'margin':float(stock.Margin()),
+            'dy6':dy['dy6'],
+            'dpa':dy['dpa'],
+            'img':stock.getImage(),
+        }
+
+        print(f'Retornado {tic}')
+        return info
+    except:
+        listaDeErros.append(tic)
         pass
-    stock = BasicData(tic)
-    data = stock.Datas()
-    dy = stock.Dy()
-    # ERRO NO DB BLOCK LH CLASS
-
-    info = {
-        'ticker':stock.ticker,
-        'name':data['name'],
-        'value':data['value'],
-        'dy_porcent':data['dy_porcent'],
-        'dy_value':data['dy_value'],
-        'tag_along':data['tag_along'],
-        'roe':data['roe'],
-        'margin':float(stock.Margin()),
-        'dy6':dy['dy6'],
-        'dpa':dy['dpa'],
-        'img':stock.getImage(),
-    }
-
-    print(f'Retornado {tic}')
-    return info
     
 
 def sqUpdate(data):
@@ -319,8 +325,6 @@ class BasicData():
         
         return info
         
-            
-        
     def fundamentalDatas(self):
         
         self.soup = self.Soup() 
@@ -399,7 +403,7 @@ class BasicData():
             return float(f'{margin:.2f}')
         except:
             return 0
-        
+            
     def getImage(self):
         self.soup = self.Soup()
         

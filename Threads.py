@@ -1,24 +1,15 @@
 from threading import Thread
-from GetData import *
-from Registro import comandoSQL
-import sqlite3
+from GetData import coletaDados, filtraMelhores
+from extras import comandoSQL
+import sqlite3, time
 import fundamentus
 # Prototipo de uso de threads para auxilar na velocidade do refresh.
 
-def comandoSQL(comando, argumentos):
-    con = sqlite3.connect("teste.db")
+def criaDB():
+    con = sqlite3.connect("Stocks.db")
     cur = con.cursor()
-    cur.execute(comando, argumentos)
-    print(cur.description)
-    if cur.description:
-        retorno = cur.fetchall()
-        con.close()
-        if retorno == []:
-            retorno = [0]
-        return retorno
-    else:
-        con.commit()
-        con.close()
+    cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text, dpa text, filtered text )")
+    con.close()
 
 def threads(n):
     db = fundamentus.get_resultado()
@@ -26,15 +17,24 @@ def threads(n):
     return fragmentos
 
 def getDatas(tickers, thread_name):
+    inicioTempo = time.time()
     stock_info = []
+    cont = 0
+    total = len(tickers.index)
     for ticker in tickers.index:
-        print(ticker, thread_name)
+        cont += 1
+        print(ticker, thread_name, cont, (cont - total))
         stock_info.append(coletaDados(ticker))
-    setBancoDados(stock_info)
+    setBancoDados(stock_info, inicioTempo)
     
-def setBancoDados(lista):
+def setBancoDados(lista,tempo):
     for x in lista:
-        comandoSQL("INSERT INTO teste VALUES(?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa']   ))
+        if x == None:
+            continue
+        comandoSQL("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False' ,))
+    fimTempo = time.time()
+    print(f"TEMPO DE EXECUÇÃO: {fimTempo - tempo}")
+    
 
 def activeThreads(fragmentos):
     cont = 0
@@ -42,9 +42,13 @@ def activeThreads(fragmentos):
         Thread(target=getDatas, args=(fragmentos[cont], f'Thread-{cont + 1}')).start()
         cont += 1
 
-fragmentos = threads(30)
-activeThreads(fragmentos)
+def atualizaDB():
+    criaDB()
+    fragmentos = threads(70)
+    activeThreads(fragmentos)
+    filtraMelhores()
 
 
+atualizaDB()
 
 

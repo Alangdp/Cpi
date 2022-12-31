@@ -2,6 +2,7 @@ from app import app
 from flask import request, redirect, url_for, render_template, Flask, g, session, make_response
 import sqlite3, GetData, fundamentus
 from Registro import *
+from extras import *
 import json
 Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
@@ -114,30 +115,16 @@ def validar():
     if json_dados['action'] == 'admin':
         email = json_dados['email']
         senha = json_dados['senha']
-        print(email, senha, session)
 
-        if email != 'admin@gmail.com':
-            return make_response(304)
+        if email != 'admin@gmail.com' and senha != '(Alant34t)': return make_response(304)
         else:
-            if senha != '(Alant34t)':
-                return make_response(304)
-            else:
-                session['admin'] = 'True'
-                return redirect(url_for('admin'))
+            session['admin'] = 'True'
+            return redirect(url_for('admin'))
 
     if json_dados['action'] == 'logoutAdmin':
         session['admin'] = 'false'
         return redirect(url_for('admin'))
 
-    if json_dados['action'] == 'validaTicker':
-        ticker = (json_dados['ticker']).upper()
-        acoes = fundamentus.get_resultado()
-        for tick in acoes.index:
-            if tick == ticker:
-                return make_response(302)
-            else:
-                continue
-        return make_response(304)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -145,11 +132,12 @@ def login():
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
-    info = isLogged()
-    if info[0] == True:
-        return render_template('details.html',user = info[1])
-    else:
-        return redirect(url_for('login'))
+    ticker = request.args.get('ticker')
+    info = isLogged() 
+    validTicker = isTicker(ticker)
+    print(validTicker)
+    if info[0] == True: return render_template('details.html',user = info[1], valid = validTicker, ticker = ticker)
+    else: return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'Post'])
 def admin():

@@ -1,12 +1,6 @@
 function detalhes(){
     var ticker = prompt("Digite o ticker: ")
-    
-    axios.post('/validar', { 
-        action: 'validaTicker',
-        ticker,
-    })
-        .then( (succes) => {window.href = `/detalhes?=${ticker}`})
-        .catch( (err) => alert("Ticker inválido"))
+    window.location.href = `/detalhes?ticker=${ticker} `
 }
 
 function Deslogar() {
@@ -22,7 +16,4 @@ function Deslogar() {
     })
 }
 
-function cleanCookie(nome) {
-    document.cookie = `${nome}=John Smith; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
-}
 Deslogar()
