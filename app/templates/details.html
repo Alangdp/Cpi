@@ -104,6 +104,7 @@
         </div>
 
         <div class="detalhes">
+        {% block content %}
             <div class="column">
 
 
@@ -114,10 +115,10 @@
         
                         <div class="simple-card">
                             <div class="center">
-                                <img src="https://www.sindsegsp.org.br/site//content/images/noticias/637291106091039050.png" alt="" class="circle">
-                                <div class="column-content cent-column">
-                                    <div class="name-b">Caixa seguridade</div>
-                                    <div class="name-t">CXSE3</div>
+                                <img src="{{img}}" alt="" class="circle">
+                                <div class="column-content cent-column"> 
+                                    <div class="name-b">{{data['name']}}</div>
+                                    <div class="name-t">{{data['ticker']}}</div>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +127,7 @@
                             <div class="center">
                                 <div class="column-content cent-column" >
                                     <div class="name-t">Segmento Listagem Bovespa</div>
-                                    <div class="name-b">Novo Mercado</div>
+                                    <div class="name-b">{{fundamentalData['listing']}}</div>
                                 </div>
                             </div>
                             
@@ -136,7 +137,7 @@
                             <div class="center">
                                 <div class="column-content cent-column" >
                                     <div class="name-t">Subsetor Bovespa</div>
-                                    <div class="name-b">Previdência e seguros</div>
+                                    <div class="name-b">{{fundamentalData['segment']}}</div>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +146,7 @@
                             <div class="center">
                                 <div class="column-content cent-column" >
                                     <div class="name-t">Particip. no Ibov</div>
-                                    <div class="name-b">-</div>
+                                    <div class="name-b">{{fundamentalData['ibov']}}</div>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +165,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">R$ 8,50</div>
+                                    <div class="value name-t">R$ {{data['valorMercado']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -175,7 +176,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">R$ 8,50</div>
+                                    <div class="value name-t">{{fundamentalData['ultimoFechamento']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -186,7 +187,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">17.438,97</div>
+                                    <div class="value name-t">{{data['volume']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -197,7 +198,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">3.000,00</div>
+                                    <div class="value name-t">3000,00</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -551,7 +552,7 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
+        {% endblock %}
     </div>
 
     <script src="{{url_for('static', filename = 'Detalhes/js/details.js')}}"></script>

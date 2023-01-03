@@ -67,20 +67,23 @@ def filtraMelhores():
     selecionados(selecionadosValido)
         
 def selecionados(lista):
-    comandoSQL("UPDATE Acoes set filtered = False = ?", (ticker, ))
+    comandoSQL("UPDATE Acoes set filtered = ?", ("False",))
     for ticker in lista:
         comandoSQL("UPDATE Acoes set filtered = True WHERE ticker = ?", (ticker, ))
     
 
 def selecionadosCard():
     lista = []
-    
-    tickers = comandoSQL("SELECT ticker FROM Acoes WHERE filtered = ?", ("True",))
+    retornavel = []
+    tickers = comandoSQL("SELECT ticker FROM Acoes WHERE filtered = ?", ("1",))
     for tickerSet in tickers:
         tickerString = sqlString(tickerSet)
         infos = comandoSQL("SELECT * FROM Acoes WHERE ticker = (?) ORDER BY CAST(margin as REAL)", (tickerString,))
-        lista = [info for info in infos]
-        return lista
+        info = ([info for info in infos])
+        lista.append(info)
+    for info in lista:
+        retornavel.append(info[0])
+    return retornavel
 
         
 def coletaDados(x):
@@ -330,12 +333,10 @@ class BasicData():
         self.soup = self.Soup() 
         self.soupP = self.SoupP()
         
-        
         # Informações mais importantes, dados do html
         
         try:
             self.strong_class = self.soup.findAll('strong', class_="value")
-            self.d_flex = self.soup.findAll('strong', attrs={'class':'value'})
         except:
             return 'ERRO STRONG CLASS'
         
@@ -344,7 +345,8 @@ class BasicData():
         self.segment = self.soupP.find(id="hlSubsetor").text
         self.listing = self.soupP.find(id="lbGovernanca").text
         self.market_value = int((formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
-        self.part_ibov = f'{self.d_flex[8].text}%'
+        self.ultimofechamento = self.soupP.find('span', attrs={'id': 'lbUltimoFechamento'}).text
+        self.valorMercado = self.soupP.find('span', attrs = {'id': 'lbValorMercado1'}).text
         self.volume = self.soup.findAll('strong', attrs={'class':'m-md-0 mb-md-1 value mt-0 fs-3_5 lh-4'})[1].text
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
@@ -359,11 +361,13 @@ class BasicData():
             info['max_12'] = self.max_12
             info['segment'] = self.segment
             info['listing'] = self.listing
-            info['ibov'] = self.part_ibov
+            info['ibov'] = 123
             info['market_value'] = self.market_value
             info['volume'] = self.volume
             info['end'] = self.end_value
             info['paperM'] = self.paper_volume
+            info['ultimoFechamento'] = self.ultimofechamento
+            info['valorMercado'] = self.valorMercado
             return info
         except:
             return 'ERRO INFO DATA'
@@ -379,19 +383,27 @@ class BasicData():
         df = fundamentus.get_resultado()
         for index in df.index:
             if index == self.ticker:
-                info['dy_actual'] = str(float(f"{df['dy'][index]:.2f}") * 100) + '%'
-                info['dy6'] = float((f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}"))
-                info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
-                info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
-                info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
-                info['actual_dy'] = f"{((df['cotacao'][index])*(df['dy'][index]))/df['dy'][index]:.2f}"
-                if df['dy'][index] > 15 and df['dy'][index] < 20:
-                    temp_dy = df['dy'][index] - 5
-                if df['dy'][index] > 20:
-                    temp_dy = df['dy'][index] - 10
+                if float(df['dy'][index]) == 0:
+                    info['dy_actual'] = 0
+                    info['dy6'] = 0
+                    info['dy8'] = 0
+                    info['dy10'] = 0
+                    info['dy12'] = 0
+                    info['actual_dy'] = 0
                 else:
-                    temp_dy = df['dy'][index]
-                info['dpa'] = (float((df['cotacao'][index] - (temp_dy* df['cotacao'][index]))/df['cotacao'][index]) * 10)
+                    info['dy_actual'] = str(float(f"{df['dy'][index]:.2f}") * 100) + '%'
+                    info['dy6'] = float((f"{df['cotacao'][index]*(df['dy'][index])/0.06:.2f}"))
+                    info['dy8'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.08:.2f}")
+                    info['dy10'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.10:.2f}")
+                    info['dy12'] = (f"{df['cotacao'][index]*(df['dy'][index])/0.12:.2f}")
+                    info['actual_dy'] = f"{((df['cotacao'][index])*(df['dy'][index]))/df['dy'][index]:.2f}"
+                    if df['dy'][index] > 15 and df['dy'][index] < 20:
+                        temp_dy = df['dy'][index] - 5
+                    if df['dy'][index] > 20:
+                        temp_dy = df['dy'][index] - 10
+                    else:
+                        temp_dy = df['dy'][index]
+                    info['dpa'] = (float((df['cotacao'][index] - (temp_dy* df['cotacao'][index]))/df['cotacao'][index]) * 10)
                 return info
             
     def Margin(self):
@@ -422,3 +434,17 @@ class BasicData():
                 return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+
+    def getImageDetalhes(self):
+        soup = self.SoupP()
+        try:
+            if soup.find('img',attrs={'id': 'imgFoto'}) :
+                img = soup.find('img',attrs={'id': 'imgFoto'})
+                return img['src']
+            else:
+                return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+        except:
+            return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+
+a = BasicData("bbas3")
+print(a.fundamentalDatas())

@@ -91,6 +91,7 @@ ins.adsbygoogle {
 }
 
 @media screen and (max-width: 280px){
+    
     .mobileSidebar .msdLogo{
         margin-top: 3% !important;
     }

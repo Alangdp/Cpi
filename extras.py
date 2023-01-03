@@ -5,7 +5,6 @@ def comandoSQL(comando, argumentos):
     con = sqlite3.connect("Stocks.db")
     cur = con.cursor()
     cur.execute(comando, argumentos)
-    print(cur.description)
     if cur.description:
         retorno = cur.fetchall()
         con.close()
@@ -43,3 +42,17 @@ def isTicker(ticker):
         if tick == ticker: return "True"
         else: continue
     return "False"
+
+def usuariosRegistrados():
+    con = sqlite3.connect('Usuarios.db')
+    cur = con.cursor()
+    dados = []
+    cur.execute("SELECT * FROM usuarios")
+    for x in cur:
+        dados.append({
+            'user': x[0],
+            'password': x[1],
+            'email': x[2],
+            'cpf': x[3],
+        })
+    return dados

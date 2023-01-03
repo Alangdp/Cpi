@@ -543,7 +543,7 @@ body{
     width: Calc(100% - 300px);
     height: 100vh;
     margin-left: 300px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 }
 
 .ContentGrid .card {
@@ -572,4 +572,27 @@ body{
     overflow: hidden;
     display: flex;
     align-items: center;
+}
+
+.userInfosTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.userInfosTable .tableLine {
+    width: 30px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 15px;
+}
+
+
+
+th {
+    white-space: nowrap;
 }

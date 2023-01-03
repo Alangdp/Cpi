@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
     <title>CPI</title>
 </head>
-<body>
+<body >
     {% if admin == 'True' %}
     <div class="content" id="content">
 
@@ -91,7 +91,40 @@
 
                 </div>
 
-                <div class="column">
+
+                <table class="userInfosTable">
+                    <caption>User Info</caption>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Senha</th>
+                        <th>CPF</th>
+                        <th>Permissões</th>
+
+                    </tr>
+
+
+                    {% for x in range(0, qtd) %}
+                        <tr>
+                            <td class="tableLine">{{data[x]['user']}}</td>
+                            <td class="tableLine">{{data[x]['email']}}</td>
+                            <td class="tableLine">{{data[x]['password']}}</td>
+                            <td class="tableLine">{{data[x]['cpf']}}</td>
+                            <td class="tableLine">{{permissoes}}</td>
+                            <td> <select name="" id="" class="adminOption">
+                                <option value="Banir">Ação</option>
+                                <option value="Banir">Banir</option>
+                                <option value="Banir">Admin</option>
+
+                            </select></td>
+                        </tr>
+                    {% endfor %}
+
+
+
+                </table>
+                
+                <!-- <div class="column">
                     <div class="table">
                         {% for x in range(0, qtd) %}
 
@@ -102,7 +135,7 @@
                         {% endfor%}
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
 
@@ -158,7 +191,24 @@
 
     </div>
 </body>
+
+
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="{{url_for('static', filename = 'Admin/js/admin.js')}}"></script>
+    <script>
+        function acoes() {
+            const select = document.querySelectorAll(".adminOption")
+            for (const x of select) {
+                x.addEventListener("change", (e) => {
+                    tr = x.closest("tr")
+                })
+            }
+        
+            
+        }
+        
+
+        acoes()
+    </script>
     
 </html>

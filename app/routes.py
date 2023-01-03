@@ -6,7 +6,6 @@ from extras import *
 import json
 Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
-
 # Cria uma session vazia, para evitar erros
 def baseSession():
     session['email'] = 'none'
@@ -31,20 +30,6 @@ def isLogged():
     except:
         baseSession()
         return None, None
-
-def usuariosRegistrados():
-    con = sqlite3.connect('Usuarios.db')
-    cur = con.cursor()
-    dados = []
-    cur.execute("SELECT * FROM usuarios")
-    for x in cur:
-        dados.append({
-            'user': x[0],
-            'password': x[1],
-            'email': x[2],
-            'cpf': x[3],
-        })
-    return dados
 
 @app.route('/home')
 def main():
@@ -132,15 +117,31 @@ def login():
 
 @app.route('/detalhes', methods=['GET','POST'])
 def detalhes():
+    # valida ticker
     ticker = request.args.get('ticker')
+    if ticker == None or ticker == '': validTicker =  "False"
+    else: 
+        validTicker = isTicker(ticker)
+
+    # coleta os dados para a página
+    if validTicker == "True":
+        stock = GetData.BasicData(ticker)
+        datas = stock.Datas()
+        tickerImg = stock.getImageDetalhes()
+        fundamentalDatas = stock.fundamentalDatas()
+        print(fundamentalDatas)
+    else:
+        datas = []
+        fundamentalDatas = []
+        tickerImg = []
+        
+    # Login
     info = isLogged() 
-    validTicker = isTicker(ticker)
-    print(validTicker)
-    if info[0] == True: return render_template('details.html',user = info[1], valid = validTicker, ticker = ticker)
+    if info[0] == True: return render_template('details.html', user = info[1], valid = validTicker, ticker = ticker, data = datas, fundamentalData = fundamentalDatas, img = tickerImg)
     else: return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'Post'])
 def admin():
     isLogged()
     data = usuariosRegistrados()
-    return render_template('admin.html', admin = session['admin'], data = data, qtd = len(data))
+    return render_template('admin.html', admin = session['admin'], data = data, qtd = len(data), permissoes = "Banido")

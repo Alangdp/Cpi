@@ -8,12 +8,9 @@ class ValidaRegistro{
     events() {
         const registrar = this.formulario.querySelector('.registrar')
         registrar.addEventListener('click', (e) => {
-            this.handleSubmit(e);
-            
-            
+            this.handleSubmit(e); 
         })
     }
-
     handleSubmit(e) {
         const senha  = this.formulario.querySelector('.Senha').value;
         const email = this.formulario.querySelector('.Email').value.toLowerCase();
@@ -65,3 +62,5 @@ function Deslogar() {
 function cleanCookie(nome) {
     document.cookie = `${nome}=John Smith; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/`;
 }
+
+

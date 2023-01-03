@@ -29,12 +29,12 @@ def getDatas(tickers, thread_name):
     
 def setBancoDados(lista,tempo):
     for x in lista:
-        if x == None:
-            continue
+        if x == None: continue
+        validar = comandoSQL("SELECT ticker FROM Acoes WHERE ticker = ?", (x['ticker'] ,))
+        if validar: comandoSQL("UPDATE Acoes SET ticker = ?, name = ?, value = ?, dy_porcent = ?, dy_value = ?, tag_along =?, roe = ?, margin = ?, dy6 =?, img = ?, dpa = ?,filtered = ? WHERE ticker = ?", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False', x['ticker']) )
         comandoSQL("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False' ,))
     fimTempo = time.time()
     print(f"TEMPO DE EXECUÇÃO: {fimTempo - tempo}")
-    
 
 def activeThreads(fragmentos):
     cont = 0
@@ -48,7 +48,5 @@ def atualizaDB():
     activeThreads(fragmentos)
     filtraMelhores()
 
-
 atualizaDB()
-
 

@@ -1,3 +1,7 @@
+Observações:
+
+Os commits com o nome de pr são para indicar progresso em futuras atualizações.
+
 Futuras Atualizações:
 
 1. Criação de uma homepage para o site [ ]
