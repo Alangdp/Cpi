@@ -165,7 +165,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">R$ {{data['valorMercado']}}</div>
+                                    <div class="value name-t">R$ {{fundamentalData['valorMercado']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -183,11 +183,11 @@
 
                             <div class="cont">
                                 <div class="left">
-                                    <h3 class="name-bc">Volume médio diário três meses(mil)</h3>
+                                    <h3 class="name-bc">Volume médio diário três meses</h3>
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">{{data['volume']}}</div>
+                                    <div class="value name-t">{{fundamentalData['volume']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -198,7 +198,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="value name-t">3000,00</div>
+                                    <div class="value name-t">{{fundamentalData['acoesEmitidas']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -215,7 +215,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueM name-t">-</div>
+                                    <div class="valueM name-t">{{data['div_brt']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -226,7 +226,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueM name-t">-630,79</div>
+                                    <div class="valueM name-t">{{data['div_liq']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -237,18 +237,18 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueM name-t">-0,60</div>
+                                    <div class="valueM name-t">{{data['divliq_ebitda']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
 
                             <div class="cont">
                                 <div class="left">
-                                    <h3 class="name-bc">caixa 12 meses(mil)</h3>
+                                    <h3 class="name-bc">caixa</h3>
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueM name-t">R$ 630,79</div>
+                                    <div class="valueM name-t">{{fundamentalData['caixa']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -265,7 +265,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueR name-t">12,20</div>
+                                    <div class="valueR name-t">{{dy['dy6']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -276,7 +276,8 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueR name-t">-3,7</div>
+                                    <div class="valueR name-t">{{ "R$%.2f"|format(dy['dy6'] - data['value']) }} </div>
+
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -287,7 +288,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueR name-t">73,94</div>
+                                    <div class="valueR name-t">{{"%.2f"|format(data['value'] / dy['dy6'] * 100)}}%</div>
                                 </div>
                             </div> 
                             <div class="line"></div>
@@ -297,27 +298,7 @@
                         <div class="cards">
                             <div class="title"> <h2>Indicadores de rentabilidade</h2></div>
                         
-                            <div class="cont">
-                                <div class="left">
-                                    <h3 class="name-bc">Projeção de lucro (R$ milhões)</h3>
-                                </div>
-
-                                <div class="right">
-                                    <div class="valueR name-t">R$ 26.850,00</div>
-                                </div>
-                            </div> 
-                            <div class="line"></div>
-
-                            <div class="cont">
-                                <div class="left">
-                                    <h3 class="name-bc">Projeção de lucro por ação (R$)</h3>
-                                </div>
-
-                                <div class="right">
-                                    <div class="valueR name-t">R$ 0,90</div>
-                                </div>
-                            </div> 
-                            <div class="line"></div>
+                            
 
                             <div class="cont">
                                 <div class="left">
@@ -336,7 +317,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <div class="valueR name-t">R$ 0,75</div>
+                                    <div class="valueR name-t">{{fundamentalData['lucroLiquidoPorAcao']}}</div>
                                 </div>
                             </div> 
                             <div class="line"></div>

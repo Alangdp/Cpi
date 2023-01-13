@@ -44,7 +44,7 @@ def registrar(nome = None ,senha = None ,email = None, cpf = None):
 
 def logar(email= '', senha = ''):
     senha = sha256(senha.encode()).hexdigest()
-    senha_sql = comandoSQL("SELECT password FROM usuarios WHERE email = ?", (email,))
+    senha_sql = comandoSQL("SELECT password FROM usuarios WHERE email = ?", (email.lower(),))
     if senha == sqlString(senha_sql[0]): 
         return True
     else: 
@@ -109,12 +109,6 @@ def retornDB(email = '', senha = ''):
 
 def validaPostR(usuario = '', email = '',senha = '' , cpf = ''):
     if usuario == '' or email == '' or senha == '' or cpf == '':
-        return False
-    else:
-        return True
-
-def validaPostL(email = '', senha = '' ):
-    if email == '' or senha == '':
         return False
     else:
         return True

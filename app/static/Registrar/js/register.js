@@ -30,26 +30,29 @@ class ValidaRegistro{
             const senha  = this.formulario.querySelector('.Senha').value;
             const email = this.formulario.querySelector('.Email').value.toLowerCase();
             const cpf = this.formulario.querySelector('.CPF').value;
-
-            this.postJSON(usuario,email,senha,cpf)
+            const csrfToken = this.formulario.querySelector('#csrf_token').value;
+            console.log(csrfToken)
+            this.postJSON(usuario,email,senha,cpf, csrfToken);
         } else {
             alert(`Algumma informacao invalida`);
         }
     }
 
-    postJSON(usuario, email, senha, cpf){
+    postJSON(usuario, email, senha, cpf, csrfToken){
         axios.post('/validar', { 
             usuario : usuario,
             email : email,
             senha : senha,
             cpf : cpf,
+            csrfToken: csrfToken,
             action: 'registro'
         }).then( (succes) => {
             alert('Registro concluido')
             window.location.href = "/login";
             return true;
         }).catch( (err) => {
-            alert('Impossível concluir o registro, tente mais tarde')
+            alert('Impossível concluir o registro, tente mais tarde');
+            console.log(err)
             return false;
         })
     }
@@ -79,34 +82,36 @@ class ValidaRegistro{
         
         for(const campo of this.formulario.querySelectorAll('input')){
             let validField = true;
-            
-            const labelName = campo.classList[0];
+            if (campo.id === 'csrf_token') {
+                console.log('aki e o id')
+            }
+
+            const labelName = campo.value;
+            console.log(labelName)
             if(!campo.value){
                 valid = false, validField = false;
-                this.createError(campo)
-
+                this.createError(campo);
             }
 
             if(campo.classList.contains('CPF')) {
                 if(!this.validaCPF(campo)) 
                 valid = false, validField = false;
-                this.createError(campo)
+                this.createError(campo);
 
             }
             if(campo.classList.contains('Usuario')){
-                if(!this.validaUsuario(campo)) 
-                valid = false, validField = false;
-                this.createError(campo)
-
+                if(!this.validaUsuario(campo)) {
+                    valid = false, validField = false;
+                    this.createError(campo);
+                }
             }
 
             if(campo.classList.contains('Email')){
                 if(!this.validaEmail(campo)){
                     valid = false, validField = false;
-                    this
                 }
             }
-
+            console.log(campo.classList[0], campo.id, validField)
             if(validField) {
                 this.removeError(campo)
             }
@@ -161,13 +166,8 @@ class ValidaRegistro{
     validaUsuario(campo) {
         const usuario = campo.value;
         let valid = true;
-        if(usuario.length > 12 || usuario.length < 4) {
-            valid = false;
-        }
-
-        if(!usuario.match(/[a-zA-Z0-9]+$/g)){
-            valid = false;
-        }
+        if(usuario.length > 12 || usuario.length < 4) valid = false;
+        
         return valid;
     }
 
@@ -178,22 +178,27 @@ class ValidaRegistro{
         if(!cpf.VerificaCPF()) {
             valid = false;
         }
-
         return valid;
     }
 
     createError(campo) {
-        const valid = campo.nextElementSibling.querySelector('.bx-chevron-down')
-        valid.style.color = 'Red';
-        valid.style.opacity = '1';
+        try {
+            const valid = campo.nextElementSibling.querySelector('.bx-chevron-down')
+            valid.style.color = 'Red';
+            valid.style.opacity = '1';
+        } catch(e) {
+            ;
+        }
     }
 
     removeError(campo) {
-        const valid = campo.nextElementSibling.querySelector('.bx-chevron-down')
-        valid.style.color = 'Green';
-        valid.style.opacity = '1';
-
-        
+        try {
+            const valid = campo.nextElementSibling.querySelector('.bx-chevron-down')
+            valid.style.color = 'Green';
+            valid.style.opacity = '1';
+        } catch(e) {
+            ;
+        }
     }
 }
 

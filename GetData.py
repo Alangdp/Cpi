@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from mechanize import Browser
 from extras import comandoSQL
-import threading, fundamentus, lxml, shutil, requests
+import fundamentus, lxml, shutil, requests, json, datetime
 # from selenium import webdriver
 
 # Global Methods
@@ -167,6 +167,8 @@ class BasicData():
             exit()
         else:
             self.ticker = ticker.upper()
+            self.data = datetime.date.today()
+
         
     def Soup(self, args=None):
         try:
@@ -179,6 +181,25 @@ class BasicData():
             return soup
         except:
             return 'ERRO SOUP'
+
+    def requestsCaixa(self):
+        ano = self.data.year
+        b = Browser()
+        b.set_handle_robots(False)
+        b.addheaders = [('Referer', 'https://statusinvest.com.br/acao/'), ('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+        b.open(f'https://statusinvest.com.br/acao/getativos?code={self.ticker}&type=0&futureData=false&range.min=2017&range.max={ano}')
+        page = b.response().read()
+        data = json.loads(page)
+        return data
+
+    def fluxoCaixa(self):
+        b = Browser()
+        b.set_handle_robots(False)
+        b.addheaders = [('Referer', 'https://statusinvest.com.br/acao/'), ('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+        b.open(f'https://statusinvest.com.br/acao/getfluxocaixa?code={self.ticker}&type=0&futureData=true')
+        page = b.response().read()
+        data = json.loads(page)
+        return data
         
     def SoupP(self, args=None):
         try:
@@ -329,7 +350,6 @@ class BasicData():
         return info
         
     def fundamentalDatas(self):
-        
         self.soup = self.Soup() 
         self.soupP = self.SoupP()
         
@@ -348,12 +368,18 @@ class BasicData():
         self.ultimofechamento = self.soupP.find('span', attrs={'id': 'lbUltimoFechamento'}).text
         self.valorMercado = self.soupP.find('span', attrs = {'id': 'lbValorMercado1'}).text
         self.volume = self.soup.findAll('strong', attrs={'class':'m-md-0 mb-md-1 value mt-0 fs-3_5 lh-4'})[1].text
+        self.acoesEmitidas = self.soup.find('div', attrs={'title' : 'Total de papéis disponíveis para negociação'}).find('strong', attrs={'class': 'value'}).text
         self.valor_12 = self.strong_class[4].text
         self.min_12 = self.strong_class[2].text
         self.max_12 = self.strong_class[1].text
         self.paper_volume = formate_Number(self.soupP.find('span', id="lbInformacaoAdicionalQuantidadeTotalAcao").text)*1000
         self.end_value = formate_Number(self.soupP.find('span', id="lbUltimoFechamento"))
-        
+        requestAtivos = self.requestsCaixa()
+        caixa = requestAtivos['data']['grid'][4]['gridLineModel']['values'][0]
+        self.caixa = f"{caixa:,.0f}"
+        fluxoCaixa = self.fluxoCaixa()
+        self.lucroLiquido = fluxoCaixa['data']['grid'][3]['gridLineModel']['values'][0]
+
         try:
             info = {}
             info['valor_12'] = self.valor_12
@@ -362,12 +388,14 @@ class BasicData():
             info['segment'] = self.segment
             info['listing'] = self.listing
             info['ibov'] = 123
-            info['market_value'] = self.market_value
             info['volume'] = self.volume
             info['end'] = self.end_value
             info['paperM'] = self.paper_volume
             info['ultimoFechamento'] = self.ultimofechamento
             info['valorMercado'] = self.valorMercado
+            info['acoesEmitidas'] = self.acoesEmitidas
+            info['caixa'] = self.caixa
+            info['lucroLiquido'] = self.lucroLiquido
             return info
         except:
             return 'ERRO INFO DATA'
@@ -445,6 +473,3 @@ class BasicData():
                 return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
-
-a = BasicData("bbas3")
-print(a.fundamentalDatas())

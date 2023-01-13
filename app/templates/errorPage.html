@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{erro}}</title>
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }   
+
+        body {
+            background: linear-gradient(to top left, rgb(0, 0, 0), rgb(65, 65, 65), rgb(150, 150, 150));
+
+        }
+
+        
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.75);
+            font-weight: bold;
+            font-size: larger;
+            text-transform: uppercase;
+
+
+        }
+
+        .content .errorTitle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <div class="content">
+            <div class="errorTitle">
+                <div class="centRow"><h1>{{erro}}</h1></div>
+                
+                <h2>{{mensagem}}</h2>
+            </div>
+        </div>
+    </h1>
+</body>
+</html>
