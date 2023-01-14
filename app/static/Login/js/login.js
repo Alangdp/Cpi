@@ -93,7 +93,6 @@ class ValidaRegistro{
             this.removeError(campo)
         }
         return valid;
-
     }
 
     isValidPassword(){

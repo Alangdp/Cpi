@@ -24,10 +24,13 @@ def regristrar():
 def login():
     return render_template('login.html', csrf_token = session['csrfToken'])
 
-
 @app.route('/home')
 def home():
     return render_template('home.html', user = session['user'])
+
+@app.route('/user')
+def user():
+    return render_template('user.html', user = 'Alan')
 
 # valida registros/logins/admin
 @app.route('/validar', methods=['GET','POST'])
@@ -40,8 +43,11 @@ def validar():
         senha = json_dados['senha']
         cpf = json_dados['cpf']
         csrf_token = json_dados['csrfToken']
-
-        if not csrf_token == session['csrfToken']: return redirect('registrar', 304)
+          
+        if session['csrfToken'] != csrf_token or not 'csrfToken' in session['csrfToken']:
+            session['erro'] = { 'code': 'CSRFToken Inválido', 'message': 'CSRFToken Inválido'}
+            return redirect(url_for('erroPage'))
+        
 
         if(validaPostR(usuario,email,senha,cpf)):
             registrar(usuario,senha,email,cpf)
@@ -87,8 +93,7 @@ def detalhes():
     # valida ticker
     ticker = request.args.get('ticker')
     if ticker == None or ticker == '': validTicker =  "False"
-    else: 
-        validTicker = isTicker(ticker)
+    else: validTicker = isTicker(ticker)
 
     # coleta os dados para a página
     if validTicker == "True":
@@ -119,8 +124,10 @@ def admin():
 
 @app.route('/error')
 def erroPage():
-    erro = request.args.get('erro')
-    mensagem = request.args.get('mensagem')
+    { 'code': 'CSRFToken Inválido', 'message': 'CSRFToken Inválido'}
+    erro = session['erro']['code']
+    mensagem = session['erro']['message']
+
     return render_template('errorPage.html', erro = erro , mensagem = mensagem)
 
 # cria a session inicial, caso não exista
@@ -138,7 +145,7 @@ def isFirstLogin():
 def isLogged(*args):
     if request.path.startswith('/static/'):
         return
-    if request.path == '/login' or request.path == '/validar' or request.path == '/registrar':
+    if request.path == '/login' or request.path == '/validar' or request.path == '/registrar' or request.path == '/testar' or request.path == '/error':
         return
     else:
         if session['logged'] == True:
@@ -157,12 +164,10 @@ def reposts(*args):
         session['csrfToken'] = secrets.token_hex()
         print(session['csrfToken'])
 
-
-    
-
 # verifica se ocorreu um erro na conexão
 @app.after_request
 def check_error(response):
     if response.status_code == 400:
-        return redirect('/error?erro=400&mensagem=A%20página%20não%20foi%20carregada%20no%20servidor')
+        session['erro'] = { 'code': '404', 'message': 'A página que você tentou acessar não existe'}
+        return redirect(url_for('erroPage'))
     return response
