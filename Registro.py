@@ -1,6 +1,7 @@
 import sqlite3
 from GetData import sqlString
 from hashlib import sha256
+from flask import session
 
 def comandoSQL(comando, argumentos):
     con = sqlite3.connect("Usuarios.db")
@@ -20,7 +21,8 @@ def comandoSQL(comando, argumentos):
 def criaDB():
     con = sqlite3.connect("Usuarios.db")
     cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS usuarios (user TEXT , password TEXT , email TEXT UNIQUE, cpf TEXT UNIQUE)")
+    cur.execute("CREATE TABLE IF NOT EXISTS usuarios (user TEXT , password TEXT , email TEXT UNIQUE, cpf TEXT UNIQUE, id INTEGER PRIMARY KEY AUTOINCREMENT)")
+    
     con.close()
     
 criaDB()
@@ -28,7 +30,7 @@ criaDB()
 def registrar(nome = None ,senha = None ,email = None, cpf = None):
     email = str(email).lower()
     senha = sha256(senha.encode()).hexdigest()
-    comandoSQL("INSERT INTO usuarios VALUES(?,?,?,?)", (nome,senha,email,cpf,))
+    comandoSQL("INSERT INTO usuarios (user,password,email,cpf) VALUES(?,?,?,?)", (nome,senha,email,cpf,))
 
     # REFATORADO
 
@@ -44,8 +46,11 @@ def registrar(nome = None ,senha = None ,email = None, cpf = None):
 
 def logar(email= '', senha = ''):
     senha = sha256(senha.encode()).hexdigest()
-    senha_sql = comandoSQL("SELECT password FROM usuarios WHERE email = ?", (email.lower(),))
-    if senha == sqlString(senha_sql[0]): 
+    senha_sql = comandoSQL("SELECT password, id FROM usuarios WHERE email = ?", (email.lower(),))
+    print(senha_sql)
+    if senha == sqlString(senha_sql[0][0]): 
+        session['id'] = senha_sql[0][1]
+        print(session['id'])
         return True
     else: 
         return False

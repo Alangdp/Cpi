@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+h1,h2 {
+    font-size: 1.6em !important;
+}
+
 * {
     overflow: hidden;
     margin: 0;
@@ -55,6 +60,10 @@ ins.adsbygoogle {
 @media screen and (min-width: 800px) {
     .sidebar {
         display: none;
+    }
+
+    .stock-infos {
+        width: 97.6% !important;
     }
 }
 
@@ -144,7 +153,6 @@ ins.adsbygoogle {
     }
 
     .detalhes {
-        margin-left: 250px !important;
         width: calc(100% - 250px) !important;
     }
 
@@ -482,6 +490,7 @@ body{
 }
 
 .detalhes .first-card {
+    width: 97.6%;
     margin: 12px;
     gap: 1vh;
     display: grid;

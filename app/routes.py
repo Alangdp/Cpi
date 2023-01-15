@@ -37,17 +37,13 @@ def user():
 def validar():
     json_dados = request.get_json()
     print(json_dados)
+
     if json_dados['action'] == 'registro':
         usuario = json_dados['usuario']
         email = json_dados['email'] 
         senha = json_dados['senha']
         cpf = json_dados['cpf']
-        csrf_token = json_dados['csrfToken']
-          
-        if session['csrfToken'] != csrf_token or not 'csrfToken' in session['csrfToken']:
-            session['erro'] = { 'code': 'CSRFToken Inválido', 'message': 'CSRFToken Inválido'}
-            return redirect(url_for('erroPage'))
-        
+        csrf_token = json_dados['csrfToken']  
 
         if(validaPostR(usuario,email,senha,cpf)):
             registrar(usuario,senha,email,cpf)

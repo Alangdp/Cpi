@@ -100,9 +100,7 @@
                         <th>Senha</th>
                         <th>CPF</th>
                         <th>Permissões</th>
-
                     </tr>
-
 
                     {% for x in range(0, qtd) %}
                         <tr>
@@ -111,17 +109,15 @@
                             <td class="tableLine">{{data[x]['password']}}</td>
                             <td class="tableLine">{{data[x]['cpf']}}</td>
                             <td class="tableLine">{{permissoes}}</td>
-                            <td> <select name="" id="" class="adminOption">
-                                <option value="Banir">Ação</option>
-                                <option value="Banir">Banir</option>
-                                <option value="Banir">Admin</option>
-
-                            </select></td>
+                            <td> 
+                                <select name="" id="" class="adminOption">
+                                    <option value="Banir">Ação</option>
+                                    <option value="Banir">Banir</option>
+                                    <option value="Banir">Admin</option>
+                                </select>
+                            </td>
                         </tr>
                     {% endfor %}
-
-
-
                 </table>
                 
                 <!-- <div class="column">
@@ -191,8 +187,6 @@
 
     </div>
 </body>
-
-
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="{{url_for('static', filename = 'Admin/js/admin.js')}}"></script>
     <script>
@@ -203,11 +197,7 @@
                     tr = x.closest("tr")
                 })
             }
-        
-            
         }
-        
-
         acoes()
     </script>
     
