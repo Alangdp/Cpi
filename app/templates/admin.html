@@ -11,78 +11,7 @@
 </head>
 <body >
     {% if admin == 'True' %}
-    <div class="content" id="content">
-
-        <div class="mobileSidebar">
-            <a href="/ranking">
-                <div class="msdLogo">
-                    <div class="title">CIP</div>
-                    <i class='bx bxl-python' id="python"></i>
-                </div>
-            </a>
-                <i class='bx bx-menu' id="menum"></i>
-
-        </div>
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebarLogo">
-                <div class="title">CIP</div>
-                <i class='bx bxl-python' id="python"></i>
-            </div>
-            
-            <ul class="menu">
-
-                <!-- <li>
-                    <i class='bx bx-search-alt' id="research"></i>
-                    <input type="search" name="search" class="search" id="search"
-                    placeholder="    Procurar..." onkeyup="Search()">   
-                    
-                </li> -->
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="mudaCord()">Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/ranking">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name">Ranking</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name">Renda Fixa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" >
-                        <i class='bx bx-menu' ></i>
-                        <span class="links-name" onclick="detalhes()">Infos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-menu' id="teste"></i>
-                        <span class="links-name">Usuario</span>
-                    </a>
-                </li>
-
-                <li>
-                    <i class='bx bx-menu' ></i>
-                    <a href="#" > <strong class="name">Admin    </strong></a>
-                </li>
-
-                <li>
-                    <i class='bx bx-menu' onclick="Deslogar()"></i>
-                    <h2 style="color: white; cursor: pointer;" id="sair" onclick="Deslogar()">Sair</h2>
-                </li>
-                
-            </ul>
-
-            
-        </div>
+        {% include './includes/sidebar.html'%}
 
         <div class="ContentGrid">
             <div class="card">

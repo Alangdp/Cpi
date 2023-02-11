@@ -55,7 +55,7 @@
                     
                 </li> -->
                 <li>
-                    <a href="#">
+                    <a href="/home">
                         <i class='bx bx-menu' ></i>
                         <span class="links-name" >Home</span>
                     </a>
@@ -87,7 +87,7 @@
 
                 <li>
                     <i class='bx bx-menu' ></i>
-                    <a href="#" > <strong class="name">{{user}}</strong></a>
+                    <a href="#" > <strong class="name">{{g.user}}</strong></a>
                 </li>
 
                 <li>
@@ -166,7 +166,7 @@
                 botaoSair.addEventListener('click', (e) => {
                     e.preventDefault();
 
-                    axios.post('/validar', { action: 'logout'})
+                    axios.post('/logout', { action: 'logout'})
                     .then( (succes) => {window.location.href = "/login";})
                     .catch( (err) => {window.location.href = "/login";})
 

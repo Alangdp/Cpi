@@ -37,7 +37,7 @@ class ValidaRegistro{
     }
 
     postJSON(email, senha, csrfToken){
-        axios.post('/validar', { 
+        axios.post('/login', { 
             email : email,
             senha : senha,
             csrfToken: csrfToken,

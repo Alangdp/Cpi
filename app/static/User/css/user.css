@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.containers {
+    margin-left: 300px !important;
+    height: 100vh;
+    width: calc(100% - 300px);
+    overflow-y: scroll;
+    background-color: rgb(237, 234, 238);
+}
+
+.grids {
+    width: 100%;
+}
+
+.grids .cards {
+    margin: 12px;
+    width: 97.8%;
+    border-radius: 12px;
+    background: white;
+}
+
+.btn-control {
+    margin: 12px;
+    max-width: 400px;
+}
+
+.col-form-label {
+    font-size: 20px !important;
+}
+
+.col-sm-12 h3 {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.alert-server {
+    display: flex;
+    padding: 6px;
+    border-radius: 8px;
+    margin: 28px auto;
+    height: 42px;
+}
+
+.alert-server .text-alert {
+    margin: 0.2rem;
+}
+
+.text-break {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    word-break: break-all;
+    hyphens: auto;
+}

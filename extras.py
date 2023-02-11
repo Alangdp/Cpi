@@ -1,5 +1,27 @@
-import sqlite3
-import fundamentus
+import sqlite3, fundamentus, re, socket
+from flask import request, redirect, session
+
+def genAlert(typeA, message):
+    session[typeA] = message
+
+def validaSenha(senha = ''):
+    if not re.match(r' /^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/', senha): return False
+    print('senha passou')
+    return True
+
+def validaEmail(email = ''):
+    if not re.match(r"^\S+@\S+\.\S+$", email): return False
+    print('email passou')
+    return True
+
+# def validaMX(email = ''):
+#     dominio = email.split("@")[-1]
+#     try:
+#         MX = socket.getaddrinfo(dominio, None, socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
+#         if not MX: return False
+#         return True
+#     except socket.gaierror:
+#         return False
 
 def comandoSQL(comando, argumentos):
     con = sqlite3.connect("Stocks.db")
@@ -56,3 +78,10 @@ def usuariosRegistrados():
             'cpf': x[3],
         })
     return dados
+
+def validaCSR(token = ''):
+
+    if not 'csrfToken' in session: return False
+    if not token == session['csrfToken']: return False
+    print(123454566)
+    return True

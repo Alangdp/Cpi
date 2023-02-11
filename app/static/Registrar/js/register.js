@@ -39,7 +39,7 @@ class ValidaRegistro{
     }
 
     postJSON(usuario, email, senha, cpf, csrfToken){
-        axios.post('/validar', { 
+        axios.post('/registrar', { 
             usuario : usuario,
             email : email,
             senha : senha,
@@ -48,7 +48,7 @@ class ValidaRegistro{
             action: 'registro'
         }).then( (succes) => {
             alert('Registro concluido')
-            window.location.href = "/login";
+            window.location.href = "/loginPage";
             return true;
         }).catch( (err) => {
             alert('Impossível concluir o registro, tente mais tarde');
@@ -99,6 +99,7 @@ class ValidaRegistro{
                 this.createError(campo);
 
             }
+
             if(campo.classList.contains('Usuario')){
                 if(!this.validaUsuario(campo)) {
                     valid = false, validField = false;
@@ -140,7 +141,7 @@ class ValidaRegistro{
         const senhaRepetida = this.formulario.querySelector('.Senha-Repetida');
         const regex = /^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
 
-        if(senha.value.length < 8 || senha.value.length > 12) {
+        if(senha.value.length < 8 || senha.value.length > 16) {
             this.createError(senha), this.createError(senhaRepetida);   
             valid = false;
         }

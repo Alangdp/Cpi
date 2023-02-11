@@ -1,18 +1,46 @@
 import sqlite3
+from flask import flash
 from GetData import sqlString
 from hashlib import sha256
 from flask import session
+from extras import *
+
+def atualizarSenha(novaSenha, senhaAtual, idd):
+    if not validaSenha(senhaAtual): return
+    if not validaSenha(novaSenha): return
+
+    senhaAtual = sha256(senhaAtual.encode()).hexdigest()
+    novaSenha = sha256(novaSenha.encode()).hexdigest()
+
+    if senhaAtual != session['user'][0][1]:
+        flash('Senha atual inválida', 'ErrorUserPassword')
+        return
+    comandoSQL('UPDATE usuarios SET password = ? WHERE id = ?', (novaSenha, idd, ))
+    deslogar()
+
+def atualizarEmail(novoEmail, EmailAtual, idd):
+    if not validaEmail(novoEmail): return
+    if not validaEmail(EmailAtual): return
+
+    EmailAtual = EmailAtual.lower()
+    novoEmail = novoEmail.lower()
+
+    if EmailAtual != session['user'][0][2]:
+        flash('Email atual inválido', 'ErrorUserEmail')
+        return
+    comandoSQL('UPDATE usuarios SET email = ? WHERE id = ?', (novoEmail, idd, ))
+    deslogar()
+
+def deslogar():
+    session['logged'] = False
 
 def comandoSQL(comando, argumentos):
     con = sqlite3.connect("Usuarios.db")
     cur = con.cursor()
     cur.execute(comando, argumentos)
-    print(cur.description)
     if cur.description:
         retorno = cur.fetchall()
         con.close()
-        if retorno == []:
-            retorno = [0]
         return retorno
     else:
         con.commit()
@@ -27,9 +55,12 @@ def criaDB():
     
 criaDB()
 
-def registrar(nome = None ,senha = None ,email = None, cpf = None):
+def registrarDB(nome = None ,senha = None ,email = None, cpf = None):
     email = str(email).lower()
+    # if not validaSenha(senha): return
+    # if not validaEmail(email): return
     senha = sha256(senha.encode()).hexdigest()
+
     comandoSQL("INSERT INTO usuarios (user,password,email,cpf) VALUES(?,?,?,?)", (nome,senha,email,cpf,))
 
     # REFATORADO
@@ -45,12 +76,18 @@ def registrar(nome = None ,senha = None ,email = None, cpf = None):
     '''
 
 def logar(email= '', senha = ''):
+    email = email.lower()
+
+    # if not validaSenha(senha): return False
+    # if not validaEmail(email): return False
+
     senha = sha256(senha.encode()).hexdigest()
     senha_sql = comandoSQL("SELECT password, id FROM usuarios WHERE email = ?", (email.lower(),))
-    print(senha_sql)
+
     if senha == sqlString(senha_sql[0][0]): 
         session['id'] = senha_sql[0][1]
-        print(session['id'])
+        session['logged'] = True
+        session['user'] = retornDB(email, senha)
         return True
     else: 
         return False
@@ -79,11 +116,8 @@ def logar(email= '', senha = ''):
     # con.close()
     
 def retornDB(email = '', senha = ''):
-    email = str(email).lower()
-    senha = sha256(senha.encode()).hexdigest()
     try:
-        user = comandoSQL("SELECT user FROM usuarios WHERE password = ? AND email = ?", (senha, email,))   
-        user = sqlString(user[0])
+        user = comandoSQL("SELECT * FROM usuarios WHERE id = ?", (session['id'],))   
         return user
     except:
         return None

@@ -48,5 +48,4 @@ def atualizaDB():
     activeThreads(fragmentos)
     filtraMelhores()
 
-atualizaDB()
-
+criaDB()

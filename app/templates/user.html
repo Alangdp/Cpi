@@ -7,87 +7,142 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
-    <title>Hello, world!</title>
+    <link rel="stylesheet" href="../static/User/css/user.css">
+    <script src=""></script>
+    <title>CPI</title>
   </head>
   
   {% include './includes/sidebar.html'%}
 
-
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="text-center">
-                        <img src="perfil.jpg" class="rounded-circle" alt="Foto de Perfil" width="200" height="200">
-                        <h2>Nome de Usuário</h2>
+        <div class="containers">
+            <div class="grids">
+
+                <div class="cards">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img src="https://static.thenounproject.com/png/1492326-200.png" class="rounded-circle" alt="Foto de Perfil" width="200" height="200">
+                            <h2>{{user[0][0]}}</h2>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-8">
 
-            
-                <div class="row">
+                <div class="cards">
                     <div class="col-sm-12">
-                        <h3>Alterar Senha</h3>
+                        <h3>Senha</h3>
+                        <form id="formPassword" method="POST" action="/user">
+                            <input type="hidden" id="userId" name="id" value="{{user[0][4]}}">
+                            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="action" value="password">
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label" name="actualPassword">Senha Atual</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPasswordA" placeholder="Senha Atual" name="inputPasswordA">
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <label for="inputConfirmPassword" class="col-sm-2 col-form-label" name="newPassword">Nova Senha</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPasswordN" placeholder="Nova Senha" name="inputPasswordN">
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <label for="inputConfirmPassword" class="col-sm-2 col-form-label" name="confirmPassword">Confirmar Senha</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPasswordC" placeholder="Confirmar Senha" name="inputPasswordC">
+                                </div>
+                            </div>
+    
+                            <button type="submit" class="btn btn-primary mx-auto d-block w-50 btn-control" onclick="valida(event)" id="buttonPassword">Salvar Alterações</button>
+
+                            {% with messages = get_flashed_messages(category_filter=['ErrorUserPassword']) %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alerts alert-danger alert-server">
+                                            <h5 class="text-alert text-break">{{message}}</h5>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <div class="col-sm-12">
+                        <h3>Email</h3>
+                        <form id="formEmail" method="POST">
+                            <input type="hidden" id="userId" name="id" value="{{user[0][4]}}">
+                            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="action" value="email">
+                            <!-- kk -->
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">Email Atual</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmailA" placeholder="Email Atual" name="inputEmailA">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Novo Email</label>
+                                <div class="col-sm-10"><input type="email" class="form-control" id="inputEmailN" placeholder="Novo Email" name="inputEmailN"></div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Confirmar Email</label>
+                                <div class="col-sm-10"><input type="email" class="form-control" id="inputEmailC" placeholder="Confirmar Email" name="inputEmailC"></div>
+                            </div>
+        
+                            <button type="submit" class="btn btn-primary mx-auto d-block w-50 btn-control" id="buttonEmail" onclick="valida(event)">Salvar Alterações</button>
+                            {% with messages = get_flashed_messages(category_filter=['ErrorUserEmail']) %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alerts alert-danger alert-server">
+                                            <h5 class="text-alert text-break">{{message}}</h5>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <div class="row" style="margin-left: 4px;">
+                        <div class="col-sm-12">
+                        <h3>Informaçoes Gerais</h3>
                         <form>
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Senha Atual</label>
+                                <label for="inputName" class="col-sm-2 col-form-label">CPF</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="inputPassword" placeholder="Senha Atual">
+                                    <input type="text" class="form-control" id="inputName" placeholder="{{user[0][3]}}" disabled>
                                 </div>
                             </div>
-
                             <div class="form-group row">
-                                <label for="inputConfirmPassword" class="col-sm-2 col-form-label">Nova Senha</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Nova Senha">
-                                </div>
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Nome</label>
+                                <div class="col-sm-10"><input type="email" class="form-control" id="inputEmail" placeholder="{{user[0][0]}}" disabled></div>
                             </div>
-
+    
                             <div class="form-group row">
-                                <label for="inputConfirmPassword" class="col-sm-2 col-form-label">Confirmar Senha</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirmar Senha">
-                                </div>
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Id de usuário</label>
+                                <div class="col-sm-10"><input type="email" class="form-control" id="inputEmail" placeholder="{{user[0][4]}}" disabled></div>
                             </div>
+    
+                            <button type="submit" class="btn btn-primary mx-auto d-block w-50 btn-control">Salvar Alterações</button>
 
-                            <button type="submit" class="btn btn-primary mx-auto d-block w-50">Salvar Alterações</button>
                         </form>
                     </div>
                 </div>
 
                 
-                <div class="row">
-                    <div class="col-sm-12">
-                    <h3>Email</h3>
-                    <form>
-                        <div class="form-group row">
-                            <label for="inputName" class="col-sm-2 col-form-label">Email Atual</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputName" placeholder="Email Atual">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputEmail" class="col-sm-2 col-form-label">Novo Email</label>
-                            <div class="col-sm-10"><input type="email" class="form-control" id="inputEmail" placeholder="Novo Email"></div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="inputEmail" class="col-sm-2 col-form-label">Confirmar Email</label>
-                            <div class="col-sm-10"><input type="email" class="form-control" id="inputEmail" placeholder="Confirmar Email"></div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary mx-auto d-block w-50">Salvar Alterações</button>
-
-                    </form>
-                </div>
                
                 <!-- Apagar conta -->
 
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluirConta">
                     Excluir Conta
                 </button>
-                
+            </div>
                 
 
     
@@ -99,5 +154,8 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="{{url_for('static', filename = '/User/js/user.js')}}"></script>
+        
     </body>
+
 </html>

@@ -70,7 +70,6 @@ def selecionados(lista):
     comandoSQL("UPDATE Acoes set filtered = ?", ("False",))
     for ticker in lista:
         comandoSQL("UPDATE Acoes set filtered = True WHERE ticker = ?", (ticker, ))
-    
 
 def selecionadosCard():
     lista = []

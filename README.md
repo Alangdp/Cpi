@@ -9,7 +9,6 @@ Futuras Atualizações:
 3. Coleta de dados à página e atualização dinâmica /detalhes [ ] - pr1, 
 4. Pagina do usuário (mudar senha, email, nome de usuário) [ ]
 
-
 Correções:
 
 1. Possiveis falhas no sistema de login [  ] - algumas falhas,
@@ -20,4 +19,4 @@ Demais correções feitas:
 
 1. Refatorado código da página de registro/login (estava bagunçado) 
 2. Otimizações em algumas funções do "routes.py"
-3. Sistema de CSRF tolen 
+3. Sistema de CSRF token

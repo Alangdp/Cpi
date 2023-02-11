@@ -19,7 +19,7 @@ class ValidaRegistro{
     }
 
     postJSON(email, senha){
-        axios.post('/validar', { 
+        axios.post('/admin', { 
             email : email,
             senha : senha,
             action: 'admin'
@@ -39,22 +39,9 @@ const valida = new ValidaRegistro();
 
 // ADMIN PAGE
 
-function detalhes(){
-    var ticker = prompt("Digite o ticker: ")
-    if(!ticker ){
-        alert('Ticker inválido');
-    }if(ticker.length > 6){
-        alert('Ticker inválido');
-    }if(ticker.length < 5){
-        alert('Ticker inválido')
-    }else{
-        alert('Ticker válido')
-        location.href = `/detalhes?ticker=${ticker}`; 
-    }
-}
 
 function Deslogar() {
-    axios.post('/validar', { action: 'logoutAdmin'})
+    axios.post('/admin', { action: 'logoutAdmin'})
     .then( (succes) => window.location.href = '/admin')
     .catch( (err) => true)
 }
