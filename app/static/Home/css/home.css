@@ -11,6 +11,17 @@ footer {
     background: #3D3333 !important;
 }
 
+@media screen and (min-width: 993px) {
+    .mobile {
+      display: none;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .desktop {
+        display: none;
+    }
+}
 .desktop > nav {
     background: #3D3333 !important;
 }
@@ -22,3 +33,8 @@ footer {
 .nav-link {
     color: white !important;
 }
+
+.mobile > nav{
+    background: #3D3333 !important;
+}
+
