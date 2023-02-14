@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/User/css/user.css">
     <script src=""></script>
     <title>CPI</title>
   </head>
-  
-  {% include './includes/sidebar.html'%}
+    {% include './includes/bootstrap.html'%}
+    {% include './includes/sidebar.html'%}
 
     <body>
         <div class="containers">
@@ -21,8 +20,11 @@
                 <div class="cards">
                     <div class="col-sm-4">
                         <div class="text-center">
-                            <img src="https://static.thenounproject.com/png/1492326-200.png" class="rounded-circle" alt="Foto de Perfil" width="200" height="200">
-                            <h2>{{user[0][0]}}</h2>
+                            <div class="img" style="display:flex; flex-direction: column; width: 200px;" >
+                                <img src="https://static.thenounproject.com/png/1492326-200.png" class="rounded float-left" alt="..." style="padding: 8px;">
+                                <h2>{{user[0][0]}}</h2>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -129,7 +131,6 @@
                                 <div class="col-sm-10"><input type="email" class="form-control" id="inputEmail" placeholder="{{user[0][4]}}" disabled></div>
                             </div>
     
-                            <button type="submit" class="btn btn-primary mx-auto d-block w-50 btn-control">Salvar Alterações</button>
 
                         </form>
                     </div>

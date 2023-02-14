@@ -15,42 +15,6 @@
     {% include './includes/sidebar.html'%}
     
         <div class="gridContent " id="gridContent">
-            <div class="card" >
-                <p class="ranking"><small>Ranking {{numero}} </small></p>
-                <div class="stocInfo">
-                    <div class="stockticker">{{ticker}}</div>
-                    <div class="stockName"><nobr>{{name}}</nobr></div>
-            
-                    <img onclick="location.href = 'https://statusinvest.com.br/acoes/{{ticker}}';" class="circle" src="{{image}}" alt="logo" ></img>
-            
-                    <div class="secondInfo">
-                        <div class="stockDy">
-                            <div class="stockdy_text">DY</div>
-                            <div class="dy_value">{{dy}}%</div>
-                        </div>
-                    <div class="mdi">{{mdi}}</div>
-                    </div>
-                    <div class="highprice">
-                        <div class="highPrice_text">PreçoTeto</div>
-                        <div class="highprice_value">{{hidhprice}}</div>
-                    </div>
-                    <div class="value">
-                        <div class="value_text">Cotação</div>
-                        <div class="value_value"> {{value}}</div>
-                    </div>
-                    <div class="margin">
-                        <div class="margin_text">Margem de Segurança </div>
-                        <div class="margin_value">{{margin}}%</div>
-                    </div>
-                    <div class="dpa">
-                        <div class="dpa_text">DPA projetivo</div>
-                        <div class="dpa_value">{{dpa}}</div>                </div>
-                </div>
-                <div class="complements">
-                    <div class="mdi_text">MDI</div>
-                    <div class="mdi_map">Jan Fev Mar Abr Mai Jun <br>Jul Ago Set Out Nov Dez</div>
-                </div>
-            </div> 
 
             
             {% block content %}
