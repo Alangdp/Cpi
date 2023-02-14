@@ -11,7 +11,7 @@ Futuras Atualizações:
 
 Correções:
 
-1. Possiveis falhas no sistema de login [  ] - algumas falhas,
+1. Possiveis falhas no sistema de login [ x ] - algumas falhas,
 2. Implementar a criptografia no sistema de login usando md5 [ x ] - usado sha256
 3. Dinamização das páginas [ x ] - todas as páginas até o momento
 
@@ -20,3 +20,4 @@ Demais correções feitas:
 1. Refatorado código da página de registro/login (estava bagunçado) 
 2. Otimizações em algumas funções do "routes.py"
 3. Sistema de CSRF token
+4. Utilização de middlewares para login
