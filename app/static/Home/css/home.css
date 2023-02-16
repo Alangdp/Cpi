@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .fab {
     font-size: 25px;
     margin: 8px;
@@ -38,3 +44,19 @@ footer {
     background: #3D3333 !important;
 }
 
+.card-body{
+    margin: 3px !important;
+}
+
+.main-container {
+    width: 98%;
+    height: 100vh;
+}
+
+.main-container .pr-1 {
+    height: 20%;
+}
+
+.main-container .pr-1 .container-fluid .row .slogan {
+    font-size: 2rem;
+}
