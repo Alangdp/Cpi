@@ -1,8 +1,10 @@
 from flask import request, redirect, flash ,url_for, render_template, g, session, make_response
-import sqlite3, GetData, fundamentus
+import sqlite3, GetData, fundamentus, requests, json
+from newsapi import NewsApiClient
 from Registro import *
 from extras import *
 from .controllers.userController import *
+newsapi = NewsApiClient(api_key='5e13fe6018a14877aca173ff6688260b')
 
 # Controllers
 Acoes = GetData.selecionadosCard()
@@ -11,7 +13,18 @@ quantidade = len(Acoes)
 def routes(app):
     @app.route('/home')
     def main():
-        return render_template('home.html')
+        aMostrar = []
+        noticias = newsapi.get_everything(q='bolsa brasileira',language='pt',sort_by='relevancy')
+        if not noticias['status'] == 'ok': return render_template('home.html', noticias = aMostrar)
+        for noticia in noticias['articles']:
+            aMostrar.append({
+                'titulo': noticia['title'],
+                'descricao': noticia['description'],
+                'url-image': noticia['urlToImage'],
+                'url': noticia['url'],})
+            
+            if len(aMostrar) >= 5: break
+        return render_template('home.html', noticias = aMostrar)
 
     @app.route('/', methods=['GET','POST'])
     @app.route('/ranking', methods=['GET','POST'])

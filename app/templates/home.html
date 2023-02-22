@@ -19,15 +19,15 @@
                     <ul class="navbar-nav">
     
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Página 1</a>
+                            <a class="nav-link" href="/carteira">Carteira</a>
                         </li>
     
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Página 2</a>
+                            <a class="nav-link" href="/ranking">Ranking</a>
                         </li>
     
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Página 3</a>
+                            <a class="nav-link" href="/user">Conta</a>
                         </li>
                     </ul>
                 </div>
@@ -40,17 +40,18 @@
                     <ul class="navbar-nav">
     
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Página 4</a>
+                            <a class="nav-link" href="/registrar">Criar Conta</a>
                         </li>
     
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Página 5</a>
-                        </li>
-    
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Página 6</a>
-                        </li>
-    
+                        {% if g.logged == True%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="sair">Sair</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">Logar</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -101,14 +102,15 @@
         </nav>
     </div>
 
-    <div class="main-container mx-auto">
+    <div class="main-container mx-auto w-100">
 
-        <div class="pr-1">
-            <div class="container-fluid h-100">
+        <div class="container-fluid h-50 w-100 p-0 initial-container">
+
+            <div class="container h-75 ">
                 <div class="row h-100 align-middle">
         
                     <div class="col-md-9 d-flex justify-content-center flex-column slogan" >
-                        <span><h2 style="color: green;">Alcance sua Liberdade Financeira</h2> CPI Investindo nas melhores empresas da Bolsa de Valores <br> gerando Renda Passiva e recebendo dividendos.</p>
+                        <span class="text-white"><h2 >Alcance sua Liberdade Financeira</h2> CPI Investindo nas melhores empresas da Bolsa de Valores <br> gerando Renda Passiva e recebendo dividendos.</p>
                     </div>
         
                     <div class="col-md-3  d-flex justify-content-center flex-column">
@@ -119,7 +121,7 @@
             </div>
         </div>
     
-        <div class="container-fluid">
+        <!-- <div class="container-fluid h-50">
             <div class="row">
     
                 <div class="col-md-9">
@@ -131,71 +133,573 @@
                 </div>
                 
             </div>
-        </div>
+        </div> -->
     
-        <div class="container-fluid ">
-            <div class="row">
-                <div class="col-sm row row-cols-2 mx-auto">
-                    <div class="card-body text-center border border-secondary rounded">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    <div class="card-body text-center border border-secondary rounded ">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    <div class="card-body text-center border border-secondary rounded">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    <div class="card-body text-center border border-secondary rounded">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    <div class="card-body text-center border border-secondary rounded">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    <div class="card-body text-center border border-secondary rounded">
-                        <h5 class="card-title text-primary">Vantagem 1</h5>
-                        <p class="card-text">Descrição da vantagem 1.</p>
-                    </div>
-                    
-                </div>
-                <div class="col-sm mx-auto"></div>
-            </div>
-        </div>
-    </div>
-    
-
+        <div class="container content">
             
+            <div class="container">
+                <h2>Carrossel de Notícias</h2>
+        
+                <div id="noticias" class="carousel slide" data-ride="carousel">
+        
+                    <!-- Indicadores -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#noticias" data-slide-to="0" class="active"></li>
+                        <li data-target="#noticias" data-slide-to="1"></li>
+                        <li data-target="#noticias" data-slide-to="2"></li>
+                        <li data-target="#noticias" data-slide-to="3"></li>
+                        <li data-target="#noticias" data-slide-to="4"></li>
+                        <li data-target="#noticias" data-slide-to="5"></li>
+                    </ul>
+        
+                    <!-- Slides -->
+                    <div class="carousel-inner">
+                        {% for noticia in noticias %}
+                            {% if loop.index == 1%}
+                                <div class="carousel-item active">
+                                    <img src="{{noticia['url-image']}}" alt="Notícia {{loop.index}}" style="width:100%;">
+                                    <div class="carousel-caption active">
+                                        <a href="{{noticia['url']}}" style="color: white;">
+                                            <h3>{{noticia['titulo']}}</h3>
+                                        </a>
+                                        <p>{{noticia['description']}}</p>
+                                    </div>
+                                </div> 
+                            {% else %}
+                                <div class="carousel-item">
+                                    <img src="{{noticia['url-image']}}" alt="Notícia {{loop.index}}" style="width:100%;">
+                                    <div class="carousel-caption">
+                                        <a href="{{noticia['url']}}" style="color: white;">
+                                            <h3>{{noticia['titulo']}}</h3>
+                                        </a>
+                                        <p>{{noticia['description']}}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+        
+                    <!-- Controles -->
+                    <a class="carousel-control-prev" href="#noticias" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#noticias" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+        
+                </div>
+            </div>
+
+            <div class="container row mt-3">
+                <div class="col">
+                    <h3 class="text-center">
+                        Altas
+                    </h3>
+                    
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="col">
+                    <h3 class="text-center">
+                        Baixas
+                    </h3>
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="col">
+                    <h3 class="text-center fs-4">
+                        Dividendos
+                    </h3>
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="text-center">
+                        <div class="card mb-4 card-custom">
+                            <div class="card-body">
+                                <div class="row row-flex">
+                                    <div class="col-4">
+                                        <img src="https://statusinvest.com.br/img/company/avatar/331.jpg?v=10" alt="icone" class="img-fluid">
+                                    </div>
+    
+                                    <div class="col-4">
+                                        <p class="tx-xl">BBAS3</p>
+                                        <p class="tx-xs">Nome da Empresa</p>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <h6 class="card-title">Valor</h6>
+                                        <p class="card-text"><i class="fas fa-arrow-up text-success"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="row mb-3">
+                <div class="col-md-6 pd-l">
+                      <div class="card mt-4">
+                          
+                          <div class="card-header bg-dark text-white">
+                              <h4>Plano Gratuito</h4>
+                          </div>
+                          
+                          <div class="card-body">
+                              <ul class="list-unstyled">
+                              <li><i class="fa fa-check text-success"></i> Acesso à plataforma</li>
+                              <li><i class="fa fa-check text-success"></i> Montagem de carteira</li>
+                              <li><i class="fa fa-check text-success"></i> Relatórios de desempenho</li>
+                              <li><i class="fa fa-check text-success"></i> Cálculo de rentabilidade</li>
+                              <li><i class="fa fa-check text-success"></i> Notificações de mercado</li>
+                              <li><i class="fa fa-check text-success"></i> Atendimento ao cliente por e-mail</li>
+                              </ul>
+                          </div>
+      
+                          <div class="card-footer">
+                              <a href="#" class="btn btn-outline-dark btn-block">Saiba Mais</a>
+                          </div>
+      
+                      </div>
+                  </div>
+                  <div class="col-md-6 pd-r">
+                      <div class="card mt-4">
+      
+                          <div class="card-header bg-primary text-white">
+                              <h4>Plano Pago</h4>
+                          </div>
+      
+                          <div class="card-body">
+                              <ul class="list-unstyled">
+                              <li><i class="fa fa-check text-success"></i> Todas as vantagens do plano gratuito</li>
+                              <li><i class="fa fa-check text-success"></i> Recomendação de ações</li>
+                              <li><i class="fa fa-check text-success"></i> Calculadora de imposto de renda</li>
+                              <li><i class="fa fa-check text-success"></i> Relatórios personalizados</li>
+                              <li><i class="fa fa-check text-success"></i> Notificações por SMS</li>
+                              <li><i class="fa fa-check text-success"></i> Atendimento ao cliente por telefone</li>
+                              </ul>
+                          </div>
+                          <div class="card-footer">
+                              <a href="#" class="btn btn-primary btn-block">Assinar</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+        </div>
+  
+        <footer id="footer" class="text-light">
+            <div class="container py-3">
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-6 d-flex justify-content-center">
+                        <a href="https://www.instagram.com/alan_dias__/" target="_blank" class="text-light me-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/álan-gabriel/" target="_blank" class="text-light me-3">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/Alangdp" target="_blank" class="text-light me-3">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+    
+                    <div class="col-md-6" d-flex justify-content-center>
+                        <a href="https://www.instagram.com/alan_dias__/" target="_blank" class="text-light me-3">By Álan</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    
       
 
-    <footer class="text-light">
-        <div class="container py-3">
-            <div class="row d-flex align-items-center">
-                <div class="col-md-6 d-flex justify-content-center">
 
-                    <a href="https://www.instagram.com/alan_dias__/" target="_blank" class="text-light me-3">
-                        <i class="fab fa-instagram"></i>
-                    </a>
+    <script>
+        function Deslogar() {
+            const botaoSair = document.getElementById('sair');
 
-                    <a href="https://www.linkedin.com/in/álan-gabriel/" target="_blank" class="text-light me-3">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
+            botaoSair.addEventListener('click', (e) => {
+                e.preventDefault();
 
-                    <a href="https://github.com/Alangdp" target="_blank" class="text-light me-3">
-                        <i class="fab fa-github"></i>
-                    </a>
+                axios.post('/logout', { action: 'logout'})
+                .then( (succes) => {window.location.href = "/";})
+                .catch( (err) => {window.location.href = "/";})
 
-                </div>
+            })
+        }
 
-                <div class="col-md-6" d-flex justify-content-center>
-                    <a href="https://www.instagram.com/alan_dias__/" target="_blank" class="text-light me-3">By Álan</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+        Deslogar()
+    </script>
+
+    <script src="{{url_for('static', filename = '/Home/js/home.js')}}"></script>
 </body>
 </html>
 

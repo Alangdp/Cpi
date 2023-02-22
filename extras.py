@@ -61,6 +61,7 @@ def isTicker(ticker):
     ticker = (ticker).upper()
     acoes = fundamentus.get_resultado()
     for tick in acoes.index:
+        print(tick  )
         if tick == ticker: return "True"
         else: continue
     return "False"

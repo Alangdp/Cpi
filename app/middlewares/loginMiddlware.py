@@ -24,10 +24,13 @@ def isLogged(app):
     def _isLogged():
         if request.path.startswith('/static/'):
             return 
+        print(request.path)
+        print(g.lockedPaths)
         if request.path in g.lockedPaths:
             return 
         if 'logged' in session and session['logged'] == True:
             return 
+        print(12345)
         return redirect('/login')
 
 def init_app2(app):
