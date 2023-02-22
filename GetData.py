@@ -1,12 +1,14 @@
 from bs4 import BeautifulSoup
 from mechanize import Browser
 from extras import comandoSQL
+from lxml import etree
+import datetime
 import fundamentus, lxml, shutil, requests, json, datetime
 # from selenium import webdriver
 
 # Global Methods
         
-def formate_Number(x):
+def formate_Number(x, virgulas = 2):
     lt = []
     for y in str(x):
         if y == ',':
@@ -17,7 +19,7 @@ def formate_Number(x):
         else: 
             pass
     formated = float(''.join(lt))
-    return float(f'{formated:.2f}')
+    return float(f'{formated:.{virgulas}f}')
 
 def sqlString(valor):
     try:
@@ -472,3 +474,66 @@ class BasicData():
                 return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
         except:
             return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+        
+    @staticmethod
+    def variacoes():
+        data = [[],[],[]]
+
+        def Soup():
+
+            b = Browser()
+            b.set_handle_robots(False)
+            b.addheaders = [('Referer', 'https://statusinvest.com.br'), ('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+            b.open('https://statusinvest.com.br')
+            page = b.response().read()
+            soup = BeautifulSoup(page, "lxml")
+            return soup
+            
+        soup = Soup()
+        if soup == 'ERRO SOUP': return
+
+        dados = soup.findAll('div', attrs={'class': 'w-100 w-sm-50 w-xl-25 mt-4 mt-xl-0'})
+
+        altas = dados[0]
+        identificadoresAlta = altas.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresAcaoAlta = altas.findAll('span', {'class': 'd-flex fw-900 other-value'})
+        variacaoAcaoAlta = altas.findAll('span', {'class': 'value align-items-center d-flex'})  
+
+        for i in range(len(identificadoresAlta)):
+            data[0].append({
+                'ticker' : identificadoresAlta[i].text.split(' ')[0],
+                'name': identificadoresAlta[i].text.split(' ')[1],
+                'value': formate_Number(valoresAcaoAlta[i].text.split('"')),
+                'volatility': formate_Number(variacaoAcaoAlta[i].text)
+            })
+
+        baixas = dados[1]
+        identificadoresAlta = baixas.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresAcaoAlta = baixas.findAll('span', {'class': 'd-flex fw-900 other-value'})
+        variacaoAcaoAlta = baixas.findAll('span', {'class': 'value align-items-center d-flex'})  
+
+        for i in range(len(identificadoresAlta)):
+            data[1].append({
+                'ticker' : identificadoresAlta[i].text.split(' ')[0],
+                'name': identificadoresAlta[i].text.split(' ')[1],
+                'value': formate_Number(valoresAcaoAlta[i].text.split('"')),
+                'volatility': formate_Number(variacaoAcaoAlta[i].text)
+            })
+
+        dividendos = dados[2]
+        identificadoresDividendos = dividendos.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresDividendo = dividendos.findAll('span', {'class': 'value align-items-center d-flex'})
+        tipoDividendo = dividendos.findAll('span', {'class': 'tag'})  
+        dataDividendo = dividendos.findAll('span', {'class': 'd-block fs-2 lh-2 w-md-50 w-xl-100 fw-700'})
+        
+        for i in range(len(identificadoresDividendos)):
+            data[2].append({
+                'ticker' : identificadoresDividendos[i].text.split(' ')[0],
+                'name': identificadoresDividendos[i].text.split(' ')[1],
+                'value': formate_Number(valoresDividendo[i].text, 4),
+                'volatility': tipoDividendo[i].text,
+                'date': dataDividendo[i].text.replace('\n', '')
+            })
+        return data
+
+print(BasicData.variacoes()[2])
