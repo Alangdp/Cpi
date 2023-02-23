@@ -531,9 +531,13 @@ class BasicData():
                 'ticker' : identificadoresDividendos[i].text.split(' ')[0],
                 'name': identificadoresDividendos[i].text.split(' ')[1],
                 'value': formate_Number(valoresDividendo[i].text, 4),
-                'volatility': tipoDividendo[i].text,
+                'type': tipoDividendo[i].text,
                 'date': dataDividendo[i].text.replace('\n', '')
             })
+
+        with open('./app/json/homeVar.json', 'w') as file:
+            json.dump(data, file, indent=4)
+        
         return data
 
-print(BasicData.variacoes()[2])
+print(BasicData.variacoes())

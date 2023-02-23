@@ -1,0 +1,122 @@
+[
+    [
+        {
+            "ticker": "JBSS3",
+            "name": "JBS",
+            "value": 18.9,
+            "volatility": 5.53
+        },
+        {
+            "ticker": "PETR3",
+            "name": "PETROBRAS",
+            "value": 30.03,
+            "volatility": 3.73
+        },
+        {
+            "ticker": "BEEF3",
+            "name": "MINERVA",
+            "value": 11.8,
+            "volatility": 3.51
+        },
+        {
+            "ticker": "PETR4",
+            "name": "PETROBRAS",
+            "value": 26.55,
+            "volatility": 3.07
+        },
+        {
+            "ticker": "NTCO3",
+            "name": "NATURA",
+            "value": 15.33,
+            "volatility": 2.89
+        },
+        {
+            "ticker": "LREN3",
+            "name": "LOJAS",
+            "value": 19.18,
+            "volatility": 2.62
+        }
+    ],
+    [
+        {
+            "ticker": "VIIA3",
+            "name": "VIA",
+            "value": 1.99,
+            "volatility": 3.86
+        },
+        {
+            "ticker": "QUAL3",
+            "name": "QUALICORP",
+            "value": 5.01,
+            "volatility": 3.65
+        },
+        {
+            "ticker": "RAIZ4",
+            "name": "RAIZEN",
+            "value": 3.0,
+            "volatility": 2.6
+        },
+        {
+            "ticker": "CVCB3",
+            "name": "CVC",
+            "value": 3.47,
+            "volatility": 2.53
+        },
+        {
+            "ticker": "CRFB3",
+            "name": "ATACAD\u00c3O",
+            "value": 14.26,
+            "volatility": 2.46
+        },
+        {
+            "ticker": "COGN3",
+            "name": "COGNA",
+            "value": 2.17,
+            "volatility": 2.25
+        }
+    ],
+    [
+        {
+            "ticker": "B3SA3",
+            "name": "B3",
+            "value": 0.0367,
+            "type": "Dividendo",
+            "date": " 23/02/2023"
+        },
+        {
+            "ticker": "BBAS3",
+            "name": "BANCO",
+            "value": 0.2355,
+            "type": "Dividendo",
+            "date": "23/02/2023"
+        },
+        {
+            "ticker": "BBAS3",
+            "name": "BANCO",
+            "value": 0.5735,
+            "type": "JCP",
+            "date": "23/02/2023"
+        },
+        {
+            "ticker": "BBAS3",
+            "name": "BANCO",
+            "value": 0.0037,
+            "type": "Rend. Tributado",
+            "date": "23/02/2023"
+        },
+        {
+            "ticker": "BBAS3",
+            "name": "BANCO",
+            "value": 0.0091,
+            "type": "Rend. Tributado",
+            "date": "23/02/2023"
+        },
+        {
+            "ticker": "UGPA3",
+            "name": "ULTRAPAR",
+            "value": 0.1,
+            "type": "Dividendo",
+            "date": "23/02/2023"
+        }
+    ]
+]

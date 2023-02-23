@@ -22,7 +22,6 @@ def routes(app):
                 'descricao': noticia['description'],
                 'url-image': noticia['urlToImage'],
                 'url': noticia['url'],})
-            
             if len(aMostrar) >= 5: break
         return render_template('home.html', noticias = aMostrar)
 

@@ -25,6 +25,13 @@ footer {
     .desktop {
         display: none;
     }
+    .content {
+        max-width: 100% !important;
+    }
+
+    .col-md-4 {
+        padding: 5px !important;
+    }
 }
 .desktop > nav {
     background: #3D3333 !important;
@@ -107,4 +114,12 @@ footer {
 .row-flex {
     display: flex;
     align-items: center;
+}
+
+.card.mt-4 {
+    height: 94.3%;
+}
+
+.row.mb-3 {
+    width: 100%;
 }
