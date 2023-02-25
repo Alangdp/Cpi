@@ -477,7 +477,7 @@ class BasicData():
         
     @staticmethod
     def variacoes():
-        data = [[],[],[]]
+        data = [[],[],[],[]]
 
         def Soup():
 
@@ -498,26 +498,33 @@ class BasicData():
         identificadoresAlta = altas.findAll('h4', {'title': 'ticker/código do ativo'})
         valoresAcaoAlta = altas.findAll('span', {'class': 'd-flex fw-900 other-value'})
         variacaoAcaoAlta = altas.findAll('span', {'class': 'value align-items-center d-flex'})  
+        imagensAlta = altas.findAll('div', {'class': 'avatar'})
 
+        
         for i in range(len(identificadoresAlta)):
+            urlImg = (str(imagensAlta[i])).split('"')[3].split('(')[1].replace(')', '')
             data[0].append({
                 'ticker' : identificadoresAlta[i].text.split(' ')[0],
                 'name': identificadoresAlta[i].text.split(' ')[1],
                 'value': formate_Number(valoresAcaoAlta[i].text.split('"')),
-                'volatility': formate_Number(variacaoAcaoAlta[i].text)
+                'volatility': formate_Number(variacaoAcaoAlta[i].text),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
             })
 
         baixas = dados[1]
-        identificadoresAlta = baixas.findAll('h4', {'title': 'ticker/código do ativo'})
-        valoresAcaoAlta = baixas.findAll('span', {'class': 'd-flex fw-900 other-value'})
-        variacaoAcaoAlta = baixas.findAll('span', {'class': 'value align-items-center d-flex'})  
+        identificadoresBaixa = baixas.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresAcaoBaixa = baixas.findAll('span', {'class': 'd-flex fw-900 other-value'})
+        variacaoAcaoBaixa = baixas.findAll('span', {'class': 'value align-items-center d-flex'})  
+        imagensBaixa = baixas.findAll('div', {'class': 'avatar bg-lazy'})
 
-        for i in range(len(identificadoresAlta)):
+        for i in range(len(identificadoresBaixa)):
+            urlImg = (str(imagensBaixa[i])).split('"')[3].split('(')[1].replace(')', '')
             data[1].append({
-                'ticker' : identificadoresAlta[i].text.split(' ')[0],
-                'name': identificadoresAlta[i].text.split(' ')[1],
-                'value': formate_Number(valoresAcaoAlta[i].text.split('"')),
-                'volatility': formate_Number(variacaoAcaoAlta[i].text)
+                'ticker' : identificadoresBaixa[i].text.split(' ')[0],
+                'name': identificadoresBaixa[i].text.split(' ')[1],
+                'value': formate_Number(valoresAcaoBaixa[i].text.split('"')),
+                'volatility': formate_Number(variacaoAcaoBaixa[i].text),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
             })
 
         dividendos = dados[2]
@@ -525,19 +532,41 @@ class BasicData():
         valoresDividendo = dividendos.findAll('span', {'class': 'value align-items-center d-flex'})
         tipoDividendo = dividendos.findAll('span', {'class': 'tag'})  
         dataDividendo = dividendos.findAll('span', {'class': 'd-block fs-2 lh-2 w-md-50 w-xl-100 fw-700'})
+        imagensDivindendo = dividendos.findAll('div', {'class': 'avatar bg-lazy'})
         
         for i in range(len(identificadoresDividendos)):
+            urlImg = (str(imagensDivindendo[i])).split('"')[3].split('(')[1].replace(')', '')
             data[2].append({
                 'ticker' : identificadoresDividendos[i].text.split(' ')[0],
                 'name': identificadoresDividendos[i].text.split(' ')[1],
                 'value': formate_Number(valoresDividendo[i].text, 4),
                 'type': tipoDividendo[i].text,
-                'date': dataDividendo[i].text.replace('\n', '')
-            })
+                'date': dataDividendo[i].text.replace('\n', ''),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
+                
+        })
+        
+        comunicados = dados[3]
+        identificadoresComunicados = comunicados.findAll('h4', {'title': 'ticker/código do ativo'})
+        imagensComunicado = comunicados.findAll('div', {'class': 'avatar bg-lazy'})
+        amount = comunicados.findAll('span', {'class': 'quantity rounded d-inline-block fw-900'})
+        typeComunicado = comunicados.findAll('div', {'class': 'main-info align-items-center d-flex justify-between'})
+        urlComunicado = comunicados.findAll('div', {'class': 'info w-100'})
+
+        for i in range(len(identificadoresComunicados)):
+            ticker = identificadoresComunicados[i].text.split(' ')[0]
+            urlImg = (str(imagensComunicado[i])).split('"')[3].split('(')[1].replace(')', '')
+            data[3].append({
+                'ticker' : ticker, 
+                'name': identificadoresComunicados[i].text.split(' ')[1],
+                'amount': amount[i].text,
+                'url-image': f'https://statusinvest.com.br{urlImg}',
+                'type': (typeComunicado[i].text).replace('\n' ,'').replace('1', '').replace('2', '').replace('comunicado novo/atualizado', 'comunicado').replace('comunicados novos/atualizados', 'comunicado'),
+                # refazer a linha acima
+                'url': f'https://statusinvest.com.br/acoes/{ticker}#go-document-section'
+        })
 
         with open('./app/json/homeVar.json', 'w') as file:
             json.dump(data, file, indent=4)
-        
-        return data
 
-print(BasicData.variacoes())
+        return data

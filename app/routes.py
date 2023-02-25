@@ -13,17 +13,31 @@ quantidade = len(Acoes)
 def routes(app):
     @app.route('/home')
     def main():
-        aMostrar = []
+        GetData.BasicData.variacoes()
+        listaDeImagens = []
+        noticiaF = []
+        variacoes = []
         noticias = newsapi.get_everything(q='bolsa brasileira',language='pt',sort_by='relevancy')
-        if not noticias['status'] == 'ok': return render_template('home.html', noticias = aMostrar)
+        if not noticias['status'] == 'ok': return render_template('home.html', noticias = noticiaF)
         for noticia in noticias['articles']:
-            aMostrar.append({
+            if noticia['urlToImage'] in listaDeImagens: continue
+            listaDeImagens.append(noticia['urlToImage'])
+            noticiaF.append({
                 'titulo': noticia['title'],
                 'descricao': noticia['description'],
                 'url-image': noticia['urlToImage'],
                 'url': noticia['url'],})
-            if len(aMostrar) >= 5: break
-        return render_template('home.html', noticias = aMostrar)
+            if len(noticiaF) >= 6: break
+
+        with open('./app/json/homeVar.json', 'r') as file:
+            variacoes.append(json.load(file))
+        
+        # for x in variacoes[0]:
+        #     print()
+        #     for y in x:
+        #         print(y)
+
+        return render_template('home.html', noticias = noticiaF, variacoes = variacoes[0])
 
     @app.route('/', methods=['GET','POST'])
     @app.route('/ranking', methods=['GET','POST'])
