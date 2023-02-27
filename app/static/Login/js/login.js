@@ -47,7 +47,7 @@ class ValidaRegistro{
             window.location.href = "/ranking";
             return true;
         }).catch( (err) => {
-            alert('Senha ou Email, Invalidos!')
+            window.location.href = "/login";
             return false;
         })
     }

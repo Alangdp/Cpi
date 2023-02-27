@@ -51,8 +51,7 @@ class ValidaRegistro{
             window.location.href = "/loginPage";
             return true;
         }).catch( (err) => {
-            alert('Impossível concluir o registro, tente mais tarde');
-            console.log(err)
+            window.location.href = "/registrar";
             return false;
         })
     }

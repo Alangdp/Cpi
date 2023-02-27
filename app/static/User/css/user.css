@@ -3,12 +3,29 @@
     padding: 0;
 }
 
-.containers {
-    margin-left: 300px !important;
-    height: 100vh;
-    width: calc(100% - 300px);
-    overflow-y: scroll;
-    background-color: rgb(237, 234, 238);
+@media screen and (max-width:800px) {
+    .containers {
+        overflow: auto;
+        margin-left: 0px !important;
+    }
+
+    .grid .cards {
+        width: 94.8% !important;
+    }
+
+    .containers .grids .cards .form-control {
+        width: 97% !important;
+    }
+}
+
+@media screen and (min-width:801px) {
+    .containers {
+        margin-left: 300px;
+        height: 100vh;
+        width: calc(100% - 300px);
+        overflow-y: scroll;
+        background-color: rgb(237, 234, 238);
+    }
 }
 
 .grids {

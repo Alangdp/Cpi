@@ -5,14 +5,27 @@ def genAlert(typeA, message):
     session[typeA] = message
 
 def validaSenha(senha = ''):
-    if not re.match(r' /^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/', senha): return False
-    print('senha passou')
+    if not re.match(r'^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$', senha.strip()): return False
     return True
+    
 
 def validaEmail(email = ''):
     if not re.match(r"^\S+@\S+\.\S+$", email): return False
-    print('email passou')
     return True
+
+    
+def gerarAviso(mensagem, tipo = 0):
+    if tipo == 0:
+        if 'alertError' not in session:
+            session['alertError'] = []
+        session['alertError'].append(mensagem)
+        print(session['alertError'])
+    elif tipo == 1:
+        if 'alertSucess' not in session:
+            session['alertSucess'] = []
+        session['alertSucess'].append(mensagem)
+
+        print(session['alertSucess'])
 
 # def validaMX(email = ''):
 #     dominio = email.split("@")[-1]

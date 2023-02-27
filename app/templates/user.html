@@ -12,6 +12,7 @@
   </head>
     {% include './includes/bootstrap.html'%}
     {% include './includes/sidebar.html'%}
+    {% include './includes/alerts.html'%}
 
     <body>
         <div class="containers">
@@ -62,8 +63,18 @@
                             {% with messages = get_flashed_messages(category_filter=['ErrorUserPassword']) %}
                                 {% if messages %}
                                     {% for message in messages %}
-                                        <div class="alerts alert-danger alert-server">
+                                        <div class="alerts alert-danger alert-server h-100">
                                             <h5 class="text-alert text-break">{{message}}</h5>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            {% with messages = get_flashed_messages(category_filter=['SucessUserPassword']) %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success alert-server h-100">
+                                            <h5 class="text-success text-break">{{message}}</h5>
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -102,6 +113,16 @@
                                     {% for message in messages %}
                                         <div class="alerts alert-danger alert-server">
                                             <h5 class="text-alert text-break">{{message}}</h5>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            {% with messages = get_flashed_messages(category_filter=['SucessUserEmail']) %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success alert-server h-100">
+                                            <h5 class="text-success text-break">{{message}}</h5>
                                         </div>
                                     {% endfor %}
                                 {% endif %}

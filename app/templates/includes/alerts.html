@@ -1,0 +1,65 @@
+<head>
+    {% include './includes/bootstrap.html'%}
+</head>
+
+<style>
+    .alert-content {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        width: 30%;
+        transform: translate(-50%, -50%);
+        background: rgb(255, 245, 245);
+        z-index: 9999;
+        border-radius: 4px;
+    }
+
+    .alert-content .alert-message {
+        height: 100%;
+        padding: 10px ;
+    }
+</style>
+
+{% if session['alertError']|length > 0 or session['alertSucess']|length > 0 %}
+
+    <div class="alert-content p-3 ">
+
+        <h3 class="text-center font-weight-bold" >Alertas</h3>
+        <div class="alert-message">
+
+            
+
+            {% if session['alertError']|length > 0 %}
+                {% for message in session['alertError'] %}
+                    <div class="alert alert-danger" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if session['alertSucess']|length > 0 %}
+                {% for message in session['alertSucess'] %}
+                    <div class="alert alert-success" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+{% endif %}
+
+{% with alertError = session.pop('alertError', []) %}
+{% endwith %}
+
+{% with alertSucess = session.pop('alertSucess', []) %}
+{% endwith %}
+
+<script>
+    setTimeout( () => {
+
+        alertInfo = document.querySelector('.alert-content');
+        alertInfo.remove();
+    }, 10000)
+
+</script>

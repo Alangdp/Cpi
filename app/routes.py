@@ -1,4 +1,4 @@
-from flask import request, redirect, flash ,url_for, render_template, g, session, make_response
+from flask import request, redirect, flash ,url_for, render_template, g, session, make_response, current_app
 import sqlite3, GetData, fundamentus, requests, json
 from newsapi import NewsApiClient
 from Registro import *
@@ -13,7 +13,6 @@ quantidade = len(Acoes)
 def routes(app):
     @app.route('/home')
     def main():
-        GetData.BasicData.variacoes()
         listaDeImagens = []
         noticiaF = []
         variacoes = []
@@ -31,12 +30,11 @@ def routes(app):
 
         with open('./app/json/homeVar.json', 'r') as file:
             variacoes.append(json.load(file))
-        
+
         # for x in variacoes[0]:
         #     print()
         #     for y in x:
         #         print(y)
-
         return render_template('home.html', noticias = noticiaF, variacoes = variacoes[0])
 
     @app.route('/', methods=['GET','POST'])
@@ -52,17 +50,16 @@ def routes(app):
     @app.route('/registrar', methods=['POST'])
     def registrar():    
         json_dados = request.get_json()
-        print(json_dados['action'] == 'registro', 'aki o print do action')
         if validaCSR(json_dados['csrfToken']):
             user = json_dados['usuario']
             email = json_dados['email']
             senha = json_dados['senha']
             cpf = json_dados['cpf']
-            registrarDB(user,senha,email,cpf)
-
-            return redirect('/login', code=302)
+            if registrarDB(user,senha,email,cpf):
+                return redirect('/login', code=302)
+            return redirect('/registrarIndex', code=302)
         else:
-            redirect('/registrarIndex', code=304)
+            return redirect('/registrarIndex', code=304)
 
     #Login/Logout
     @app.route('/login', methods=['GET'])

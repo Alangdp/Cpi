@@ -9,6 +9,8 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
     <title>CPI</title>
+
+    {% include './includes/alerts.html'%}
 </head>
 <body>
 
@@ -23,23 +25,24 @@
             </div>
 
             <div class="column">
+                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token }}">
+            
+                <label for="" class="text-in text-white">Email</label>
                 
-                    <label for="" class="text-in">Email</label>
-                    <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token }}">
-                    <label for="" class="field">
-                        <input type="email" class="Email"></input>
-                        <div class="valid"><i class='bx bx-chevron-down'></i></div>
-                    </label>
-        
-                    <label for="" class="text-in">Senha</label>
-                    <label for="" class="field">
-                        <input type="password" class="Senha"></input>
-                        <div class="valid"><i class='bx bx-chevron-down'></i></div>
-                    </label>
+                <label for="" class="field ">
+                    <input type="email" class="Email"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
     
-                    <button type="submit" class="registrar">Logar</button>
-    
-                    <a href="/registrar" style="font-size: 20px; display:flex;justify-content: center; margin-top: 8px; color:white;">Não tem conta?</a>
+                <label for="" class="text-in text-white">Senha</label>
+                <label for="" class="field">
+                    <input type="password" class="Senha"></input>
+                    <div class="valid"><i class='bx bx-chevron-down'></i></div>
+                </label>
+
+                <button type="submit" class="registrar btn btn-primary">Logar</button>
+
+                <a href="/registrar" style="font-size: 20px; display:flex;justify-content: center; margin-top: 8px; color:white;">Não tem conta?</a>
     
             </div>
 

@@ -220,9 +220,7 @@ body{
     color: black;
 }
 
-
 *{
-    overflow: hidden;
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -399,7 +397,7 @@ body{
     position: relative;
     border-radius: 12px;
     background-color: rgba(255,255,255);
-    min-height: 300px;
+    min-height: 325px;
     min-width: 450px;
     margin: 20px;
     /* max-width: 400px; */

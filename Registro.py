@@ -15,8 +15,11 @@ def atualizarSenha(novaSenha, senhaAtual, idd):
     if senhaAtual != session['user'][0][1]:
         flash('Senha atual inválida', 'ErrorUserPassword')
         return
-    comandoSQL('UPDATE usuarios SET password = ? WHERE id = ?', (novaSenha, idd, ))
-    deslogar()
+    else:
+        comandoSQL('UPDATE usuarios SET password = ? WHERE id = ?', (novaSenha, idd, ))
+        flash('Senha Alterada', 'SucessUserPassword')
+        return
+    
 
 def atualizarEmail(novoEmail, EmailAtual, idd):
     if not validaEmail(novoEmail): return
@@ -28,8 +31,10 @@ def atualizarEmail(novoEmail, EmailAtual, idd):
     if EmailAtual != session['user'][0][2]:
         flash('Email atual inválido', 'ErrorUserEmail')
         return
-    comandoSQL('UPDATE usuarios SET email = ? WHERE id = ?', (novoEmail, idd, ))
-    deslogar()
+    else:  
+        comandoSQL('UPDATE usuarios SET email = ? WHERE id = ?', (novoEmail, idd, ))
+        flash('Email alterado', 'SucessUserEmail')
+        return
 
 def deslogar():
     session['logged'] = False
@@ -61,7 +66,12 @@ def registrarDB(nome = None ,senha = None ,email = None, cpf = None):
     # if not validaEmail(email): return
     senha = sha256(senha.encode()).hexdigest()
 
-    comandoSQL("INSERT INTO usuarios (user,password,email,cpf) VALUES(?,?,?,?)", (nome,senha,email,cpf,))
+    try:
+        comandoSQL("INSERT INTO usuarios (user,password,email,cpf) VALUES(?,?,?,?)", (nome,senha,email,cpf,))
+        return True
+    except:
+        gerarAviso('Cpf Já cadastrado')
+        return False
 
     # REFATORADO
 
@@ -90,6 +100,7 @@ def logar(email= '', senha = ''):
         session['user'] = retornDB(email, senha)
         return True
     else: 
+        gerarAviso('Senha ou email incorretos')
         return False
 
     # REFATORADO

@@ -1,10 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
+.fiel {
+  max-height: 30px !important;
+}
+
+input {
+  font-size: 15px !important;
+}
+
+
 @media screen and (min-width: 375px){  
   .register {
     width: 350px !important;
     margin-top: 50px !important; 
-  }
+  } 
 
   .register .text-in {
     font-size: 18px !important;
@@ -120,7 +129,16 @@ button:hover {
 }
 
 .bx-chevron-down {
-    opacity: 0;
+  opacity: 0;
+  margin-bottom: 7px !important 
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Exo:100);
