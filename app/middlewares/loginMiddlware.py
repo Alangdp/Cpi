@@ -26,7 +26,6 @@ def isLogged(app):
             return 
         if 'logged' in session and session['logged'] == True:
             return 
-        extras.gerarAviso('isso e um teste', 1)
         return redirect('/login')
 
 def init_app2(app):

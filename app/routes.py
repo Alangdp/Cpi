@@ -11,8 +11,10 @@ Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
 def routes(app):
+    @app.route('/')
     @app.route('/home')
     def main():
+        GetData.BasicData.variacoes()
         listaDeImagens = []
         noticiaF = []
         variacoes = []
@@ -37,7 +39,6 @@ def routes(app):
         #         print(y)
         return render_template('home.html', noticias = noticiaF, variacoes = variacoes[0])
 
-    @app.route('/', methods=['GET','POST'])
     @app.route('/ranking', methods=['GET','POST'])
     def ranking():
         return render_template('ranking.html',stock = Acoes, qt = quantidade, user = session['user'])

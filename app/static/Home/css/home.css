@@ -21,6 +21,26 @@ footer {
     }
 }
 
+@media screen and (max-width: 840px) {
+    .desktop {
+        display: none;
+    }
+
+    .container-fluid.row.mt-3.variations {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .desktop {
+        display: none;
+    }
+
+    .container-fluid.row.mt-3.variations {
+        grid-template-columns: 1fr!important;
+    }
+}
+
 .container-fluid.row.mt-3.variations {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

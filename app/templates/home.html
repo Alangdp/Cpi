@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" style="overflow-x:auto;">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,9 +64,22 @@
                     <img src="../static/logo.svg" width="50" height="50" alt="Logo">
                 </a>
     
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+
+                <script>
+                    $('.navbar-toggler').on('click', function() {
+                        if ($('.navbar-collapse').hasClass('show')) {
+                            $('.navbar-collapse').collapse('hide');
+                            $(this).attr('data-toggle', 'none');
+                        } else {
+                            $('.navbar-collapse').collapse('show');
+                            $(this).attr('data-toggle', 'collapse');
+                        }
+                    });
+                </script>
     
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column justify-content-center">
@@ -430,6 +443,15 @@
 
         Deslogar()
     </script>
+<!-- Adiciona o jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Adiciona o Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Adiciona o Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
     <script src="{{url_for('static', filename = '/Home/js/home.js')}}"></script>
 </body>
