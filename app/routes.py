@@ -13,6 +13,7 @@ quantidade = len(Acoes)
 def routes(app):
     @app.route('/')
     @app.route('/home')
+    @app.route('/')
     def main():
         GetData.BasicData.variacoes()
         listaDeImagens = []
