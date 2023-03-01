@@ -36,6 +36,7 @@ ins.adsbygoogle {
     }    
     .gridContent .card .stocInfo .value{
         margin-left: 20px !important;
+        margin-top: 12px !important;
     }
 }
 
@@ -48,6 +49,7 @@ ins.adsbygoogle {
     }    
     .gridContent .card .stocInfo .value{
         margin-left: 20px !important;
+        margin-top: 12px !important;
     }
 }
 
@@ -166,9 +168,7 @@ ins.adsbygoogle {
     cursor: pointer;
 }
 
-.sidebar .menu {
-    margin-top: 6vh;
-}
+
 
 body{
     background: rgb(237, 234, 238);

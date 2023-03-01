@@ -1,0 +1,25 @@
+@media screen and (min-width:990px) {
+    .sidebar {
+        display: inline;
+    }
+
+    .mobile {
+        display: none;
+    }
+}
+    
+@media screen and (max-width:989px) {
+    .sidebar {
+        display: none;
+    }
+    
+
+    .gridContent {
+        margin: 0px !important;
+        width: 100% !important;
+    }
+}
+
+.nav-link {
+    color: white !important;
+}

@@ -11,6 +11,10 @@ Acoes = GetData.selecionadosCard()
 quantidade = len(Acoes)
 
 def routes(app):
+    @app.route('/teste')
+    def teste():
+        return render_template('teste.html')
+
     @app.route('/')
     @app.route('/home')
     @app.route('/')

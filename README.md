@@ -4,7 +4,7 @@ Os commits com o nome de pr são para indicar progresso em futuras atualizaçõe
 
 Futuras Atualizações:
 
-1. Criação de uma homepage para o site [ ]
+1. Criação de uma homepage para o site [ x ]
 2. Implementação do uso de threads para compensar a lentidão da biblioteca (Beautiful Soup) [ x ]
 3. Coleta de dados à página e atualização dinâmica /detalhes [ ] - pr1, 
 4. Pagina do usuário (mudar senha, email, nome de usuário) [ x ]

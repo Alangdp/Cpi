@@ -8,27 +8,15 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'ranking.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../../static/Ranking/css/ranking.css">
+    <link rel="stylesheet" href="../../static/Sidebar/sidebar.css">
     <title>CIP</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
-     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
-
-  
+     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">  
 
 </head>
 <body>
-    <div class="content" id="content">
-
-        <div class="mobileSidebar">
-            <a href="/ranking">
-                <div class="msdLogo">
-                    <div class="title">CIP</div>
-                    <i class='bx bxl-python' id="python"></i>
-                </div>
-            </a>
-                <i class='bx bx-menu' id="menum"></i>
-
-        </div>
+    <div class="content" id="content" >
 
         <div class="sidebar" id="sidebar">
             <div class="sidebarLogo">
@@ -88,41 +76,40 @@
                 </li>
                 
 
-                <div class="modal fade" id="modalExcluirConta" tabindex="-1" role="dialog" aria-labelledby="modalExcluirContaTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalExcluirContaTitle">Excluir Conta</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-center">Tem certeza de que deseja excluir sua conta? Essa ação não poderá ser desfeita.</div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="excluirConta()">Excluir</button>
-                            </div>
+            </div>
+
+            <div class="modal fade" id="modalExcluirConta" tabindex="-1" role="dialog" aria-labelledby="modalExcluirContaTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalExcluirContaTitle">Excluir Conta</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">Tem certeza de que deseja excluir sua conta? Essa ação não poderá ser desfeita.</div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" onclick="excluirConta()">Excluir</button>
                         </div>
                     </div>
-                </div> 
+                </div>
+            </div> 
 
-                <div class="modal-backdrop" id="modalBackdrop">
-                    <div class="modal" tabindex="-1" id="spinnerModal">
-                        <div class="modal-dialog d-flex flex-column">
-                            <div class="modal-content d-grid">
-                                <div class="modal-body text-center column">
-                                    <h1 class="text-secondary">Carregando aguarde</h1>
-                                    <div class="spinner-border text-primary" role="status"></div>
-                                    <button type="button" class="btn btn-secondary btn-danger close-b"tn onclick="closeModal()">Cancelar</button>
-
-                                </div>
+            <div class="modal-backdrop" id="modalBackdrop">
+                <div class="modal" tabindex="-1" id="spinnerModal">
+                    <div class="modal-dialog d-flex flex-column">
+                        <div class="modal-content d-grid">
+                            <div class="modal-body text-center column">
+                                <h1 class="text-secondary">Carregando aguarde</h1>
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <button type="button" class="btn btn-secondary btn-danger close-b"tn onclick="closeModal()">Cancelar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 

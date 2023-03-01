@@ -9,6 +9,7 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/Detalhes/css/details.css">
     <title>CIP</title>
+    <link rel="stylesheet" href="../../static/Sidebar/sidebar.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5601274938223308"
      crossorigin="anonymous"></script>
      <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.png')}}">
@@ -17,7 +18,8 @@
 </head>
 <body>
     {% include './includes/sidebar.html'%}
-    
+    {% include './includes/mobile.html'%}
+
 
         <div class="detalhes">
         {% block content %}
