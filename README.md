@@ -1,23 +1,71 @@
-Observações:
 
-Os commits com o nome de pr são para indicar progresso em futuras atualizações.
+# CPI - Controle Produtivo de Investimentos
 
-Futuras Atualizações:
+O site é um projeto de portfólio que tem como objetivo fornecer informações e recomendações sobre investimentos em bolsa de valores. Com base em análises e estudos de mercado, o site oferece sugestões de investimentos em renda variável para ajudar os usuários a tomar decisões financeiras mais informadas.
 
-1. Criação de uma homepage para o site [ x ]
-2. Implementação do uso de threads para compensar a lentidão da biblioteca (Beautiful Soup) [ x ]
-3. Coleta de dados à página e atualização dinâmica /detalhes [ ] - pr1, 
-4. Pagina do usuário (mudar senha, email, nome de usuário) [ x ]
+Por meio de uma interface simples e intuitiva, os usuários podem acessar informações sobre diferentes empresas, setores e tendências do mercado de ações. Além disso, o site também oferece ferramentas e recursos para ajudar os usuários a entender melhor o mercado financeiro e tomar decisões mais inteligentes sobre seus investimentos.
 
-Correções:
+As recomendações de investimentos são baseadas em análises cuidadosas e em estudos de mercado rigorosos, com o objetivo de fornecer aos usuários informações precisas e atualizadas sobre as melhores oportunidades de investimento em renda variável.
 
-1. Possiveis falhas no sistema de login [ x ] - algumas falhas,
-2. Implementar a criptografia no sistema de login usando md5 [ x ] - usado sha256
-3. Dinamização das páginas [ x ] - todas as páginas até o momento
+Em resumo, o site é uma plataforma completa para quem deseja investir em bolsa de valores e busca informações precisas e confiáveis para tomar decisões financeiras mais informadas e lucrativas.
 
-Demais correções feitas:
+| Aviso: Em desenvolvimento, não levar os dados como recomendação!! |
+| ---|
 
-1. Refatorado código da página de registro/login (estava bagunçado) 
-2. Otimizações em algumas funções do "routes.py"
-3. Sistema de CSRF token
-4. Utilização de middlewares para login
+# Correções
+- Possíveis falhas no sistema de login 
+- Implementação de criptografia sha256 no sistema de login
+- Dinamização das páginas
+- Refatoração do código da página de registro/login
+- Otimizações em algumas funções do "routes.py"
+
+# Funcionalidades
+- Coleta de dados de páginas da web usando a biblioteca Beautiful Soup  
+- Sistema de registro e login  
+- Página do usuário para atualizar informações de conta  
+- Implementação de criptografia sha256 para senha  
+- Uso de middlewares para autenticação de login  
+- Implementação de CSRF token  
+- Homepage dinâmica 
+- Uso de threads para otimização
+-
+
+# Futuras Atualizações 
+- Coleta de dados à página e atualização dinâmica /detalhes - pr1
+- Página para montar carteira
+- Calculo imposto de renda
+- Refatoração da classe BasicData
+- Refazer filtros
+
+# Como executar:
+
+### Clone este repositório executando o comando abaixo em seu terminal:
+
+``` git clone git@github.com:Alangdp/Cpi.git ```
+
+## Crie e ative um ambiente virtual:
+
+### Windows
+
+Instale o virtualenv com o comando: pip install virtualenv  
+Crie um ambiente virtual com o comando: virtualenv venv  
+Ative o ambiente virtual com o comando: venv\Scripts\activate  
+
+### Linux
+
+Instale o virtualenv com o comando: sudo apt install python3-venv  
+Crie um ambiente virtual com o comando: python3 -m venv venv  
+Ative o ambiente virtual com o comando: source venv/bin/activate  
+
+### Instale as dependências usando o comando:
+
+``` pip install -r requirements.txt ```
+
+### Execute o servidor usando no terminal:
+
+``` flask run ```
+
+
+### acesse através de:
+
+``` localhost:5000  ```
