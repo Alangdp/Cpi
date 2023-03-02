@@ -12,6 +12,10 @@ ins.adsbygoogle {
         margin-top: 90px !important;
     }
 
+    .gridContent .card .stocInfo .value{
+        margin-top: 60px !important;
+    }
+
     .gridContent .card{
         min-height: 350px !important;
     }
@@ -36,11 +40,11 @@ ins.adsbygoogle {
     }    
     .gridContent .card .stocInfo .value{
         margin-left: 20px !important;
-        margin-top: 12px !important;
+        margin-top: 30px !important;
     }
 }
 
-@media screen and (max-width: 1600px){
+@media screen and (min-width: 1600px){
     .card{
         min-width: 400px !important;
     }
@@ -49,7 +53,15 @@ ins.adsbygoogle {
     }    
     .gridContent .card .stocInfo .value{
         margin-left: 20px !important;
-        margin-top: 12px !important;
+        margin-top: 60px !important;
+    }
+
+    
+}
+
+@media screen and (min-width: 1350px) {
+    .gridContent .card .stocInfo .value {
+        margin-top: 11px !important;
     }
 }
 
