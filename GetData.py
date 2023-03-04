@@ -85,7 +85,6 @@ def selecionadosCard():
     for info in lista:
         retornavel.append(info[0])
     return retornavel
-
         
 def coletaDados(x):
     listaDeErros = []
@@ -570,3 +569,6 @@ class BasicData():
             json.dump(data, file, indent=4)
 
         return data
+
+a = BasicData('bbas3')
+print(a.buyBack())
