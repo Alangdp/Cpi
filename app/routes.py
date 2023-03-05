@@ -166,6 +166,12 @@ def routes(app):
         mensagem = session['erro']['message']
 
         return render_template('errorPage.html', erro = erro , mensagem = mensagem)
+    
+    @app.route('/carteira', methods=['GET'])
+    @app.route('/carteira/dashboard', methods=['GET'])
+    def dashboard():
+        return render_template('stockwallet.html')
+
 
 def init_routes(app):
     routes(app)

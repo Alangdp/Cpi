@@ -3,13 +3,17 @@ from mechanize import Browser
 from extras import comandoSQL
 from lxml import etree
 import datetime
-import fundamentus, lxml, shutil, requests, json, datetime, re
-from GetData import BasicData as BD
+import fundamentus, lxml, shutil, requests, json, datetime, re, statistics
 
 def formate_Number(x, virgulas = 2):
-    x = re.sub(r'[^0-9.,]', '', x).strip()
-    formated = float(x.replace(',', '.'))
-    return float(f'{formated:.2f}')
+    try:
+        x = re.sub(r'[^0-9.,]', '', x).strip()
+        formated = float(x.replace(',', '.'))
+        return float(f'{formated:.2f}')
+    except:
+        x = x.replace(',', '.').replace('.', '')
+        return float(x.replace(",", ".").replace(" M", "")) * 10
+
 
 def sqlString(valor):
     try:
@@ -57,8 +61,8 @@ def dataColect(ticker):
 
     try:
         stock = BD(ticker)
-        data = stock.Datas()
-        dy = stock.Dy()
+        data = stock.data
+        dy = stock.dividend
 
         info = {
             'ticker':stock.ticker,
@@ -68,12 +72,12 @@ def dataColect(ticker):
             'dy_value':data['dy_value'],
             'tag_along':data['tag_along'],
             'roe':data['roe'],
-            'margin':float(stock.Margin()),
+            'margin':float(stock.margin()),
             'dy6':dy['dy6'],
-            'dpa':dy['dpa'],
+            'dpa':dy['dy6'],
             'img':stock.getImage(),
         }
-
+        
         return info
     except:
         return None
@@ -107,6 +111,7 @@ class BD():
         self.payout = self.requestApiStatus(f'https://statusinvest.com.br/acao/payoutresult?code={self.ticker}&companyid=331&type=1')
         self.cashFlow = self.requestApiStatus(f'https://statusinvest.com.br/acao/getfluxocaixa?code={self.ticker}&type=0&futureData=true')
         self.assets = self.requestApiStatus(f'https://statusinvest.com.br/acao/getativos?code={self.ticker}&type=0&futureData=false&range.min=2017&range.max={self.date.year}')
+        self.dividends = self.requestApiStatus(f'https://statusinvest.com.br/acao/companytickerprovents?companyName=bancobrasil&ticker={self.ticker}&chartProventsType=1')
 
         try:
             self.value_dblock_class = self.soup.findAll(attrs={'class':'value d-block lh-4 fs-4 fw-700'})
@@ -117,6 +122,9 @@ class BD():
             pass
 
         self.data = self.datas()
+        self.fundamentalData = self.fundamentalDatas()
+        self.dividend = self.dy()
+
     def soupStatus(self):
         try:
             b = Browser()
@@ -198,7 +206,6 @@ class BD():
         if str(self.dy_Porcent) == '-': self.dy_Porcent = 0
         self.dy_Porcent = formate_Number(self.dy_Porcent)
 
-        print(self.dy_Value, self.dy_Porcent)
         if self.dy_Value == '-': self.dy_Value = 0
         self.dy_Value = formate_Number(self.dy_Value)
 
@@ -237,24 +244,215 @@ class BD():
     def dy(self, *args):
         info = {}
 
-        print(self.data['dy_value'], (self.data['dy_porcent']))
         info['dy_actual'] = f"{self.data['dy_value'] / (self.data['dy_porcent'] / 100):.2f}"
         info['dy6'] = self.data['dy_value'] / 0.06
         info['dy8'] = self.data['dy_value'] / 0.08
         info['dy10'] = self.data['dy_value'] / 0.010
         info['dy12'] = self.data['dy_value'] / 0.012
-        lucroLiquidoProjetado = self.assets
+        lucroLiquido = self.cashFlow['data']['grid'][3]['columns']
+        mediaLiquidaPorcent = self.cashFlow['data']['grid'][3]['columns']
+        lucroLiquidoAtual = formate_Number(self.cashFlow['data']['grid'][3]['columns'][1]['value'])
 
-        info['teste'] = lucroLiquidoProjetado['data']['grid'][12]
-        # info['dpa'] = f"{(ticker_info['cotacao'] - (temp_dy * ticker_info['cotacao'])) / ticker_info['cotacao'] * 10:.2f}"
-            
+        mediaLucroLiquido = statistics.mean([ formate_Number(valor['value']) for valor in lucroLiquido[1::2] ])
+        mediaLiquidaPorcent = statistics.mean([ float((valor['value']).replace(',', '.')) for valor in lucroLiquido[2::2] ])
+
+        info['lucroLiquidoMediaValue'] = mediaLucroLiquido
+        info['lucroLiquidoMediaPorcent'] = mediaLiquidaPorcent
+        info['lucroLiquidoProjetado'] = mediaLucroLiquido * (1 + mediaLiquidaPorcent / 100)
+
         return info
+    
+    def fundamentalDatas(self, *args):
+        # Informações mais importantes, dados do html
+        
+        try:
+            self.strong_class = self.soup.findAll('strong', class_="value")
+        except:
+            return 'ERRO STRONG CLASS'
+        
+        # Coleta de informações e tratamento se nescessário
+        
+        self.segment = self.soupP.find(id="hlSubsetor").text
+        self.listing = self.soupP.find(id="lbGovernanca").text
+        self.market_value = int((formate_Number(self.soupP.find(id='lbValorMercado1').text))* 1000)
+        self.ultimofechamento = self.soupP.find('span', attrs={'id': 'lbUltimoFechamento'}).text
+        self.valorMercado = self.soupP.find('span', attrs = {'id': 'lbValorMercado1'}).text
+        self.volume = self.soup.findAll('strong', attrs={'class':'m-md-0 mb-md-1 value mt-0 fs-3_5 lh-4'})[1].text
+        self.acoesEmitidas = self.soup.find('div', attrs={'title' : 'Total de papéis disponíveis para negociação'}).find('strong', attrs={'class': 'value'}).text
+        self.valor_12 = self.strong_class[4].text
+        self.min_12 = self.strong_class[2].text
+        self.max_12 = self.strong_class[1].text
+        self.paper_volume = formate_Number(self.soupP.find('span', id="lbInformacaoAdicionalQuantidadeTotalAcao").text)*1000
+        self.end_value = self.soupP.find('span', id="lbUltimoFechamento").text
+        requestAtivos = self.assets
+        caixa = requestAtivos['data']['grid'][4]['gridLineModel']['values'][0]
+        self.caixa = f"{caixa:,.0f}"
+        fluxoCaixa = self.cashFlow
+        self.lucroLiquido = fluxoCaixa['data']['grid'][3]['gridLineModel']['values'][0]
 
+        try:
+            info = {}
+            info['valor_12'] = self.valor_12
+            info['min_12'] = self.min_12
+            info['max_12'] = self.max_12
+            info['segment'] = self.segment
+            info['listing'] = self.listing
+            info['ibov'] = 123
+            info['volume'] = self.volume
+            info['end'] = self.end_value
+            info['paperM'] = self.paper_volume
+            info['ultimoFechamento'] = self.ultimofechamento
+            info['valorMercado'] = self.valorMercado
+            info['acoesEmitidas'] = int(formate_Number(self.acoesEmitidas))
+            info['caixa'] = self.caixa
+            info['lucroLiquido'] = self.lucroLiquido
+            return info
+        except:
+            return 'ERRO INFO DATA'
+    
+    def margin(self, *args):
+        precoTeto = self.dividend['dy6']
+        valor = self.data['value']
+        margin = (precoTeto - valor) / precoTeto * 100
+        if margin < 0:
+            margin = margin * -1
+            return float(f'{margin:.2f}')
+        return float(f'{margin:.2f}')
+        
+    def getImage(self):
+        soup = self.soup
 
-a = BD('bbas3')
-print(a.data)
-print(a.dy())
+        if soup.find('div', title="Logotipo da empresa '" + self.data['name']) != None:
+            getImagee = soup.find("div", title="Logotipo da empresa '"+self.data['name'].upper()+"'")
+            return "https://statusinvest.com.br" +getImagee.__str__().split("(")[1].split(")")[0]
+        else:
+            for x in soup.find_all("div"):
+                if str(x).__contains__("data-img"):
+                    try:
+                        print("https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0])
+                        return "https://statusinvest.com.br" + str(x).split("(")[1].split(")")[0]
+                    except:
+                        return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+            return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
 
+    def getImageDetalhes(self):
+        soup = self.soupP
+        try:
+            if soup.find('img',attrs={'id': 'imgFoto'}) :
+                img = soup.find('img',attrs={'id': 'imgFoto'})
+                return img['src']
+            else:
+                return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+        except:
+            return "https://ik.imagekit.io/9t3dbkxrtl/image_not_work_bkTPWw2iO.png"
+    
+    @staticmethod
+    def variacoes():
+        data = [[],[],[],[]]
+
+        def Soup():
+
+            b = Browser()
+            b.set_handle_robots(False)
+            b.addheaders = [('Referer', 'https://statusinvest.com.br'), ('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+            b.open('https://statusinvest.com.br')
+            page = b.response().read()
+            soup = BeautifulSoup(page, "lxml")
+            return soup
+        
+        def formate_Number(x, virgulas = 2):
+            lt = []
+            for y in str(x):
+                if y == ',':
+                    lt.append('.')
+                    continue
+                if y.isnumeric():
+                    lt.append(y)
+                else: 
+                    pass
+            formated = float(''.join(lt))
+            return float(f'{formated:.{virgulas}f}')
+            
+        soup = Soup()
+        if soup == 'ERRO SOUP': return
+
+        dados = soup.findAll('div', attrs={'class': 'w-100 w-sm-50 w-xl-25 mt-4 mt-xl-0'})
+
+        altas = dados[0]
+        identificadoresAlta = altas.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresAcaoAlta = altas.findAll('span', {'class': 'd-flex fw-900 other-value'})
+        variacaoAcaoAlta = altas.findAll('span', {'class': 'value align-items-center d-flex'})  
+        imagensAlta = altas.findAll('div', {'class': 'avatar'})
 
         
+        for i in range(len(identificadoresAlta)):
+            urlImg = (str(imagensAlta[i])).split('"')[3].split('(')[1].replace(')', '')
+            data[0].append({
+                'ticker' : identificadoresAlta[i].text.split(' ')[0],
+                'name': identificadoresAlta[i].text.split(' ')[1],
+                'value': formate_Number(valoresAcaoAlta[i].text.split('"')),
+                'volatility': formate_Number(variacaoAcaoAlta[i].text),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
+            })
 
+        baixas = dados[1]
+        identificadoresBaixa = baixas.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresAcaoBaixa = baixas.findAll('span', {'class': 'd-flex fw-900 other-value'})
+        variacaoAcaoBaixa = baixas.findAll('span', {'class': 'value align-items-center d-flex'})  
+        imagensBaixa = baixas.findAll('div', {'class': 'avatar bg-lazy'})
+
+        for i in range(len(identificadoresBaixa)):
+            urlImg = (str(imagensBaixa[i])).split('"')[3].split('(')[1].replace(')', '')
+            data[1].append({
+                'ticker' : identificadoresBaixa[i].text.split(' ')[0],
+                'name': identificadoresBaixa[i].text.split(' ')[1],
+                'value': formate_Number(valoresAcaoBaixa[i].text.split('"')),
+                'volatility': formate_Number(variacaoAcaoBaixa[i].text),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
+            })
+
+        dividendos = dados[2]
+        identificadoresDividendos = dividendos.findAll('h4', {'title': 'ticker/código do ativo'})
+        valoresDividendo = dividendos.findAll('span', {'class': 'value align-items-center d-flex'})
+        tipoDividendo = dividendos.findAll('span', {'class': 'tag'})  
+        dataDividendo = dividendos.findAll('span', {'class': 'd-block fs-2 lh-2 w-md-50 w-xl-100 fw-700'})
+        imagensDivindendo = dividendos.findAll('div', {'class': 'avatar bg-lazy'})
+        
+        for i in range(len(identificadoresDividendos)):
+            urlImg = (str(imagensDivindendo[i])).split('"')[3].split('(')[1].replace(')', '')
+            data[2].append({
+                'ticker' : identificadoresDividendos[i].text.split(' ')[0],
+                'name': identificadoresDividendos[i].text.split(' ')[1],
+                'value': formate_Number(valoresDividendo[i].text, 4),
+                'type': tipoDividendo[i].text,
+                'date': dataDividendo[i].text.replace('\n', ''),
+                'url-image': f'https://statusinvest.com.br{urlImg}'
+                
+        })
+        
+        comunicados = dados[3]
+        identificadoresComunicados = comunicados.findAll('h4', {'title': 'ticker/código do ativo'})
+        imagensComunicado = comunicados.findAll('div', {'class': 'avatar bg-lazy'})
+        amount = comunicados.findAll('span', {'class': 'quantity rounded d-inline-block fw-900'})
+        typeComunicado = comunicados.findAll('div', {'class': 'main-info align-items-center d-flex justify-between'})
+        urlComunicado = comunicados.findAll('div', {'class': 'info w-100'})
+
+        for i in range(len(identificadoresComunicados)):
+            ticker = identificadoresComunicados[i].text.split(' ')[0]
+            urlImg = (str(imagensComunicado[i])).split('"')[3].split('(')[1].replace(')', '')
+            data[3].append({
+                'ticker' : ticker, 
+                'name': identificadoresComunicados[i].text.split(' ')[1],
+                'amount': amount[i].text,
+                'url-image': f'https://statusinvest.com.br{urlImg}',
+                'type': (typeComunicado[i].text).replace('\n' ,'').replace('1', '').replace('2', '').replace('comunicado novo/atualizado', 'comunicado').replace('comunicados novos/atualizados', 'comunicado'),
+                # refazer a linha acima
+                'url': f'https://statusinvest.com.br/acoes/{ticker}#go-document-section'
+        })
+
+        with open('./app/json/homeVar.json', 'w') as file:
+            json.dump(data, file, indent=4)
+
+        return data
+
+print(dataColect('bbas3'))

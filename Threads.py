@@ -1,5 +1,5 @@
 from threading import Thread
-from GetData import coletaDados, filtraMelhores
+from Gedata2 import dataColect, Filter
 from extras import comandoSQL
 import sqlite3, time
 import fundamentus
@@ -24,7 +24,7 @@ def getDatas(tickers, thread_name):
     for ticker in tickers.index:
         cont += 1
         print(ticker, thread_name, cont, (cont - total))
-        stock_info.append(coletaDados(ticker))
+        stock_info.append(dataColect(ticker))
     setBancoDados(stock_info, inicioTempo)
     
 def setBancoDados(lista,tempo):
@@ -46,6 +46,6 @@ def atualizaDB():
     criaDB()
     fragmentos = threads(70)
     activeThreads(fragmentos)
-    filtraMelhores()
+    Filter()
 
 atualizaDB()

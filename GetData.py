@@ -570,5 +570,4 @@ class BasicData():
 
         return data
 
-a = BasicData('bbas3')
-print(a.buyBack())
+print(BasicData.variacoes())
