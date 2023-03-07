@@ -4,9 +4,113 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="../static/carteiraDash/js/carteiraDash.js"></script>
     <title>Document</title>
+
+    {% include './includes/bootstrap.html'%}
+    
+    <script>
+        grafico(moment())
+    </script>
+    <style>
+        #lineChart {
+            background: white;
+        }
+
+        @media screen and (max-width: 990px) {
+            body .container-fluid.bg-light{
+                width: 100% !important;
+                margin-left: 0px !important;
+            }
+        }
+
+        body .container-fluid.bg-light {
+            width: calc(100% - 300px);
+            margin-left: 300px;
+            height: 100vh;
+        }
+
+        .d-flex-center {
+            display: flex;
+            align-items: center;    
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .col-6 {
+            width: 100%;
+        }
+        
+        .rmx-50 {
+            max-width: 100% !important;
+        }
+        
+        .gap {
+            gap: 1rem !important;
+        }
+        
+        .btn-group .btn:focus,
+        .btn-group .btn:active,
+        .btn-group .btn.active {
+        background-color: #007bff;
+        box-shadow: none;
+        color: #fff;
+        border-color: #007bff;
+        }
+        
+    </style>
 </head>
 <body>
     {% include './includes/sidebar.html'%}
+
+    
+    <div class="container-fluid bg-light">
+        <div class="container-fluid p-3 h-100">
+            <div class="row h-100 w-100 d-flex-center">
+                <div class="col-8 bg-primary h-100 p-3 d-flex flex-column">
+                    <div class="col-6  h-100 bg-primary rmx-50 mb-2">
+                        <div class="row h-100">
+                            <div class="col-8 bg-warning w-100 ml-3" style="max-height: 100%;">
+                                <div class="row m-1"><strong class="text-body">RENTABILIDADE (1 ANO)</strong></div>
+                                <div class="row m-1 mb-3">
+                                    <div class="col-3 text-body">Atual <strong>4,25%</strong></div>
+                                    <div class="col-3 text-body">Período <strong>4,25%</strong></div>
+                                    <div class="col-3">
+                                        <div class="btn-group" role="group" aria-label="Exemplo de botão marcador">
+                                            <button type="button" class="btn btn-outline-primary">Semana</button>
+                                            <button type="button" class="btn btn-outline-primary">Mês</button>
+                                            <button type="button" class="btn btn-outline-primary">Anos</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row m-1 mb-3">
+                                    <div class="col-12 h-100" >
+                                        <canvas id="lineChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 bg-warning w-100 ml-3">
+                                <div class="row m-1">Composição</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 h-100 rmx-50">
+                        <div class="row h-100">
+                            <div class="col-3 bg-warning w-100 ml-3">
+                            </div>
+                            <div class="col-4 bg-warning w-100 ml-3"></div>
+                            <div class="col-4 bg-warning w-100 ml-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 bg-primary h-100 p-3"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
