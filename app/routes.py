@@ -4,8 +4,6 @@ from newsapi import NewsApiClient
 from Registro import *
 from extras import *
 from .controllers.userController import *
-import plotly
-import plotly.graph_objs as go
 
 import numpy as np
 
@@ -175,26 +173,7 @@ def routes(app):
     @app.route('/carteira', methods=['GET'])
     @app.route('/carteira/dashboard', methods=['GET'])
     def dashboard():
-
-        # Dados para o gráfico
-        x = ['2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01', '2018-05-01']
-        carteira = [100, 110, 120, 125, 130]
-        ibov = [100, 105, 112, 108, 115]
-        selic = [6.75, 6.75, 6.75, 6.50, 6.50]
-
-        # Criação do gráfico
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=carteira, mode='lines', name='Carteira'))
-        fig.add_trace(go.Scatter(x=x, y=ibov, mode='lines', name='Ibov'))
-        fig.add_trace(go.Scatter(x=x, y=selic, mode='lines', name='Selic'))
-        fig.update_layout(title='Desempenho da Carteira, Ibov e Selic ao Longo do Tempo',
-                        xaxis_title='Tempo',
-                        yaxis_title='Valor',
-                        )
-
-        # Converte o objeto gráfico em um JSON string
-        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-        return render_template('stockwallet.html', graphJSON=graphJSON)
+        return render_template('stockwallet.html')
 
 
 

@@ -12,12 +12,17 @@
 
     {% include './includes/bootstrap.html'%}
     
-    <script>
-        grafico(moment())
-    </script>
     <style>
         #lineChart {
             background: white;
+            max-height: 100% !important;
+            max-width: 100% !important;
+            width: 100%;
+            
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         @media screen and (max-width: 990px) {
@@ -37,80 +42,227 @@
             display: flex;
             align-items: center;    
             justify-content: center;
-            gap: 1rem;
         }
 
-        .col-6 {
-            width: 100%;
+        .d-column {
+            flex-direction: column;
         }
-        
-        .rmx-50 {
-            max-width: 100% !important;
-        }
-        
-        .gap {
-            gap: 1rem !important;
-        }
-        
+
+   
         .btn-group .btn:focus,
         .btn-group .btn:active,
         .btn-group .btn.active {
-        background-color: #007bff;
-        box-shadow: none;
-        color: #fff;
-        border-color: #007bff;
+            background-color: #007bff;
+            box-shadow: none;
+            color: #fff;
+            border-color: #007bff;
+        }   
+
+        .p-0 {
+            padding: 0 !important;
         }
-        
+
+        .gap {
+            gap: 1rem !important;
+        }
+
+        .t-white-space {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
     {% include './includes/sidebar.html'%}
 
     
-    <div class="container-fluid bg-light">
-        <div class="container-fluid p-3 h-100">
-            <div class="row h-100 w-100 d-flex-center">
-                <div class="col-8 bg-primary h-100 p-3 d-flex flex-column">
-                    <div class="col-6  h-100 bg-primary rmx-50 mb-2">
-                        <div class="row h-100">
-                            <div class="col-8 bg-warning w-100 ml-3" style="max-height: 100%;">
-                                <div class="row m-1"><strong class="text-body">RENTABILIDADE (1 ANO)</strong></div>
-                                <div class="row m-1 mb-3">
-                                    <div class="col-3 text-body">Atual <strong>4,25%</strong></div>
-                                    <div class="col-3 text-body">Período <strong>4,25%</strong></div>
-                                    <div class="col-3">
-                                        <div class="btn-group" role="group" aria-label="Exemplo de botão marcador">
-                                            <button type="button" class="btn btn-outline-primary">Semana</button>
-                                            <button type="button" class="btn btn-outline-primary">Mês</button>
-                                            <button type="button" class="btn btn-outline-primary">Anos</button>
-                                        </div>
+    <div class="container-fluid bg-light p-2">
+        <div class="col d-flex-center d-column h-100 gap">
+            <div class="col h-100">
+                <div class="row w-100 h-100 gap">
+                    <div class="col bg-warning h-100">
+                        <div class="row h-100 gap">
+                            <div class="col-8">
+    
+                                <div class="row p-3">RENTABILIDADE (1 ANO)</div>
+                                <div class="row d-flex-center t-white-space">
+                                    <div class="col-2">ATUAL 5,16%</div>
+                                    <div class="col-2">PERÍODO 5,16%</div>
+                                    <div class="col">ATUAL 5,16% PERÍODO 5,16%</div>
+                                </div>
+        
+                                <div class="row h-100">
+                                    <div class="col" style="height: 75%;">
+                                        <canvas id="lineChart" style="width: 90%; height: 90%;"></canvas>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row m-1 mb-3">
-                                    <div class="col-12 h-100" >
-                                        <canvas id="lineChart"></canvas>
-                                    </div>
+                            <div class="col bg-dark ">
+                                <div class="row p-3">Alocação</div>
+                                <div class="row">
+                                    <canvas id="pieChart"></canvas>
+
                                 </div>
                             </div>
-                            <div class="col-3 bg-warning w-100 ml-3">
-                                <div class="row m-1">Composição</div>
-                            </div>
                         </div>
+                        
                     </div>
-                    <div class="col-6 h-100 rmx-50">
-                        <div class="row h-100">
-                            <div class="col-3 bg-warning w-100 ml-3">
-                            </div>
-                            <div class="col-4 bg-warning w-100 ml-3"></div>
-                            <div class="col-4 bg-warning w-100 ml-3"></div>
-                        </div>
-                    </div>
+                    <div class="col-4 bg-warning h-100"></div>
                 </div>
-                <div class="col-3 bg-primary h-100 p-3"></div>
+            </div>
+
+            <div class="col h-100">
+                <div class="row w-100 h-100 gap">
+                    <div class="col bg-warning h-100"></div>
+                    <div class="col-4 bg-warning h-100"></div>
+                </div>
             </div>
         </div>
     </div>
 </body>
 </html>
 
+<script>
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+        labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+        datasets: [{
+        data: [300, 50, 100, 40, 120],
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+    });
+</script>
+
+<script>
+    
+const grafico = () => {
+
+    function botoes(meses , semana, anos) {
+        document.addEventListener('click', e => {
+            const botao = e.target.textContent;
+            console.log(e.target)
+            console.log(botao)
+            if(botao === "Anos") {
+                select = anos.reverse();
+            }
+
+            if(botao === "Mês") {
+                meses = semana.reverse()
+                select = meses;
+            }
+
+            if(botao === "Semana") {
+                semana = semana.reverse()
+                select = semana;
+            }
+
+            const chart = document.querySelector("#lineChart");
+            const canvaClone = chart.cloneNode(true);
+            const divPai = document.querySelector('.chartjs-size-monitor')
+            divPai.appendChild(canvaClone)
+
+            renderizaGrafico()
+        })
+    }
+
+    function ehBissexto(ano) {
+        return (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
+    }
+        
+
+    var dataAtual = moment().format("DD/MM/YYYY");
+    var dataInicial = moment()
+
+    console.log(dataInicial)
+
+    var datasSemana = [];
+    for (var i = -7; i <= 0; i++) {
+        datasSemana.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+    }
+
+    var datasMes = []; 
+    for (var i = 0; i <= 30; i++) {
+        datasMes.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+    }
+
+    var datasAno = [];
+    var numDias = ehBissexto(moment().year()) ? 366 : 365; 
+    for (var i = 0; i < numDias; i++) {
+        datasAno.push(dataInicial.format("DD/MM/YYYY"));
+        dataInicial.subtract(1, 'day');
+    }
+
+    function renderizaGrafico(select = datasMes, data = []) {
+        const ctxL = document.getElementById("lineChart").getContext('2d');
+        ctxL.heigth = 100;
+        const myLineChart = new Chart(ctxL, {
+            type: 'line',
+            data: {
+                labels: select,
+                datasets: [{
+                    label: "Carteira",
+                    data: [60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65],
+                    backgroundColor: ['transparent'],
+                    pointBackgroundColor: 'rgb(253,180,92',
+                    borderColor: ['rgb(253,180,92)'],
+                    borderWidth: 2
+                }, {
+                    label: "Ibovespa",
+                    data: [28, 48, 40, 19, 86, 27, 28, 48, 40, 19, 86, 27],
+                    backgroundColor: ['transparent'],
+                    pointBackgroundColor: 'rgb(255, 8, 0)',
+                    borderColor: ['rgb(255, 8, 0)'],
+                    borderWidth: 2
+                }, {
+                    label: "Selic",
+                    data: [28, 48, 40, 19, 86, 27, 28, 78, 40, 12, 98, 99],
+                    backgroundColor: ['transparent'],
+                    pointBackgroundColor: 'rgb(0, 153, 255)',
+                    borderColor: ['rgb(0, 153, 255)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            const label = data.labels[tooltipItem.index];
+                            label.display = true;
+                            return label;
+                        }
+                    }
+                },
+                hover: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            display: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+    
+    let select = datasMes
+
+    renderizaGrafico(select)
+    botoes(mes = datasMes, semana = datasSemana, ano = datasAno)
+    
+}
+
+grafico()
+</script>
