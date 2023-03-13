@@ -1,16 +1,15 @@
 from flask import request, redirect, flash ,url_for, render_template, g, session, make_response, current_app
-import sqlite3, GetData, fundamentus, requests, json
+import sqlite3, fundamentus, requests, json, app.utils.Getdata as Getdata
 from newsapi import NewsApiClient
 from Registro import *
-from extras import *
-from .controllers.userController import *
+from .utils.extras import *
 
 import numpy as np
 
 newsapi = NewsApiClient(api_key='5e13fe6018a14877aca173ff6688260b')
 
 # Controllers
-Acoes = GetData.selecionadosCard()
+Acoes = Getdata.selected()
 quantidade = len(Acoes)
 
 def routes(app):
@@ -21,7 +20,7 @@ def routes(app):
     @app.route('/')
     @app.route('/home')
     def main():
-        GetData.BasicData.variacoes()
+        Getdata.BD.variacoes()
         listaDeImagens = []
         noticiaF = []
         variacoes = []
@@ -108,7 +107,7 @@ def routes(app):
 
     @app.route('/user', methods=['GET'])
     def userIndexR():
-        return userIndex()
+        return render_template('user.html', user = session['user'], csrf_token = session['csrfToken'])
     
     @app.route('/detalhes', methods=['GET','POST'])
     def detalhes():
@@ -119,12 +118,12 @@ def routes(app):
 
         # coleta os dados para a página
         if validTicker == "True":
-            stock = GetData.BasicData(ticker)
-            datas = stock.Datas()
+            stock = Getdata.BD(ticker)
+            datas = stock.datas()
             tickerImg = stock.getImageDetalhes()
             fundamentalDatas = stock.fundamentalDatas()
-            dy = stock.Dy()
-            acoesEmitidas = fundamentalDatas['acoesEmitidas'].split('.')
+            dy = stock.dy()
+            acoesEmitidas = str(fundamentalDatas['acoesEmitidas']).split('.')
             acoesEmitidas = float(fundamentalDatas['lucroLiquido']) / float(''.join(acoesEmitidas))
             fundamentalDatas['lucroLiquidoPorAcao'] = f'{acoesEmitidas:.2f}'
             print('FundamentalData',fundamentalDatas)
@@ -174,8 +173,6 @@ def routes(app):
     @app.route('/carteira/dashboard', methods=['GET'])
     def dashboard():
         return render_template('stockwallet.html')
-
-
 
 def init_routes(app):
     routes(app)

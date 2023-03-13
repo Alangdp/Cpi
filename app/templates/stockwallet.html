@@ -8,12 +8,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
     <script src="../static/carteiraDash/js/carteiraDash.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+
     <title>Document</title>
 
-    {% include './includes/bootstrap.html'%}
     
     <style>
-        #lineChart {
+
+        .sidebar {
+            position: fixed !important;
+        }
+
+        #rentabilidade {
             background: white;
             max-height: 100% !important;
             max-width: 100% !important;
@@ -26,16 +32,17 @@
         }
 
         @media screen and (max-width: 990px) {
-            body .container-fluid.bg-light{
+            body .container-fluid{
                 width: 100% !important;
                 margin-left: 0px !important;
             }
         }
 
-        body .container-fluid.bg-light {
+        body .container-fluid {
             width: calc(100% - 300px);
             margin-left: 300px;
             height: 100vh;
+            margin-top: -0.5rem
         }
 
         .d-flex-center {
@@ -69,69 +76,199 @@
         .t-white-space {
             white-space: nowrap;
         }
+    
+        .content-dashboard {
+            width: 98%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 70% auto;
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .content-dashboard .column-dir {
+            display: grid;
+            gap: 0.5rem ;
+            padding: 0.5rem;         
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .content-dashboard .column-dir .top {
+            display: grid;
+            grid-template-columns: 60% auto;
+            gap: 0.5rem;
+            padding: 0.5rem;         
+
+        }
+
+        .content-dashboard .column-dir .bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            padding: 0.5rem;         
+        }
+
+        .content-dashboard .column-dir .bottom .teste {
+            height: 100% !important;
+        }
+
+        @media screen and (max-width: 990px) {
+            .add-top{
+                width: 100% !important;
+                margin-left: 0px !important;
+                height: 50px;
+                height: 50px;
+                background: blue;
+                margin-top: 0.5rem !important;
+            }
+
+            .content-dashboard  {
+                display: flex !important;
+            }
+
+            .content-dashboard .column-dir .top {
+                grid-template-columns: 1fr !important;
+            }
+
+            .row.w-98.h-9.mt-2.h-75.bg-light.rounded {
+                height: 50% !important;
+            }
+
+            .bottom.bg-dark.rounded.h-100 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .w-98 {
+            width: 98% !important;
+        }
+
+        .h-98 {
+            width: 98% !important;
+        }
+
+        .add-top {
+            width: calc(100% - 300px);
+            margin-left: 300px;
+            margin-top: -3.32vh;
+            height: 50px;
+            background: blue;
+            margin-top: -1.5vh;
+            margin-bottom: 0.5vh;
+        }
     </style>
+
+    {% include './includes/bootstrap.html'%}
+
 </head>
-<body>
+<body class="">
+
     {% include './includes/sidebar.html'%}
 
-    
-    <div class="container-fluid bg-light p-2">
-        <div class="col d-flex-center d-column h-100 gap">
-            <div class="col h-100">
-                <div class="row w-100 h-100 gap">
-                    <div class="col bg-warning h-100">
-                        <div class="row h-100 gap">
-                            <div class="col-8">
-    
-                                <div class="row p-3">RENTABILIDADE (1 ANO)</div>
-                                <div class="row d-flex-center t-white-space">
-                                    <div class="col-2">ATUAL 5,16%</div>
-                                    <div class="col-2">PERÍODO 5,16%</div>
-                                    <div class="col">ATUAL 5,16% PERÍODO 5,16%</div>
-                                </div>
-        
-                                <div class="row h-100">
-                                    <div class="col" style="height: 75%;">
-                                        <canvas id="lineChart" style="width: 90%; height: 90%;"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col bg-dark ">
-                                <div class="row p-3">Alocação</div>
-                                <div class="row">
-                                    <canvas id="pieChart"></canvas>
-
-                                </div>
-                            </div>
+    <div class="container d-flex-center">
+        <div class=" w-100 add-top rounded"></div>
+    </div>
+    <div class="container-fluid p-2 d-flex-center">
+        <div class="content-dashboard rounded">
+            <div class="column column-dir rounded bg-light">
+                <div class="top bg-dark rounded h-100 ">
+                    <div class="rentabilidade bg-warning rounded">
+                        <div class="row p-0 ml-3 mt-1">Rentabilidade</div>
+                        <div class="row p-0 ml-3">
+                            <div class="col p-0">Atual (1231)</div>
+                            <div class="col p-0">Périodo (1234)</div>
                         </div>
-                        
-                    </div>
-                    <div class="col-4 bg-warning h-100"></div>
-                </div>
-            </div>
+                        <div class="row w-98 h-75 mt-2" style="margin-left:0.3rem;">
+                            <canvas id="rentabilidade" class="rounded" style="width: 90%; height: 90%;"></canvas>
+                        </div>
 
-            <div class="col h-100">
-                <div class="row w-100 h-100 gap">
-                    <div class="col bg-warning h-100"></div>
-                    <div class="col-4 bg-warning h-100"></div>
+                    </div>
+
+                    <div class="alocao bg-warning rounded">
+                        <div class="row p-0 ml-3 mt-1">Alocação</div>
+                        <div class="row p-0 ml-3 mt-4"></div>
+                        <div class="row w-98 h-9 mt-2 h-75 bg-light rounded" style="margin-left:0.3rem;">
+                            <canvas id="alocacao" class="rounded bg-light" style="width: 90%; height: 80%;"></canvas>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="bottom bg-dark rounded h-100">
+                    <div class="teste bg-warning rounded p-2">
+                        <div class="row p-0 ml-3 mt-1">Patrimônio</div>
+                        <canvas id="teste" class="bg-light rounded"></canvas>
+
+                    </div>
+                    <div class="teste bg-warning rounded">
+                        <div class="row p-0 ml-3 mt-1">Patrimônio</div>
+                        <canvas id="teste" class="bg-light rounded"></canvas>
+                    </div>
+                    <div class="teste bg-warning rounded">
+                        <div class="row p-0 ml-3 mt-1">Patrimônio</div>
+                        <canvas id="teste" class="bg-light rounded"></canvas>
+                    </div>
+
+                </div>
+
             </div>
+            <div class="column bg-light rounded"></div>
         </div>
     </div>
 </body>
 </html>
 
 <script>
-    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var ctx = document.getElementById('teste').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+            datasets: [{
+                label: 'Vendas Mensais',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    });
+</script>
+
+<script>
+    var ctxP = document.getElementById("alocacao").getContext('2d');
     var myPieChart = new Chart(ctxP, {
     type: 'pie',
     data: {
-        labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+        labels: ["Red", "Green", "Yellow"],
         datasets: [{
-        data: [300, 50, 100, 40, 120],
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+        data: [300, 50, 100],
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
         }]
     },
     options: {
@@ -140,8 +277,8 @@
     });
 </script>
 
+
 <script>
-    
 const grafico = () => {
 
     function botoes(meses , semana, anos) {
@@ -163,7 +300,7 @@ const grafico = () => {
                 select = semana;
             }
 
-            const chart = document.querySelector("#lineChart");
+            const chart = document.querySelector("#rentabilidade");
             const canvaClone = chart.cloneNode(true);
             const divPai = document.querySelector('.chartjs-size-monitor')
             divPai.appendChild(canvaClone)
@@ -200,7 +337,7 @@ const grafico = () => {
     }
 
     function renderizaGrafico(select = datasMes, data = []) {
-        const ctxL = document.getElementById("lineChart").getContext('2d');
+        const ctxL = document.getElementById("rentabilidade").getContext('2d');
         ctxL.heigth = 100;
         const myLineChart = new Chart(ctxL, {
             type: 'line',

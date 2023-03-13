@@ -17,8 +17,8 @@
 </head>
 <body>
     <div class="mobile" >
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="    background: rgba(61, 51, 51, 0.952) !important;">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: rgba(61, 51, 51, 0.952) !important; width: 103% !important;">
+            <div class="container-fluid h-100">
                 <a class="navbar-brand d-flex justify-content-center" href="#">
                     <img src="../static/logo.svg" width="50" height="50" alt="Logo">
                 </a>
@@ -193,15 +193,13 @@
 
 
             function Deslogar() {
-                const botaoSair = document.getElementById('sair');
-
-                botaoSair.addEventListener('click', (e) => {
-                    e.preventDefault();
-
-                    axios.post('/logout', { action: 'logout'})
-                    .then( (succes) => {window.location.href = "/login";})
-                    .catch( (err) => {window.location.href = "/login";})
-
+                document.addEventListener('click', (e) => {
+                    if (e.target.id === 'sair') {
+                        console.log('asir')
+                        axios.post('/logout', { action: 'logout'})
+                        .then( (succes) => {window.location.href = "/login";})
+                        .catch( (err) => {window.location.href = "/login";})
+                    }
                 })
             }
 

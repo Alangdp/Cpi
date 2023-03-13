@@ -1,9 +1,11 @@
 import sqlite3
 from flask import flash
-from GetData import sqlString
+from app.utils.Getdata import sqlString
 from hashlib import sha256
 from flask import session
-from extras import *
+from app.utils.extras import *
+
+path = 'app/database/Usuarios.db'
 
 def atualizarSenha(novaSenha, senhaAtual, idd):
     if not validaSenha(senhaAtual): return
@@ -40,11 +42,11 @@ def deslogar():
     session['logged'] = False
 
 def comandoSQL(comando, argumentos):
-    con = sqlite3.connect("Usuarios.db")
+    con = sqlite3.connect(path)
     cur = con.cursor()
     cur.execute(comando, argumentos)
     if cur.description:
-        retorno = cur.fetchall()
+        retorno = cur.fetchall() 
         con.close()
         return retorno
     else:
@@ -52,7 +54,7 @@ def comandoSQL(comando, argumentos):
         con.close()
 
 def criaDB():
-    con = sqlite3.connect("Usuarios.db")
+    con = sqlite3.connect(path)
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS usuarios (user TEXT , password TEXT , email TEXT UNIQUE, cpf TEXT UNIQUE, id INTEGER PRIMARY KEY AUTOINCREMENT)")
     
