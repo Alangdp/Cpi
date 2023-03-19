@@ -2,6 +2,7 @@ from flask import request, redirect, url_for, g, session
 import secrets 
 import app.utils.extras as extras
 
+
 # cria a session inicial, caso não exista
 def isFirstLogin(app):
     @app.before_request

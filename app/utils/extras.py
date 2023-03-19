@@ -1,4 +1,4 @@
-import sqlite3, fundamentus, re, socket
+import sqlite3, fundamentus, re, socket, sys
 from flask import request, redirect, session
 
 def genAlert(typeA, message):
@@ -12,7 +12,6 @@ def validaSenha(senha = ''):
 def validaEmail(email = ''):
     if not re.match(r"^\S+@\S+\.\S+$", email): return False
     return True
-
     
 def gerarAviso(mensagem, tipo = 0):
     if tipo == 0:
@@ -100,3 +99,5 @@ def validaCSR(token = ''):
     if not token == session['csrfToken']: return False
     print(123454566)
     return True
+
+print(sys.path)

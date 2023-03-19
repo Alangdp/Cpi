@@ -14,7 +14,6 @@ def formate_Number(x, virgulas = 2):
         x = x.replace(',', '.').replace('.', '')
         return float(x.replace(",", ".").replace(" M", "")) * 10
 
-
 def sqlString(valor):
     try:
         string = ''.join(valor)
@@ -50,7 +49,7 @@ def select(lista):
         comandoSQL("UPDATE Acoes set filtered = True WHERE ticker = ?", (ticker, ))
 
 def selected():
-    tickers = comandoSQL("SELECT ticker FROM Acoes WHERE filtered = ?", ("1",))
+    tickers = comandoSQL("SELECT ticker FROM Acoes WHERE filtered = ?", ("False",))
     infos = [comandoSQL("SELECT * FROM Acoes WHERE ticker = (?) ORDER BY CAST(margin as REAL)", (sqlString(tickerSet),)) for tickerSet in tickers]
     return [info for sublist in infos for info in sublist]
 

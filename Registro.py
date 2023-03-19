@@ -158,9 +158,3 @@ def retornDB(email = '', senha = ''):
     except:
         con.close()
     '''
-
-def validaPostR(usuario = '', email = '',senha = '' , cpf = ''):
-    if usuario == '' or email == '' or senha == '' or cpf == '':
-        return False
-    else:
-        return True

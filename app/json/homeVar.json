@@ -1,124 +1,108 @@
 [
     [
         {
-            "ticker": "VIIA3",
-            "name": "VIA",
-            "value": 2.03,
-            "volatility": 11.54,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/216.jpg?v=11"
+            "ticker": "RRRP3",
+            "name": "3R",
+            "value": 31.75,
+            "volatility": 16.73,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/650.jpg?v=11"
         },
         {
-            "ticker": "MGLU3",
-            "name": "MAGAZINE",
-            "value": 3.69,
-            "volatility": 8.53,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/215.jpg?v=11"
+            "ticker": "ECOR3",
+            "name": "ECORODOVIAS",
+            "value": 5.16,
+            "volatility": 8.86,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/199.jpg?v=11"
         },
         {
-            "ticker": "PETZ3",
-            "name": "PETZ",
-            "value": 6.35,
-            "volatility": 6.54,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/627.jpg?v=11"
+            "ticker": "BRFS3",
+            "name": "BRF",
+            "value": 7.0,
+            "volatility": 4.63,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/291.jpg?v=11"
         },
         {
-            "ticker": "MRVE3",
-            "name": "MRV",
-            "value": 6.85,
-            "volatility": 6.53,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/238.jpg?v=11"
+            "ticker": "BEEF3",
+            "name": "MINERVA",
+            "value": 11.7,
+            "volatility": 3.27,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/295.jpg?v=11"
+        },
+        {
+            "ticker": "MRFG3",
+            "name": "MARFRIG",
+            "value": 7.33,
+            "volatility": 3.24,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/294.jpg?v=11"
+        },
+        {
+            "ticker": "YDUQ3",
+            "name": "YDUQS",
+            "value": 7.57,
+            "volatility": 2.85,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/252.jpg?v=11"
+        }
+    ],
+    [
+        {
+            "ticker": "EZTC3",
+            "name": "EZ",
+            "value": 13.31,
+            "volatility": 10.73,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/233.jpg?v=11"
+        },
+        {
+            "ticker": "HAPV3",
+            "name": "HAPVIDA",
+            "value": 2.37,
+            "volatility": 10.23,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/426.jpg?v=11"
+        },
+        {
+            "ticker": "RAIZ4",
+            "name": "RAIZEN",
+            "value": 2.47,
+            "volatility": 9.52,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/798.jpg?v=11"
+        },
+        {
+            "ticker": "CYRE3",
+            "name": "CYRELA",
+            "value": 14.74,
+            "volatility": 7.47,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/230.jpg?v=11"
         },
         {
             "ticker": "LWSA3",
             "name": "LOCAWEB",
-            "value": 6.14,
-            "volatility": 6.23,
+            "value": 6.26,
+            "volatility": 7.4,
             "url-image": "https://statusinvest.com.br/img/company/avatar/577.jpg?v=11"
         },
         {
-            "ticker": "CVCB3",
-            "name": "CVC",
-            "value": 3.55,
-            "volatility": 3.5,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/279.jpg?v=11"
+            "ticker": "CPFE3",
+            "name": "CPFL",
+            "value": 29.35,
+            "volatility": 6.56,
+            "url-image": "https://statusinvest.com.br/img/company/avatar/463.jpg?v=11"
         }
     ],
     [
         {
-            "ticker": "SMTO3",
-            "name": "S\u00c3O",
-            "value": 25.55,
-            "volatility": 6.07,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/286.jpg?v=11"
+            "ticker": "WEGE3",
+            "name": "WEG",
+            "value": 0.0532,
+            "type": "Dividendo",
+            "date": "17/03/2023",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/189.jpg?v=11"
         },
         {
-            "ticker": "CASH3",
-            "name": "M\u00c9LIUZ",
-            "value": 0.93,
-            "volatility": 5.1,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/647.jpg?v=11"
-        },
-        {
-            "ticker": "RRRP3",
-            "name": "3R",
-            "value": 27.44,
-            "volatility": 5.08,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/650.jpg?v=11"
-        },
-        {
-            "ticker": "DXCO3",
-            "name": "DURATEX",
-            "value": 6.41,
-            "volatility": 4.61,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/372.jpg?v=11"
-        },
-        {
-            "ticker": "PRIO3",
-            "name": "PETRO",
-            "value": 31.8,
-            "volatility": 4.25,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/406.jpg?v=11"
-        },
-        {
-            "ticker": "PETR3",
-            "name": "PETROBRAS",
-            "value": 27.52,
-            "volatility": 3.1,
-            "url-image": "https://statusinvest.com.br/img/company/avatar/408.jpg?v=11"
-        }
-    ],
-    [
-        {
-            "ticker": "BBAS3",
+            "ticker": "ITUB4",
             "name": "BANCO",
-            "value": 0.352,
+            "value": 0.262,
             "type": "JCP",
-            "date": "13/03/2023",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/331.jpg?v=11"
-        },
-        {
-            "ticker": "VALE3",
-            "name": "VALE",
-            "value": 1.8276,
-            "type": "Dividendo",
-            "date": "13/03/2023",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/384.jpg?v=11"
-        },
-        {
-            "ticker": "GGBR4",
-            "name": "GERDAU",
-            "value": 0.2,
-            "type": "Dividendo",
-            "date": "14/03/2023",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/398.jpg?v=11"
-        },
-        {
-            "ticker": "GOAU4",
-            "name": "METALURGICA",
-            "value": 0.1,
-            "type": "Dividendo",
-            "date": "14/03/2023",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/399.jpg?v=11"
+            "date": "23/03/2023",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/344.jpg?v=11"
         },
         {
             "ticker": "ITUB4",
@@ -129,9 +113,25 @@
             "url-image": "https://statusinvest.com.br/img/company/avatar/344.jpg?v=11"
         },
         {
+            "ticker": "VIVT3",
+            "name": "TELEF\u00d4NICA",
+            "value": 0.1745,
+            "type": "JCP",
+            "date": "31/03/2023",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/438.jpg?v=11"
+        },
+        {
             "ticker": "BBDC3",
             "name": "BRADESCO",
             "value": 0.0172,
+            "type": "JCP",
+            "date": "03/04/2023",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=11"
+        },
+        {
+            "ticker": "BBDC4",
+            "name": "BRADESCO",
+            "value": 0.019,
             "type": "JCP",
             "date": "03/04/2023",
             "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=11"
@@ -139,52 +139,52 @@
     ],
     [
         {
-            "ticker": "VALE3",
-            "name": "VALE",
+            "ticker": "PETR4",
+            "name": "PETROBRAS",
             "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/384.jpg?v=11",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/408.jpg?v=11",
             "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/VALE3#go-document-section"
+            "url": "https://statusinvest.com.br/acoes/PETR4#go-document-section"
         },
         {
-            "ticker": "BBDC4",
-            "name": "BRADESCO",
-            "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=11",
-            "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/BBDC4#go-document-section"
+            "ticker": "GGBR4",
+            "name": "GERDAU",
+            "amount": "5",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/398.jpg?v=11",
+            "type": "5comunicado",
+            "url": "https://statusinvest.com.br/acoes/GGBR4#go-document-section"
         },
         {
-            "ticker": "WEGE3",
-            "name": "WEG",
+            "ticker": "JBSS3",
+            "name": "JBS",
             "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/189.jpg?v=11",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/293.jpg?v=11",
             "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/WEGE3#go-document-section"
+            "url": "https://statusinvest.com.br/acoes/JBSS3#go-document-section"
         },
         {
-            "ticker": "ENEV3",
-            "name": "ENEVA",
-            "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/472.jpg?v=11",
+            "ticker": "ASAI3",
+            "name": "SENDAS",
+            "amount": "2",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/743.jpg?v=11",
             "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/ENEV3#go-document-section"
+            "url": "https://statusinvest.com.br/acoes/ASAI3#go-document-section"
         },
         {
-            "ticker": "ENBR3",
-            "name": "EDP",
-            "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/495.jpg?v=11",
-            "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/ENBR3#go-document-section"
+            "ticker": "CCRO3",
+            "name": "CCR",
+            "amount": "5",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/198.jpg?v=11",
+            "type": "5comunicado",
+            "url": "https://statusinvest.com.br/acoes/CCRO3#go-document-section"
         },
         {
-            "ticker": "VIIA3",
-            "name": "VIA",
+            "ticker": "NTCO3",
+            "name": "NATURA",
             "amount": "1",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/216.jpg?v=11",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/301.jpg?v=11",
             "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/VIIA3#go-document-section"
+            "url": "https://statusinvest.com.br/acoes/NTCO3#go-document-section"
         }
     ]
 ]

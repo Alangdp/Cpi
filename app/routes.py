@@ -1,8 +1,11 @@
 from flask import request, redirect, flash ,url_for, render_template, g, session, make_response, current_app
-import sqlite3, fundamentus, requests, json, app.utils.Getdata as Getdata
+import sqlite3, fundamentus, requests, json, sys ,app.utils.Getdata as Getdata
 from newsapi import NewsApiClient
 from Registro import *
-from .utils.extras import *
+sys.path.append('..')
+
+from app.utils.extras import *
+from app.utils.carteira import *
 
 import numpy as np
 
@@ -172,6 +175,8 @@ def routes(app):
     @app.route('/carteira', methods=['GET'])
     @app.route('/carteira/dashboard', methods=['GET'])
     def dashboard():
+        ticker = 'BBAS3'.upper()
+        updateWallet(ticker, 300, 100, 5)
         return render_template('stockwallet.html')
 
 def init_routes(app):
