@@ -1,6 +1,8 @@
 from flask import request, redirect, flash ,url_for, render_template, g, session, make_response, current_app
-import sqlite3, fundamentus, requests, json, sys ,app.utils.Getdata as Getdata
-from newsapi import NewsApiClient
+import sqlite3, fundamentus, requests, json, sys ,app.utils.Getdata as Getdata, json
+from .utils.carteira import comandoSQL as carteiraSQL
+from Registro import comandoSQL as comandoUsuarios
+from newsapi import NewsApiClient 
 from Registro import *
 sys.path.append('..')
 
@@ -178,6 +180,53 @@ def routes(app):
         ticker = 'BBAS3'.upper()
         updateWallet(ticker, 300, 100, 5)
         return render_template('stockwallet.html')
+
+
+    
+    @app.route('/db/index')
+    def indexDB():
+        dados = []
+        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
+        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
+        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
+        dados.append(comandoUsuarios('SELECT * FROM usuarios', ()))
+    
+        return json.dumps(dados)
+    
+    @app.route('/db/adicionarposicao/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    def adicionarPosicao(ticker, quantidade, valor):
+        quantidade = int(quantidade)
+
+        updateWallet(ticker, quantidade, valor, 3)
+
+        return indexDB()
+
+    @app.route('/db/adicionar/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    def adicionar(ticker, quantidade, valor):
+        quantidade = int(quantidade)
+
+        updateWallet(ticker, quantidade, valor, 1)
+
+        return indexDB()
+
+
+    @app.route('/db/remover/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    def remover(ticker, quantidade, valor):
+        quantidade = int(quantidade)
+
+        updateWallet(ticker, quantidade, valor, 4)
+
+        return indexDB()
+
+    
+    @app.route('/db/apagar/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    def deletar(ticker, quantidade, valor):
+        quantidade = int(quantidade)
+
+        updateWallet(ticker, quantidade, valor, 2)
+
+        return indexDB()
+
 
 def init_routes(app):
     routes(app)

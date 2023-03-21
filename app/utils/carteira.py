@@ -171,6 +171,21 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1):
             ]
         )
         consolidWallet()
+
+    if code == 4:
+        comandoSQL(  
+            [
+            "UPDATE carteira_usuario SET quantidade = quantidade - ?, data_transacao = ? WHERE id_usuario = ? AND ticker = ?",
+            "INSERT INTO carteira_transacoes (id_usuario, ticker, quantidade, tipo, data_transacao) VALUES (?, ?, ?, ?, ?)",
+
+            ], 
+            [
+            
+            (quantidade, dataTransacao, session['id'], ticker,),
+            (session['id'], ticker, quantidade, "VENDA", dataTransacao,),
+
+        ])
+        consolidWallet()
     
     if code == 5: consolidWallet()
 
