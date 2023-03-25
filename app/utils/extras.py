@@ -1,6 +1,14 @@
 import sqlite3, fundamentus, re, socket, sys
 from flask import request, redirect, session
 
+def criaDB():
+    con = sqlite3.connect("app/database/Stocks.db")
+    cur = con.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS Acoes (ticker text, name text, value text, dy_porcent text, dy_value text, tag_along text, roe text, margin text, dy6 text, img text, dpa text, filtered text )")
+    con.close()
+
+criaDB()
+
 def genAlert(typeA, message):
     session[typeA] = message
 
@@ -8,7 +16,6 @@ def validaSenha(senha = ''):
     if not re.match(r'^(?=.*\d)(?=.*[!@#$%^&*(){}])(?=.*[a-z])(?=.*[A-Z]).{8,12}$', senha.strip()): return False
     return True
     
-
 def validaEmail(email = ''):
     if not re.match(r"^\S+@\S+\.\S+$", email): return False
     return True
@@ -74,7 +81,6 @@ def isTicker(ticker):
     ticker = (ticker).upper()
     acoes = fundamentus.get_resultado()
     for tick in acoes.index:
-        print(tick  )
         if tick == ticker: return "True"
         else: continue
     return "False"
@@ -97,7 +103,5 @@ def validaCSR(token = ''):
 
     if not 'csrfToken' in session: return False
     if not token == session['csrfToken']: return False
-    print(123454566)
     return True
 
-print(sys.path)

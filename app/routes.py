@@ -180,20 +180,21 @@ def routes(app):
         ticker = 'BBAS3'.upper()
         updateWallet(ticker, 300, 100, 5)
         return render_template('stockwallet.html')
-
-
     
+    @app.route('/db/')
     @app.route('/db/index')
     def indexDB():
+        consolidWallet()
+
         dados = []
-        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
-        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
-        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada'], [()]))
-        dados.append(comandoUsuarios('SELECT * FROM usuarios', ()))
+        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada WHERE id_usuario = ?'], [(session['id'],)]))
+        dados.append(carteiraSQL(['SELECT * FROM carteira_transacoes WHERE id_usuario = ?'], [(session['id'],)])) 
+        dados.append(carteiraSQL(['SELECT * FROM carteira_usuario WHERE id_usuario = ?'], [(session['id'],)]))
+        dados.append(comandoUsuarios('SELECT * FROM usuarios', ())) 
     
         return json.dumps(dados)
     
-    @app.route('/db/adicionarposicao/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    @app.route('/db/addn/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def adicionarPosicao(ticker, quantidade, valor):
         quantidade = int(quantidade)
 
@@ -201,16 +202,15 @@ def routes(app):
 
         return indexDB()
 
-    @app.route('/db/adicionar/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    @app.route('/db/add/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def adicionar(ticker, quantidade, valor):
-        quantidade = int(quantidade)
 
         updateWallet(ticker, quantidade, valor, 1)
 
         return indexDB()
 
 
-    @app.route('/db/remover/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    @app.route('/db/rem/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def remover(ticker, quantidade, valor):
         quantidade = int(quantidade)
 
@@ -219,7 +219,7 @@ def routes(app):
         return indexDB()
 
     
-    @app.route('/db/apagar/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
+    @app.route('/db/apa/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def deletar(ticker, quantidade, valor):
         quantidade = int(quantidade)
 
@@ -230,3 +230,4 @@ def routes(app):
 
 def init_routes(app):
     routes(app)
+

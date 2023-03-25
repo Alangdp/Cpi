@@ -5,6 +5,7 @@ import sqlite3, time
 import fundamentus
 # Prototipo de uso de threads para auxilar na velocidade do refresh.
 
+
 def criaDB():
     con = sqlite3.connect("Stocks.db")
     cur = con.cursor()
