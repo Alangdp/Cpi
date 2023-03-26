@@ -184,14 +184,24 @@ def routes(app):
     @app.route('/db/')
     @app.route('/db/index')
     def indexDB():
-        consolidWallet()
-
         dados = []
-        dados.append(carteiraSQL(['SELECT * FROM carteira_consolidada WHERE id_usuario = ?'], [(session['id'],)]))
-        dados.append(carteiraSQL(['SELECT * FROM carteira_transacoes WHERE id_usuario = ?'], [(session['id'],)])) 
-        dados.append(carteiraSQL(['SELECT * FROM carteira_usuario WHERE id_usuario = ?'], [(session['id'],)]))
-        dados.append(comandoUsuarios('SELECT * FROM usuarios', ())) 
-    
+        comandos_sql = ['SELECT * FROM carteira_consolidada WHERE id_usuario = ?', 
+                        'SELECT * FROM carteira_transacoes WHERE id_usuario = ?', 
+                        'SELECT * FROM carteira_usuario WHERE id_usuario = ?',
+                        ]
+
+        argumentos_sql = [(session['id'],),
+                      (session['id'],),
+                      (session['id'],),
+                    ]
+
+        ticker = 'TAEE11'
+        quantidade = 13
+        valor = 35
+        updateWallet(ticker, quantidade, valor, 1)
+
+
+        dados = consolidWallet(comandos_sql, argumentos_sql)
         return json.dumps(dados)
     
     @app.route('/db/addn/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])

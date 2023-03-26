@@ -29,6 +29,14 @@ def criaDB():
         );
     ''')
 
+    cur.execute('''CREATE TABLE IF NOT EXISTS carteira_variacao (
+        data DATE NOT NULL PRIMARY KEY,
+        id_usuario INTEGER NOT NULL,
+        variacao VARCHAR(10),
+        valorCarteira DECIMAL(10,2)
+        );
+    ''')
+
     cur.execute('''CREATE TABLE IF NOT EXISTS carteira_consolidada (
         id_usuario INTEGER NOT NULL PRIMARY KEY,
         valor DECIMAL(10,2) NOT NULL,
@@ -59,7 +67,8 @@ def comandoSQL(comandos: list, argumentos: list):
     
     return retornar
 
-def consolidWallet():
+def consolidWallet(comands = [], arguments = []):
+    dataAcao = datetime.date.today().strftime('%Y-%m-%d')
     comandos = []
     argumentos = []
     acoes = {}
@@ -121,9 +130,26 @@ def consolidWallet():
         lucroTotal += float(acoes[ticker]['lucro_preju'])
         valorTotal += float(acoes[ticker]['valorAcao'] * acoes[ticker]['quantidade'])
 
-    comandoSQL(["UPDATE carteira_consolidada SET valor = ? ,lucro_prejuizo = ? , variacao = ? WHERE id_usuario = ?"], [(valorTotal, lucroTotal,variacaoTotal, session['id'],)])
-        
-    comandoSQL(comandos, argumentos)
+    '''
+            data DATE NOT NULL PRIMARY KEY,
+        id_usuario INTEGER NOT NULL,
+        variacao VARCHAR(10),
+        valorCarteira DECIMAL(10,2)
+    '''
+
+    comandoSQL(["UPDATE carteira_consolidada SET valor = ? ,lucro_prejuizo = ? , variacao = ? WHERE id_usuario = ?",
+                "INSERT OR REPLACE INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) VALUES (?, ?, ?, ?)",
+            ],
+               [(valorTotal, lucroTotal,variacaoTotal, session['id'],),
+                (dataAcao, session['id'], variacaoTotal, valorTotal,),
+            ]) 
+
+    if len(comands) > 0:
+        comandos.extend(comands)
+        argumentos.extend(arguments)
+
+    dados = comandoSQL(comandos, argumentos)
+    return dados
 
 def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1):
     dataTransacao = datetime.date.today().strftime('%Y-%m-%d')

@@ -24,7 +24,6 @@
             max-height: 100% !important;
             max-width: 100% !important;
             width: 100%;
-            
         }
 
         * {
@@ -80,8 +79,6 @@
         .content-dashboard {
             width: 98%;
             height: 100%;
-            display: grid;
-            grid-template-columns: 1f;
             gap: 0.5rem;
             padding: 0.5rem;
         }
@@ -113,6 +110,8 @@
         }
 
         @media screen and (max-width: 990px) {
+
+            
             .add-top{
                 width: 100% !important;
                 margin-left: 0px !important;
@@ -124,14 +123,20 @@
 
             .content-dashboard  {
                 display: flex !important;
+                flex-direction: column;
             }
 
             .content-dashboard .column-dir .top {
                 grid-template-columns: 1fr !important;
             }
 
+            .container-fluid.p-2.d-flex-center {
+                padding: 0 !important;
+                width: 103% !important;
+            }
+
             .row.w-98.h-9.mt-2.h-75.bg-light.rounded {
-                height: 83.1% !important;
+                height: 70% !important;
             }
 
             .bottom.bg-dark.rounded.h-100 {
@@ -170,7 +175,7 @@
     </div>
     <div class="container-fluid p-2 d-flex-center">
         <div class="content-dashboard rounded">
-            <div class="column column-dir rounded bg-light">
+            <div class="column column-dir rounded bg-light h-100">
                 <div class="top bg-dark rounded h-100 ">
                     <div class="rentabilidade bg-warning rounded">
                         <div class="row p-0 ml-3 mt-1">Rentabilidade</div>
