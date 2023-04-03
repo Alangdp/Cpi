@@ -2,7 +2,7 @@ from flask import request, redirect, flash ,url_for, render_template, g, session
 import sqlite3, fundamentus, requests, json, sys ,app.utils.Getdata as Getdata, json
 from .utils.carteira import comandoSQL as carteiraSQL
 from Registro import comandoSQL as comandoUsuarios
-from newsapi import NewsApiClient 
+from newsapi import NewsApiClient
 from Registro import *
 sys.path.append('..')
 
@@ -53,14 +53,14 @@ def routes(app):
     @app.route('/ranking', methods=['GET','POST'])
     def ranking():
         return render_template('ranking.html',stock = Acoes, qt = quantidade, user = session['user'])
-        
+
     # Registro
     @app.route('/registrar', methods=['GET'])
     def registrarIndex():
         return render_template('register.html', csrf_token = session['csrfToken'])
 
     @app.route('/registrar', methods=['POST'])
-    def registrar():    
+    def registrar():
         json_dados = request.get_json()
         if validaCSR(json_dados['csrfToken']):
             user = json_dados['usuario']
@@ -113,7 +113,7 @@ def routes(app):
     @app.route('/user', methods=['GET'])
     def userIndexR():
         return render_template('user.html', user = session['user'], csrf_token = session['csrfToken'])
-    
+
     @app.route('/detalhes', methods=['GET','POST'])
     def detalhes():
         # valida ticker
@@ -173,20 +173,20 @@ def routes(app):
         mensagem = session['erro']['message']
 
         return render_template('errorPage.html', erro = erro , mensagem = mensagem)
-    
+
     @app.route('/carteira', methods=['GET'])
     @app.route('/carteira/dashboard', methods=['GET'])
     def dashboard():
         ticker = 'BBAS3'.upper()
         updateWallet(ticker, 300, 100, 5)
         return render_template('stockwallet.html')
-    
+
     @app.route('/db/')
     @app.route('/db/index')
     def indexDB():
         dados = []
-        comandos_sql = ['SELECT * FROM carteira_consolidada WHERE id_usuario = ?', 
-                        'SELECT * FROM carteira_transacoes WHERE id_usuario = ?', 
+        comandos_sql = ['SELECT * FROM carteira_consolidada WHERE id_usuario = ?',
+                        'SELECT * FROM carteira_transacoes WHERE id_usuario = ?',
                         'SELECT * FROM carteira_usuario WHERE id_usuario = ?',
                         ]
 
@@ -195,15 +195,15 @@ def routes(app):
                       (session['id'],),
                     ]
 
-        ticker = 'TAEE11'
-        quantidade = 13
-        valor = 35
-        updateWallet(ticker, quantidade, valor, 1)
-
+        # ticker = 'BBAS3'
+        # quantidade = 50
+        # valor = 39.11
+        # updateWallet(ticker, quantidade, valor, 3)
+        porcentWallet()
 
         dados = consolidWallet(comandos_sql, argumentos_sql)
         return json.dumps(dados)
-    
+
     @app.route('/db/addn/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def adicionarPosicao(ticker, quantidade, valor):
         quantidade = int(quantidade)
@@ -228,7 +228,7 @@ def routes(app):
 
         return indexDB()
 
-    
+
     @app.route('/db/apa/acao=<ticker>&quantidade=<quantidade>&valor=<valor>', methods=['GET'])
     def deletar(ticker, quantidade, valor):
         quantidade = int(quantidade)

@@ -28,7 +28,22 @@ Em resumo, o site é uma plataforma completa para quem deseja investir em bolsa 
 - Implementação de CSRF token  
 - Homepage dinâmica 
 - Uso de threads para otimização
--
+
+## Quanto há implementação da carteira, Ficaram disponíveis os seguintes ativos
+| Ativo                                             | Situação      | Em Desenvolvimento |
+|---------------------------------------------------|---------------|--------------------|
+| Ações                                             | Em andamento  | Sim                |
+| Fundos Imobiliários (FII)                         | Em andamento  | Não                |
+| Exchange Traded Funds (ETF)                       | Em andamento  | Não                |
+| Debêntures                                        | Em andamento  | Não                |
+| Certificados de Depósito Bancário (CDB)           | Em andamento  | Não                |
+| Letras de Crédito Imobiliário (LCI)               | Em andamento  | Não                |
+| Letras de Crédito do Agronegócio (LCA)             | Em andamento  | Não                |
+| Fundos de Investimento em Ações (FIA)             | Em andamento  | Não                |
+| Fundos de Investimento em Renda Fixa (FIRF)       | Em andamento  | Não                |
+| Fundos Multimercado                               | Em andamento  | Não                |
+| Fundos Cambiais                                   | Em andamento  | Não                |
+
 
 # Futuras Atualizações 
 - Coleta de dados à página e atualização dinâmica /detalhes - pr1
