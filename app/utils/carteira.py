@@ -88,7 +88,7 @@ def comandoSQL(comandos: list, argumentos: list):
 def porcentWallet():
     carteira = comandoSQL(['SELECT * FROM carteira_usuario WHERE id_usuario = ?' ], [(session['id'],)])[0]
     valorTotal = 0
-    porcent = {'valorTotal': 0, 'Acao': [0, 0, 0], 'Fii': [0, 0, 0] }
+    porcent = {'valorTotal': 0, 'Acao': [0, 0, 0, {}], 'Fii': [0, 0, 0, {}] }
 
     for ativo in carteira:
         ticker = ativo[1]
@@ -107,6 +107,25 @@ def porcentWallet():
             porcent['Acao'][1] += quantidade
 
         porcent['valorTotal'] += round((quantidade * cotacaoAtual), 2)
+
+    for ativo in carteira:
+        ticker = ativo[1]
+        tipo = ativo[6]
+        quantidade = ativo[3]
+
+        if tipo == 'Fii':
+            df = fundamentaRaw(ticker)
+            cotacaoAtual = float(df[3][0])
+            valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
+            porcent['Fii'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Fii'][0] * 100, 2)}
+            
+        if tipo == 'Acao':
+            df = fundamentaRaw(ticker)
+            cotacaoAtual = float(fundamentus.get_papel(ticker)['Cotacao'].iloc[0])
+            valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
+            porcent['Acao'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Acao'][0] * 100, 2)}
+        
+        return porcent
 
     for chave in porcent:
         if chave == 'valorTotal': continue

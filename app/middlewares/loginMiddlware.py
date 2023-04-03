@@ -11,6 +11,7 @@ def isFirstLogin(app):
         if 'logged' in session:
             return
         else:
+            session['ipAdress'] = request.remote_addr
             session['logged'] = False
             session['user'] = 'None'
             session['admin'] = False

@@ -5,6 +5,8 @@ import secrets
 def spread(app):
     @app.before_request
     def _spread():
+        if session['ipAdress'] != request.remote_addr:
+            session.clear()
         if request.method == 'POST':
             return
         g.lockedPaths = ['/login', '/validar', '/registrar', '/testar', '/error', '/home']
