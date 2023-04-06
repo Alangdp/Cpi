@@ -1,6 +1,7 @@
 import sqlite3, datetime, fundamentus, statistics, requests, requests_cache
 from flask import session
-from .extras import isTicker as validaTicker
+from app.utils.extras import isTicker as validaTicker
+from app.utils.Getdata import sqlString
 import pandas as pd 
 
 def fundamentaRaw(ticker=''):
@@ -133,7 +134,7 @@ def porcentWallet():
 
     print(porcent)
 
-def consolidWallet(comands = [], arguments = [], tipo = 'Acao'):
+def consolidWallet(comands = [], arguments = [], tipo = 'Acao', All = False):
     dataAcao = datetime.date.today().strftime('%Y-%m-%d')
     comandos = []
     argumentos = []
@@ -287,3 +288,8 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
 
     if code == 5: consolidWallet()
     consolidWallet([], (), tipo)
+
+def consolidAllWallet():
+    usersIds = list(set(comandoSQL(['SELECT id_usuario FROM carteira_usuario'], [()])[0]))
+
+    consolidWallet()

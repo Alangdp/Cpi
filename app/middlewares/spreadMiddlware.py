@@ -5,7 +5,7 @@ import secrets
 def spread(app):
     @app.before_request
     def _spread():
-        if session['ipAdress'] != request.remote_addr:
+        if 'ipAdress' in session and session['ipAdress'] != request.remote_addr:
             session.clear()
         if request.method == 'POST':
             return

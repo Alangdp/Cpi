@@ -1,6 +1,6 @@
 from flask import request, redirect, flash ,url_for, render_template, g, session, make_response, current_app
 import sqlite3, fundamentus, requests, json, sys ,app.utils.Getdata as Getdata, json
-from .utils.carteira import comandoSQL as carteiraSQL
+from app.utils.carteira import comandoSQL as carteiraSQL
 from Registro import comandoSQL as comandoUsuarios
 from newsapi import NewsApiClient
 from Registro import *
@@ -18,6 +18,7 @@ Acoes = Getdata.selected()
 quantidade = len(Acoes)
 
 def routes(app):
+
     @app.route('/teste')
     def teste():
         return render_template('teste.html')
@@ -25,7 +26,6 @@ def routes(app):
     @app.route('/')
     @app.route('/home')
     def main():
-        Getdata.BD.variacoes()
         listaDeImagens = []
         noticiaF = []
         variacoes = []
