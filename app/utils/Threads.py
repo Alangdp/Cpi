@@ -1,6 +1,7 @@
 from threading import Thread
 from app.utils.Getdata import dataColect, Filter
 from app.utils.extras import comandoSQL
+from app.utils.carteira import comandoSQL as comandoSqlVarios
 import sqlite3, time
 import fundamentus
 # Prototipo de uso de threads para auxilar na velocidade do refresh.
@@ -31,9 +32,22 @@ def getDatas(tickers, thread_name):
 def setBancoDados(lista,tempo):
     for x in lista:
         if x == None: continue
-        validar = comandoSQL("SELECT ticker FROM Acoes WHERE ticker = ?", (x['ticker'] ,))
-        # if validar: comandoSQL("UPDATE Acoes SET ticker = ?, name = ?, value = ?, dy_porcent = ?, dy_value = ?, tag_along =?, roe = ?, margin = ?, dy6 =?, img = ?, dpa = ?,filtered = ? WHERE ticker = ?", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False', x['ticker']) )
-        comandoSQL("INSERT INTO Acoes VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False' ,))
+        comandoSqlVarios("INSERT INTO Acoes(ticker, name, value, dy_porcent, dy_value, tag_along, roe, margin, dy6, img, dpa, filtered) \
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \
+            ON CONFLICT(ticker) DO UPDATE SET \
+                name = excluded.name, \
+                value = excluded.value, \
+                dy_porcent = excluded.dy_porcent, \
+                dy_value = excluded.dy_value, \
+                tag_along = excluded.tag_along, \
+                roe = excluded.roe, \
+                margin = excluded.margin, \
+                dy6 = excluded.dy6, \
+                img = excluded.img, \
+                dpa = excluded.dpa, \
+                filtered = excluded.filtered;", 
+            (x['ticker'],x['name'],x['value'],x['dy_porcent'],x['dy_value'],x['tag_along'],x['roe'],x['margin'],x['dy6'],x['img'],x['dpa'],'False', x['ticker']) )
+
     fimTempo = time.time()
     print(f"TEMPO DE EXECUÇÃO: {fimTempo - tempo}")
 
@@ -48,5 +62,3 @@ def atualizaDB():
     fragmentos = threads(70)
     activeThreads(fragmentos)
     Filter()
-
-atualizaDB()

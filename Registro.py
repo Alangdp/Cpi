@@ -96,6 +96,9 @@ def logar(email= '', senha = ''):
     senha = sha256(senha.encode()).hexdigest()
     senha_sql = comandoSQL("SELECT password, id FROM usuarios WHERE email = ?", (email.lower(),))
 
+    if senha_sql == []: 
+        gerarAviso('Senha ou email incorretos')
+        return False
     if senha == sqlString(senha_sql[0][0]): 
         session['id'] = senha_sql[0][1]
         session['logged'] = True

@@ -199,8 +199,18 @@ def routes(app):
         # quantidade = 50
         # valor = 39.11
         # updateWallet(ticker, quantidade, valor, 3)
-        porcentWallet()
+        # porcentWallet()
+        # updateWallet('VGHF11', 100, 8.65, 3, 'Fii')
+        # updateWallet('MXRF11', 100, 10.33, 3, 'Fii')
+        # updateWallet('ALZR11', 100, 113.53, 3, 'Fii')
 
+        # updateWallet('BBAS3', 100, 8.65, 3, 'Fii')
+        # updateWallet('TAEE11', 100, 10.33, 3, 'Fii')
+        # updateWallet('PSSA3', 100, 113.53, 3, 'Fii')
+
+        print(session['id'])
+
+        porcentWallet()
         dados = consolidWallet(comandos_sql, argumentos_sql)
         return json.dumps(dados)
 
@@ -208,7 +218,7 @@ def routes(app):
     def adicionarPosicao(ticker, quantidade, valor):
         quantidade = int(quantidade)
 
-        updateWallet(ticker, quantidade, valor, 3)
+        updateWallet(ticker, quantidade, valor)
 
         return indexDB()
 
