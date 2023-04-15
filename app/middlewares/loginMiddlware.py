@@ -7,7 +7,8 @@ import app.utils.extras as extras
 def isFirstLogin(app):
     @app.before_request
     def _isFirstLogin():
-        g.lockedPaths = ['/login', '/validar', '/registrar', '/testar', '/error']
+        g.lockedPaths = ['/login', '/validar', '/registrar', '/testar', '/error', '/', '/home']
+
         if 'logged' in session:
             return
         else:
@@ -24,6 +25,7 @@ def init_app1(app):
 def isLogged(app):
     @app.before_request
     def _isLogged():
+        g.lockedPaths = ['/login', '/validar', '/registrar', '/testar', '/error', '/', '/home']
         if request.path.startswith('/static/'):
             return 
         if request.path in g.lockedPaths:

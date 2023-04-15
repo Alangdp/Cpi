@@ -2,7 +2,7 @@ import sqlite3, datetime, fundamentus, statistics, requests, requests_cache
 from flask import session
 from app.utils.extras import isTicker as validaTicker
 from app.utils.Getdata import sqlString
-import pandas as pd 
+import pandas as pd, json
 
 def fundamentaRaw(ticker=''):
     url = 'http://fundamentus.com.br/detalhes.php?papel={}'.format(ticker)
@@ -211,19 +211,12 @@ def consolidWallet(comands = [], arguments = [], All = False):
             acoes[Id][ticker]['lucroTotal'] += float(acoes[Id][ticker]['lucro_preju'])
             acoes[Id][ticker]['valorTotal'] += float(acoes[Id][ticker]['valorAcao'] * acoes[Id][ticker]['quantidade'])
 
-        '''
-            data DATE NOT NULL PRIMARY KEY,
-            id_usuario INTEGER NOT NULL,
-            variacao VARCHAR(10),
-            valorCarteira DECIMAL(10,2)
-        '''
-
         for ticker in acoes[Id]:
             comandos.append("UPDATE carteira_consolidada SET valor = ? ,lucro_prejuizo = ? , variacao = ? WHERE id_usuario = ?")
             argumentos.append((acoes[Id][ticker]['valorTotal'], acoes[Id][ticker]['lucroTotal'], acoes[Id][ticker]['variacaoTotal'], Id,))
 
-            comandos.append("INSERT OR REPLACE INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) VALUES (?, ?, ?, ?)")
-            argumentos.append((dataAcao, Id, acoes[Id][ticker]['variacaoTotal'], acoes[Id][ticker]['valorTotal'],))
+            comandos.append("INSERT OR REPLACE INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM carteira_variacao WHERE data = ? AND id_usuario = ?)")
+            argumentos.append((dataAcao, Id, acoes[Id][ticker]['variacaoTotal'], acoes[Id][ticker]['valorTotal'], dataAcao, Id,))
 
     if len(comands) > 0:
         comandos.extend(comands)
@@ -305,3 +298,10 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
 
     if code == 5: consolidWallet()
     consolidWallet([], (), tipo)
+
+def getVariacao():
+    retorno = {}
+    variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ?'], [(session['id'],)])[0]
+    for index, variacao in  enumerate(variacoes, 1):
+        retorno[index] = variacao
+    return retorno

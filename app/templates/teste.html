@@ -12,5 +12,48 @@
 <body>
     {% include './includes/alerts.html'%}
     {% include './includes/sidebar.html'%}
+
+    <script>
+        var userInfo = JSON.parse('{{ userVariation | tojson | safe }}')
+
+        function lastWeek(){
+            for(key in userInfo) {
+                console.log(userInfo[key][0])
+            }
+        }
+
+        function sortDate(userInfo){
+
+        }
+
+        lastWeek()
+
+        class Grafico {
+            constructor(userInfo){
+                this.Info = userInfo
+                this.dates = this.formataData()
+                console.log(this.dates)
+            }
+
+            formataData() {
+                var allDates = this.getDates()
+                console.log(allDates, 1231)
+                var dates = allDates.map(function(dateString) {
+                    return new Date(dateString);
+                });
+            }
+            
+            getDates() {
+                const dates = [];
+                for(key in this.Info) {
+                    dates.push(this.Info[key][0])
+                }
+                
+                return dates
+            }
+        }
+
+        const grafico = new Grafico(userInfo)
+    </script>
 </body>
 </html>

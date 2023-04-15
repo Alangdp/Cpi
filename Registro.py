@@ -19,7 +19,7 @@ def atualizarSenha(novaSenha, senhaAtual, idd):
         return
     else:
         comandoSQL('UPDATE usuarios SET password = ? WHERE id = ?', (novaSenha, idd, ))
-        flash('Senha Alterada', 'SucessUserPassword')
+        flash('Senha alterada com sucesso', 'SucessUserPassword')
         return
     
 

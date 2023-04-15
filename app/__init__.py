@@ -37,7 +37,7 @@ with app.app_context():
     sched = BackgroundScheduler(timezone='America/Sao_Paulo', executors=executors)
 
     sched.add_job(job3Min, 'interval', seconds=180)
-    sched.add_job(job50Min, 'interval', seconds=3000)
+    # sched.add_job(job50Min, 'interval', seconds=3000)
     
     sched.start()
 

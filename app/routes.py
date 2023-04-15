@@ -21,7 +21,8 @@ def routes(app):
 
     @app.route('/teste')
     def teste():
-        return render_template('teste.html')
+        userVariation = getVariacao()
+        return render_template('teste.html', userVariation = userVariation)
 
     @app.route('/')
     @app.route('/home')
@@ -204,9 +205,9 @@ def routes(app):
         # updateWallet('MXRF11', 100, 10.33, 3, 'Fii')
         # updateWallet('ALZR11', 100, 113.53, 3, 'Fii')
 
-        # updateWallet('BBAS3', 100, 8.65, 3, 'Fii')
-        # updateWallet('TAEE11', 100, 10.33, 3, 'Fii')
-        # updateWallet('PSSA3', 100, 113.53, 3, 'Fii')
+        # updateWallet('BBAS3', 100, 42.97, 3)
+        # updateWallet('TAEE11', 100, 34.80, 3)
+        # updateWallet('PSSA3', 100, 23.93, 3)
 
         print(session['id'])
 
