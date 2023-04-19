@@ -4,6 +4,28 @@ from app.utils.extras import isTicker as validaTicker
 from app.utils.Getdata import sqlString
 import pandas as pd, json
 
+
+def existDate(ids = [], dataAtual = '', info = {}):
+    ignorar = ['valorTotal', 'lucroTotal', 'variacaoTotal']
+
+    comandos = []
+    argumentos = []
+
+    con = sqlite3.connect(path)
+    cur = con.cursor()
+    uniqueIds = list(set(ids))
+    for Id in uniqueIds:
+        dados = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ?", (1, dataAtual))
+        if dados.fetchone() != None:
+            comandos.append("UPDATE carteira_variacao SET variacao = ?, valorCarteira = ? WHERE id_usuario = ? AND data = ?")
+            argumentos.append((info[Id]['variacaoTotal'], info[Id]['valorTotal'], Id, dataAtual))
+        else:
+            comandos.append("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) VALUES (?, ?, ?, ?);")
+            argumentos.append((dataAtual, Id, info[Id]['variacaoTotal'], info[Id]['valorTotal']))
+    con.close()
+    
+    return {'comandos': comandos, 'argumentos': argumentos}
+
 def fundamentaRaw(ticker=''):
     url = 'http://fundamentus.com.br/detalhes.php?papel={}'.format(ticker)
     hdr = {
@@ -50,7 +72,7 @@ def criaDB():
 
     cur.execute('''CREATE TABLE IF NOT EXISTS carteira_variacao (
         data DATE NOT NULL,
-        id_usuario INTEGER NOT NULL PRIMARY KEY,
+        id_usuario INTEGER NOT NULL,
         variacao VARCHAR(10),
         valorCarteira DECIMAL(10,2)
         );
@@ -74,7 +96,6 @@ def comandoSQL(comandos: list, argumentos: list):
     cur = con.cursor()
 
     for comando, argumento in zip(comandos,argumentos):
-
         cur.execute(comando, argumento)
         if cur.description:
             retornar.append(cur.fetchall())
@@ -85,6 +106,7 @@ def comandoSQL(comandos: list, argumentos: list):
     con.close()
     
     return retornar
+
 
 def porcentWallet():
     carteira = comandoSQL(['SELECT * FROM carteira_usuario WHERE id_usuario = ?' ], [(session['id'],)])[0]
@@ -143,7 +165,6 @@ def consolidWallet(comands = [], arguments = [], All = False):
     acoes = {}
     LIDS = [] # Last Ids
 
-    All = True
     if All == True:
         transacoes = comandoSQL(['SELECT * FROM carteira_transacoes'],[()])
     else: 
@@ -183,40 +204,39 @@ def consolidWallet(comands = [], arguments = [], All = False):
 
         precoMedio = float(f"{acoes[Id][ticker]['precoMedio']:.2f}")
 
-        if cotacaoAtual > precoMedio:
-            acoes[Id][ticker]['lucro_preju'] = f"{(cotacaoAtual - precoMedio) * int(acoes[Id][ticker]['quantidade']):.2f}" 
-        else:
-            acoes[Id][ticker]['lucro_preju'] = f"{(precoMedio - cotacaoAtual) * int(acoes[Id][ticker]['quantidade']):.2f}"
-        
+        acoes[Id][ticker]['lucro_preju'] = f"{(cotacaoAtual - precoMedio) * int(acoes[Id][ticker]['quantidade']):.2f}" 
         try:
             acoes[Id][ticker]['variacao'] = f'{(cotacaoAtual - precoMedio) / precoMedio * 100:.2f}%'
         except ZeroDivisionError:
             acoes[Id][ticker]['variacao'] = '0%'
 
+        acoes[Id]['valorTotal'] = 0
+        acoes[Id]['lucroTotal'] = 0
+        acoes[Id]['variacaoTotal'] = 0
+
     LIDS = list(set(LIDS))
-
     for Id in LIDS:
-
         for ticker in acoes[Id]:
+            if ticker == 'valorTotal' or ticker == 'lucroTotal' or ticker == 'variacaoTotal':
+                continue
             comandos.append("UPDATE carteira_usuario SET preco_medio = ? WHERE id_usuario = ? AND ticker = ?")
             argumentos.append((acoes[Id][ticker]['precoMedio'], Id, ticker,))
-
-            acoes[Id][ticker]['valorTotal'] = 0
-            acoes[Id][ticker]['lucroTotal'] = 0
-            acoes[Id][ticker]['variacaoTotal'] = 0
             
         for ticker in acoes[Id]:
+            if ticker == 'valorTotal' or ticker == 'lucroTotal' or ticker == 'variacaoTotal':
+                continue
 
-            acoes[Id][ticker]['variacaoTotal'] += float(acoes[Id][ticker]['variacao'].replace('%', ''))
-            acoes[Id][ticker]['lucroTotal'] += float(acoes[Id][ticker]['lucro_preju'])
-            acoes[Id][ticker]['valorTotal'] += float(acoes[Id][ticker]['valorAcao'] * acoes[Id][ticker]['quantidade'])
+            acoes[Id]['variacaoTotal'] += float(acoes[Id][ticker]['variacao'].replace('%', ''))
+            acoes[Id]['lucroTotal'] += float(acoes[Id][ticker]['lucro_preju'])
+            acoes[Id]['valorTotal'] += float(acoes[Id][ticker]['valorAcao'] * acoes[Id][ticker]['quantidade'])
 
         for ticker in acoes[Id]:
             comandos.append("UPDATE carteira_consolidada SET valor = ? ,lucro_prejuizo = ? , variacao = ? WHERE id_usuario = ?")
-            argumentos.append((acoes[Id][ticker]['valorTotal'], acoes[Id][ticker]['lucroTotal'], acoes[Id][ticker]['variacaoTotal'], Id,))
+            argumentos.append((acoes[Id]['valorTotal'], acoes[Id]['lucroTotal'], acoes[Id]['variacaoTotal'], Id,))
 
-            comandos.append("INSERT OR REPLACE INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM carteira_variacao WHERE data = ? AND id_usuario = ?)")
-            argumentos.append((dataAcao, Id, acoes[Id][ticker]['variacaoTotal'], acoes[Id][ticker]['valorTotal'], dataAcao, Id,))
+    dadosAtualizar = existDate(LIDS, dataAcao, acoes)
+    comandos.extend(dadosAtualizar['comandos'])
+    argumentos.extend(dadosAtualizar['argumentos'])
 
     if len(comands) > 0:
         comandos.extend(comands)
@@ -225,6 +245,7 @@ def consolidWallet(comands = [], arguments = [], All = False):
     dados = comandoSQL(comandos, argumentos)
 
     return dados
+
 
 def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao'):
     dataTransacao = datetime.date.today().strftime('%Y-%m-%d')

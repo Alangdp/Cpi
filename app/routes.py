@@ -22,6 +22,7 @@ def routes(app):
     @app.route('/teste')
     def teste():
         userVariation = getVariacao()
+        consolidWallet([], [], True)
         return render_template('teste.html', userVariation = userVariation)
 
     @app.route('/')
@@ -201,13 +202,14 @@ def routes(app):
         # valor = 39.11
         # updateWallet(ticker, quantidade, valor, 3)
         # porcentWallet()
-        # updateWallet('VGHF11', 100, 8.65, 3, 'Fii')
-        # updateWallet('MXRF11', 100, 10.33, 3, 'Fii')
-        # updateWallet('ALZR11', 100, 113.53, 3, 'Fii')
+        
+        updateWallet('VGHF11', 100, 8.65, 3, 'Fii')
+        updateWallet('MXRF11', 100, 10.33, 3, 'Fii')
+        updateWallet('ALZR11', 100, 113.53, 3, 'Fii')
 
-        # updateWallet('BBAS3', 100, 42.97, 3)
-        # updateWallet('TAEE11', 100, 34.80, 3)
-        # updateWallet('PSSA3', 100, 23.93, 3)
+        updateWallet('BBAS3', 100, 42.97, 3)
+        updateWallet('TAEE11', 100, 34.80, 3)
+        updateWallet('PSSA3', 100, 23.93, 3)
 
         print(session['id'])
 
@@ -248,7 +250,9 @@ def routes(app):
 
         return indexDB()
 
-
+    @app.route('/db/getVariacao')
+    def variacao():
+        return json.dumps(getVariacao())
 def init_routes(app):
     routes(app)
 

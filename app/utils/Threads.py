@@ -62,5 +62,3 @@ def atualizaDB():
     fragmentos = threads(70)
     activeThreads(fragmentos)
     Filter()
-
-atualizaDB()
