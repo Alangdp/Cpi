@@ -38,7 +38,7 @@ Em resumo, o site é uma plataforma completa para quem deseja investir em bolsa 
 | Debêntures                                        | Em andamento  | Não                |
 | Certificados de Depósito Bancário (CDB)           | Em andamento  | Não                |
 | Letras de Crédito Imobiliário (LCI)               | Em andamento  | Não                |
-| Letras de Crédito do Agronegócio (LCA)             | Em andamento  | Não                |
+| Letras de Crédito do Agronegócio (LCA)            | Em andamento  | Não                |
 | Fundos de Investimento em Ações (FIA)             | Em andamento  | Não                |
 | Fundos de Investimento em Renda Fixa (FIRF)       | Em andamento  | Não                |
 | Fundos Multimercado                               | Em andamento  | Não                |
@@ -80,7 +80,9 @@ Ative o ambiente virtual com o comando: source venv/bin/activate
 
 ``` flask run ```
 
-
 ### acesse através de:
 
 ``` localhost:5000  ```
+
+| Aviso: A muitas bibliotecas no arquivo de ``` requirements.txt ``` que não são usadas realmente no projeto, isso sera corrigido futuramente!! |
+| ---|

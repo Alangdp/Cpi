@@ -2,7 +2,7 @@ import sqlite3, datetime, fundamentus, statistics, requests, requests_cache
 from flask import session
 from app.utils.extras import isTicker as validaTicker
 from app.utils.Getdata import sqlString
-import pandas as pd, json
+import pandas as pd, json, requests
 
 
 def existDate(ids = [], dataAtual = '', info = {}):
@@ -26,6 +26,24 @@ def existDate(ids = [], dataAtual = '', info = {}):
     
     return {'comandos': comandos, 'argumentos': argumentos}
 
+def getYahooAPI(ticker = ''):
+    if not ticker: return None
+    hdr = {
+        'User-agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201',
+        'Accept': 'text/html, text/plain, text/css, text/sgml, */*;q=0.01',
+        'Accept-Encoding': 'gzip, deflate',
+    }
+        
+    querystring = {"q":f"{ticker}","region":"BR"}
+    response = requests.get(f'https://query1.finance.yahoo.com/v7/finance/quote?symbols={ticker}.SA', headers=hdr, params=querystring)
+    dados = json.loads(response.content )
+
+    filtrado = {
+        "valorAtual": dados['quoteResponse']['result'][0]['regularMarketPrice']
+    }
+    return  filtrado
+
+
 def fundamentaRaw(ticker=''):
     url = 'http://fundamentus.com.br/detalhes.php?papel={}'.format(ticker)
     hdr = {
@@ -39,6 +57,8 @@ def fundamentaRaw(ticker=''):
     
     tables = pd.read_html(content.text, decimal=',', thousands='.')
     df = tables[0]
+
+    print(df)
     return df
 
 path = 'app/database/Carteira.db'
@@ -119,13 +139,12 @@ def porcentWallet():
         tipo = ativo[6]
 
         if tipo == 'Fii':
-            df = fundamentaRaw(ticker)
-            cotacaoAtual = float(df[3][0])
+            cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             porcent['Fii'][0] += round((quantidade * cotacaoAtual), 2)
             porcent['Fii'][1] += quantidade
             
         if tipo == 'Acao':
-            cotacaoAtual = float(fundamentus.get_papel(ticker)['Cotacao'].iloc[0])
+            cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             porcent['Acao'][0] += round((quantidade * cotacaoAtual), 2)
             porcent['Acao'][1] += quantidade
 
@@ -137,14 +156,13 @@ def porcentWallet():
         quantidade = ativo[3]
 
         if tipo == 'Fii':
-            df = fundamentaRaw(ticker)
-            cotacaoAtual = float(df[3][0])
+            
+            cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
             porcent['Fii'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Fii'][0] * 100, 2)}
             
         if tipo == 'Acao':
-            df = fundamentaRaw(ticker)
-            cotacaoAtual = float(fundamentus.get_papel(ticker)['Cotacao'].iloc[0])
+            cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
             porcent['Acao'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Acao'][0] * 100, 2)}
         
@@ -181,14 +199,12 @@ def consolidWallet(comands = [], arguments = [], All = False):
         if not Id in acoes:
             acoes[Id] = {}
 
-
         if not acoes[Id].__contains__(ticker): 
             if tipo == 'Fii':
-                df = fundamentaRaw(ticker)
-                cotacaoAtual = float(df[3][0])
+                cotacaoAtual = getYahooAPI(ticker)['valorAtual']
                 
             if tipo == 'Acao':
-                cotacaoAtual = float(fundamentus.get_papel(ticker)['Cotacao'].iloc[0])
+                cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             acoes[Id][ticker] = {'quantidade': 0, 'patrimonio': 0, 'valorAcao': cotacaoAtual}
         
         if transacao[5] == 'VENDA' or transacao[5] == 'VENDA COMPLETA': 

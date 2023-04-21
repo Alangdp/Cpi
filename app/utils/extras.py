@@ -1,4 +1,4 @@
-import sqlite3, fundamentus, re, socket, sys
+import sqlite3, fundamentus, re, os
 from flask import request, redirect, session
 
 def criaDB():
@@ -104,4 +104,3 @@ def validaCSR(token = ''):
     if not 'csrfToken' in session: return False
     if not token == session['csrfToken']: return False
     return True
-
