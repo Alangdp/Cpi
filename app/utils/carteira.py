@@ -39,27 +39,28 @@ def getYahooAPI(ticker = ''):
     dados = json.loads(response.content )
 
     filtrado = {
+        "Nome": dados['quoteResponse']['result'][0]['shortName'],
         "valorAtual": dados['quoteResponse']['result'][0]['regularMarketPrice']
     }
     return  filtrado
 
+# API COM VALORES DESATUALIZADOS
+# def fundamentaRaw(ticker=''):
+#     url = 'http://fundamentus.com.br/detalhes.php?papel={}'.format(ticker)
+#     hdr = {
+#         'User-agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201',
+#         'Accept': 'text/html, text/plain, text/css, text/sgml, */*;q=0.01',
+#         'Accept-Encoding': 'gzip, deflate',
+#     }
 
-def fundamentaRaw(ticker=''):
-    url = 'http://fundamentus.com.br/detalhes.php?papel={}'.format(ticker)
-    hdr = {
-        'User-agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201',
-        'Accept': 'text/html, text/plain, text/css, text/sgml, */*;q=0.01',
-        'Accept-Encoding': 'gzip, deflate',
-    }
-
-    with requests_cache.enabled():
-        content = requests.get(url, headers=hdr)
+#     with requests_cache.enabled():
+#         content = requests.get(url, headers=hdr)
     
-    tables = pd.read_html(content.text, decimal=',', thousands='.')
-    df = tables[0]
+#     tables = pd.read_html(content.text, decimal=',', thousands='.')
+#     df = tables[0]
 
-    print(df)
-    return df
+#     print(df)
+#     return df
 
 path = 'app/database/Carteira.db'
 def criaDB():
@@ -273,7 +274,7 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
     stockInfo = fundamentus.get_papel(ticker)
 
     if tipo == 'Fii':
-        df = fundamentaRaw(ticker)
+        df = getYahooAPI(ticker)['Nome']
         nome = df[1][1]
 
     else: nome = stockInfo['Empresa'].iloc[0]
@@ -339,6 +340,6 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
 def getVariacao():
     retorno = {}
     variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ?'], [(session['id'],)])[0]
-    for index, variacao in  enumerate(variacoes, 1):
+    for index, variacao in  enumerate(variacoes, 0):
         retorno[index] = variacao
     return retorno

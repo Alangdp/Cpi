@@ -22,7 +22,7 @@ def routes(app):
     @app.route('/teste')
     def teste():
         userVariation = getVariacao()
-        consolidWallet([], [], True)
+        print(userVariation)
         return render_template('teste.html', userVariation = userVariation)
 
     @app.route('/')
