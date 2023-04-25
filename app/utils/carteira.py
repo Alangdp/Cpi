@@ -59,7 +59,8 @@ def existDate(ids = [], dataAtual = '', info = {}, selic = 0, ibov = 0):
     uniqueIds = list(set(ids))
 
     for Id in uniqueIds:
-        dados = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ?", (Id, dataAtual))
+        dados = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ? AND tipo = 'variacao' ", (Id, dataAtual))
+        print(dados.fetchone())
         if dados.fetchone() != None:
             comandos.append("UPDATE carteira_variacao SET variacao = ?, valorCarteira = ? WHERE id_usuario = ? AND data = ? AND tipo = variacao")
             argumentos.append((info[Id]['variacaoTotal'], info[Id]['valorTotal'], Id, dataAtual))
@@ -67,7 +68,7 @@ def existDate(ids = [], dataAtual = '', info = {}, selic = 0, ibov = 0):
             comandos.append("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira, tipo) VALUES (?, ?, ?, ?, ?);")
             argumentos.append((dataAtual, Id, info[Id]['variacaoTotal'], info[Id]['valorTotal'], "variacao"))
     con.close()
-    
+    print(comandos, argumentos)
     return {'comandos': comandos, 'argumentos': argumentos}
 
 def getYahooAPI(ticker = ''):
@@ -385,17 +386,18 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
 
 def getVariacao():
     retorno = {}
-    variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ?'], [(session['id'],)])
+    variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ? ORDER BY tipo ASC'], [(session['id'],)])
     chave_anterior = None
     index = 0
     for variacao in variacoes[0]:
-        chave = variacao[4]
-        if chave != chave_anterior:
+        variacao = list(variacao)
+        variacao[2] = round(float(variacao[2]), 2)
+        if variacao[4] != chave_anterior:
             index = 0
-        if chave not in retorno:
-            retorno[chave] = {}
-        retorno[chave][index] = variacao
-        chave_anterior = chave
+        if variacao[4] not in retorno:
+            retorno[variacao[4]] = {}
+        
+        retorno[variacao[4]][index] = variacao
+        chave_anterior = variacao[4]
         index += 1
-    print(retorno)
     return retorno

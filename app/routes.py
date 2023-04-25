@@ -22,6 +22,8 @@ def routes(app):
     @app.route('/teste')
     def teste():
         userVariation = getVariacao()
+        changeSelicIbov()
+        consolidWallet([],[],True)
         return render_template('teste.html', userVariation = userVariation)
 
     @app.route('/')
