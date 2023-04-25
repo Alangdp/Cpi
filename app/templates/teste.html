@@ -26,8 +26,12 @@
 
 
 <script>
+    var dados = JSON.parse('{{ userVariation | tojson | safe }}');
+    console.log(dados['variacao'])
+    var userInfo = dados['variacao']
+    var ibov = dados['IBOV']
+    var selic = dados['SELIC']
 
-    var userInfo = JSON.parse('{{ userVariation | tojson | safe }}')
     var dataAtual = moment().format("DD/MM/YYYY");
 
     function ehBissexto(ano) {
@@ -36,28 +40,24 @@
 
     var datasSemana = [];
     for (var i = -7; i <= 0; i++) {
-        datasSemana.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+        datasSemana.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
 
     var datasMes = []; 
     for (var i = 0; i <= 30; i++) {
-        datasMes.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+        datasMes.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
 
     var datasAno = [];
     var numDias = ehBissexto(moment().year()) ? 366 : 365; 
     for (var i = 0; i < numDias; i++) {
-        datasAno.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+        datasAno.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
 
-    function organiza(){
-        porMes = {}
-        datasMes = datasMes.reverse()
-        consolidado = {}, consolidList = []
-
-
-        dias = []
-        valores = []
+    function organiza(dados = [], datas = []){
+        porMes = {}, consolidado = {}, consolidList = []
+        userInfo = dados, datasMes = datas
+        dias = [], valores = []
 
         for (var i = 0; i < Object.keys(userInfo).length; i++ ){
             var chave = userInfo[i][0].replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
@@ -66,7 +66,7 @@
         }
 
         for (var i = 0; i < datasMes.length; i++) {
-            if (datasMes[i] in consolidado) {
+            if (Object.keys(consolidado).includes(datasMes[i])) {
                 porMes[datasMes[i]] = consolidado[datasMes[i]]
                 dias.push(datasMes[i])
                 valores.push(consolidado[datasMes[i]])
@@ -79,98 +79,103 @@
         return retornar
     }
 
-    dados = organiza()
-
-    function renderizaGrafico(select = datasMes, data = []) {
-        const ctxL = document.getElementById("rentabilidade").getContext('2d');
-        ctxL.heigth = 100;
+    function renderizaGrafico(select = datasMes, data = [], dataSelic = [], dataIbov = []) {
+      const ctxL = document.getElementById("rentabilidade").getContext('2d');
+      ctxL.heigth = 100;
+      
+      // Calcula a média dos valores dos pontos que estão presentes no gráfico
+      const dataPoints = data.filter(value => value !== null);
+      const dataPointsSum = dataPoints.reduce((total, value) => total + Number(value), 0);
+      const dataPointsMean = (dataPointsSum / dataPoints.length).toFixed(1);
+      
+      // Preenche os pontos ausentes com o valor médio
+      const filledData = data.map(value => {
+        if (dataPointsMean === 'NaN') {
+          return 0
+        } if (value == null) {
+          return dataPointsMean;
+        } else {
+          return value;
+        }
+      });
         
-        // Calcula a média dos valores dos pontos que estão presentes no gráfico
-        const dataPoints = data.filter(value => value !== null);
-        const dataPointsSum = dataPoints.reduce((total, value) => total + Number(value), 0);
-        const dataPointsMean = (dataPointsSum / dataPoints.length).toFixed(1);
-        
-        // Preenche os pontos ausentes com o valor médio
-        const filledData = data.map(value => {
-          if (value == null) {
-            return dataPointsMean;
-          } else {
-            return value;
-          }
-        });
-        
-        const myLineChart = new Chart(ctxL, {
-          type: 'line',
-          data: {
-            labels: select,
-            datasets: [
-              {
-                label: "Carteira",
-                data: filledData,
-                backgroundColor: ['transparent'],
-                pointBackgroundColor: 'rgb(253,180,92',
-                borderColor: ['rgb(253,180,92)'],
-                borderWidth: 2,
-                borderDash: [5, 5]
-              },
-              {
-                label: "Ibovespa",
-                data: [28, 48, 40, 19, 86, 27, 28, 48, 40, 19, 86, 27],
-                backgroundColor: ['transparent'],
-                pointBackgroundColor: 'rgb(255, 8, 0)',
-                borderColor: ['rgb(255, 8, 0)'],
-                borderWidth: 2
-              },
-              {
-                label: "Selic",
-                data: [28, 48, 40, 19, 86, 27, 28, 78, 40, 12, 98, 99],
-                backgroundColor: ['transparent'],
-                pointBackgroundColor: 'rgb(0, 153, 255)',
-                borderColor: ['rgb(0, 153, 255)'],
-                borderWidth: 2
+      const myLineChart = new Chart(ctxL, {
+        type: 'line',
+        data: {
+          labels: select,
+          datasets: [
+            {
+              label: "Carteira",
+              data: filledData,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(253,180,92',
+              borderColor: ['rgb(253,180,92)'],
+              borderWidth: 2,
+              borderDash: [5, 5]
+            },
+            {
+              label: "Ibovespa",
+              data: dataIbov,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(255, 8, 0)',
+              borderColor: ['rgb(255, 8, 0)'],
+              borderWidth: 2
+            },
+            {
+              label: "Selic",
+              data: dataSelic,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(0, 153, 255)',
+              borderColor: ['rgb(0, 153, 255)'],
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(tooltipItem, data) {
+                  var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                  return value + `%`
               }
-            ]
+            }
           },
-          options: {
-            maintainAspectRatio: false,
-            tooltips: {
-              mode: 'index',
-              intersect: false,
-              callbacks: {
-                label: function(tooltipItem, data) {
-                    var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                    return value + `%`
-                }
+          hover: {
+            mode: 'index',
+            intersect: false
+          },
+          scales: {
+            xAxes: [{
+              ticks: {
+                display: true
               }
-            },
-            hover: {
-              mode: 'index',
-              intersect: false
-            },
-            scales: {
-              xAxes: [{
-                ticks: {
-                  display: true
-                }
-              }],
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  suggestedMax: 30, // Valor máximo da escala Y
-                  suggestedMin: 0, // Valor mínimo da escala Y
-                  callback: function(value, index, values) {
-                    if (value === 0) { // Se o valor for zero, retorna uma string vazia
-                      return '';
-                    } else {
-                      return value;
-                    }
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                suggestedMax: 30, // Valor máximo da escala Y
+                suggestedMin: 0, // Valor mínimo da escala Y
+                callback: function(value, index, values) {
+                  if (value === 0) { // Se o valor for zero, retorna uma string vazia
+                    return '';
+                  } else {
+                    return value;
                   }
                 }
-              }]
-            }
+              }
+            }]
           }
-        });
-      }
-      
-    renderizaGrafico(dados[1], dados[2])
+        }
+      });
+    }
+    
+    dataMes = datasMes.reverse()
+    dadosUser = organiza(userInfo, datasMes)
+    dadosSelic = organiza(selic, datasMes)
+    dadosIbov = organiza(ibov, datasMes)
+
+    renderizaGrafico(datasMes, dadosUser[2], dadosSelic[2], dadosIbov[2])
 </script>

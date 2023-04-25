@@ -22,7 +22,6 @@ def routes(app):
     @app.route('/teste')
     def teste():
         userVariation = getVariacao()
-        print(userVariation)
         return render_template('teste.html', userVariation = userVariation)
 
     @app.route('/')

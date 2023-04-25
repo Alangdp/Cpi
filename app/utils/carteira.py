@@ -5,23 +5,67 @@ from app.utils.Getdata import sqlString
 import pandas as pd, json, requests
 
 
-def existDate(ids = [], dataAtual = '', info = {}):
-    ignorar = ['valorTotal', 'lucroTotal', 'variacaoTotal']
+def changeSelicIbov(All = False):
+    dataAtual = datetime.date.today().strftime('%Y/%m/%d')
+    ibov = getYahooAPI("IBOV11")['Variacao']
+    selic = json.loads(requests.get("https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos").content)[0]['valor']
 
+    con = sqlite3.connect(path)
+    cur = con.cursor()
+    IDS = []
+
+    if All == True: IDS = list(cur.execute("SELECT id_usuario FROM carteira_consolidada").fetchall()[0])
+    print(IDS)
+    # if IDS == []:
+    #     return
+    for Id in [session['id']]:
+        dadosSelic = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ? AND tipo = 'SELIC' ", (1, dataAtual))
+        dadosIbov = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ? AND tipo = 'IBOV' ", (1, dataAtual))
+
+        if dadosSelic.fetchone() != None or dadosIbov.fetchone() != None: 
+            cur.execute("UPDATE carteira_variacao SET variacao = ? WHERE data = ? AND id_usuario = ? AND tipo = 'SELIC' ", (selic, dataAtual, Id))
+            cur.execute("UPDATE carteira_variacao SET variacao = ? WHERE data = ? AND id_usuario = ? AND tipo = 'IBOV' ", (ibov, dataAtual, Id))
+        else:
+            cur.execute("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira, tipo) VALUES (?, ?, ?, ?, ?);", (dataAtual, Id, selic, 0, "SELIC"))
+            cur.execute("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira, tipo) VALUES (?, ?, ?, ?, ?);", (dataAtual, Id, ibov, 0, "IBOV"))
+
+        if All == False:
+            selicSoma = cur.execute("SELECT id_usuario, tipo, SUM(variacao) as total_variacao FROM carteira_variacao WHERE id_usuario = ? AND tipo = 'SELIC' GROUP BY id_usuario, tipo", (Id,)).fetchone()
+            ibovSoma = cur.execute("SELECT id_usuario, tipo, SUM(variacao) as total_variacao FROM carteira_variacao WHERE id_usuario = ? AND tipo = 'IBOV' GROUP BY id_usuario, tipo", (Id,)).fetchone() 
+            
+            retorno = {}
+
+            retorno['SELIC'] = {'Valor': selicSoma[2]}
+            retorno['IVOB'] = {'Valor': ibovSoma[2]}
+
+            con.commit()
+            con.close()
+
+            return retorno
+        
+    con.commit()
+    con.close()
+
+    return
+
+
+def existDate(ids = [], dataAtual = '', info = {}, selic = 0, ibov = 0):
+    ignorar = ['valorTotal', 'lucroTotal', 'variacaoTotal']
     comandos = []
     argumentos = []
 
     con = sqlite3.connect(path)
     cur = con.cursor()
     uniqueIds = list(set(ids))
+
     for Id in uniqueIds:
-        dados = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ?", (1, dataAtual))
+        dados = cur.execute("SELECT id_usuario, data FROM carteira_variacao WHERE id_usuario = ? AND data = ?", (Id, dataAtual))
         if dados.fetchone() != None:
-            comandos.append("UPDATE carteira_variacao SET variacao = ?, valorCarteira = ? WHERE id_usuario = ? AND data = ?")
+            comandos.append("UPDATE carteira_variacao SET variacao = ?, valorCarteira = ? WHERE id_usuario = ? AND data = ? AND tipo = variacao")
             argumentos.append((info[Id]['variacaoTotal'], info[Id]['valorTotal'], Id, dataAtual))
         else:
-            comandos.append("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira) VALUES (?, ?, ?, ?);")
-            argumentos.append((dataAtual, Id, info[Id]['variacaoTotal'], info[Id]['valorTotal']))
+            comandos.append("INSERT INTO carteira_variacao (data, id_usuario, variacao, valorCarteira, tipo) VALUES (?, ?, ?, ?, ?);")
+            argumentos.append((dataAtual, Id, info[Id]['variacaoTotal'], info[Id]['valorTotal'], "variacao"))
     con.close()
     
     return {'comandos': comandos, 'argumentos': argumentos}
@@ -40,7 +84,8 @@ def getYahooAPI(ticker = ''):
 
     filtrado = {
         "Nome": dados['quoteResponse']['result'][0]['shortName'],
-        "valorAtual": dados['quoteResponse']['result'][0]['regularMarketPrice']
+        "valorAtual": dados['quoteResponse']['result'][0]['regularMarketPrice'],
+        "Variacao": dados['quoteResponse']['result'][0]['regularMarketChangePercent']
     }
     return  filtrado
 
@@ -95,7 +140,8 @@ def criaDB():
         data DATE NOT NULL,
         id_usuario INTEGER NOT NULL,
         variacao VARCHAR(10),
-        valorCarteira DECIMAL(10,2)
+        valorCarteira DECIMAL(10,2),
+        tipo VARCHAR(10)
         );
     ''')
 
@@ -177,12 +223,12 @@ def porcentWallet():
     print(porcent)
     return porcent
 
-def consolidWallet(comands = [], arguments = [], All = False):
-    dataAcao = datetime.date.today().strftime('%Y-%m-%d')
+def consolidWallet(comands = [], arguments = [], All = False, selic = 0, ibov = 0 ):
+    dataAcao = datetime.date.today().strftime('%Y/%m/%d')
     comandos = []
     argumentos = []
     acoes = {}
-    LIDS = [] # Last Ids
+    LIDS = [] # IDS
 
     if All == True:
         transacoes = comandoSQL(['SELECT * FROM carteira_transacoes'],[()])
@@ -274,8 +320,8 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
     stockInfo = fundamentus.get_papel(ticker)
 
     if tipo == 'Fii':
-        df = getYahooAPI(ticker)['Nome']
-        nome = df[1][1]
+        df = getYahooAPI(ticker)
+        nome = df['Nome']
 
     else: nome = stockInfo['Empresa'].iloc[0]
 
@@ -311,7 +357,7 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
             [
                 "INSERT INTO carteira_usuario (id_usuario, ticker, nome, quantidade, data_transacao, tipo) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (id_usuario, ticker) DO NOTHING",
                 "INSERT INTO carteira_transacoes (id_usuario, ticker, quantidade, preço_unitario, tipo, data_transacao, transacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                "INSERT INTO carteira_consolidada (id_usuario, valor, lucro_prejuizo, variacao) VALUES (?, ?, ? ,?) ON CONFLICT (id_usuario) DO NOTHING",
+                "INSERT INTO carteira_consolidada (id_usuario, valor, lucro_prejuizo, variacao) VALUES (?, ?, ?, ?) ON CONFLICT (id_usuario) DO NOTHING",
             ],
             [
                 (session['id'], ticker, nome, quantidade, dataTransacao, tipo),
@@ -339,7 +385,17 @@ def updateWallet(ticker = '', quantidade = 0, valor = 0, code = 1 , tipo = 'Acao
 
 def getVariacao():
     retorno = {}
-    variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ?'], [(session['id'],)])[0]
-    for index, variacao in  enumerate(variacoes, 0):
-        retorno[index] = variacao
+    variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ?'], [(session['id'],)])
+    chave_anterior = None
+    index = 0
+    for variacao in variacoes[0]:
+        chave = variacao[4]
+        if chave != chave_anterior:
+            index = 0
+        if chave not in retorno:
+            retorno[chave] = {}
+        retorno[chave][index] = variacao
+        chave_anterior = chave
+        index += 1
+    print(retorno)
     return retorno
