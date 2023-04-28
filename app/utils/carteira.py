@@ -179,7 +179,7 @@ def comandoSQL(comandos: list, argumentos: list):
 def porcentWallet():
     carteira = comandoSQL(['SELECT * FROM carteira_usuario WHERE id_usuario = ?' ], [(session['id'],)])[0]
     valorTotal = 0
-    porcent = {'valorTotal': 0, 'Acao': [0, 0, 0, {}], 'Fii': [0, 0, 0, {}] }
+    porcent = {'valorTotal': 0, 'Acao': {'valor': 0, 'quantidade': 0, 'porcentagem': 0, 'tickers' : {}}, 'Fii': {'valor': 0, 'quantidade': 0, 'porcentagem': 0, 'tickers' : {}} }
 
     for ativo in carteira:
         ticker = ativo[1]
@@ -188,13 +188,13 @@ def porcentWallet():
 
         if tipo == 'Fii':
             cotacaoAtual = getYahooAPI(ticker)['valorAtual']
-            porcent['Fii'][0] += round((quantidade * cotacaoAtual), 2)
-            porcent['Fii'][1] += quantidade
+            porcent['Fii']['valor'] += round((quantidade * cotacaoAtual), 2)
+            porcent['Fii']['quantidade'] += quantidade
             
         if tipo == 'Acao':
             cotacaoAtual = getYahooAPI(ticker)['valorAtual']
-            porcent['Acao'][0] += round((quantidade * cotacaoAtual), 2)
-            porcent['Acao'][1] += quantidade
+            porcent['Acao']['valor'] += round((quantidade * cotacaoAtual), 2)
+            porcent['Acao']['quantidade'] += quantidade
 
         porcent['valorTotal'] += round((quantidade * cotacaoAtual), 2)
 
@@ -207,19 +207,20 @@ def porcentWallet():
             
             cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
-            porcent['Fii'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Fii'][0] * 100, 2)}
+            porcent['Fii']['tickers'][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Fii']['valor'] * 100, 2)}
             
         if tipo == 'Acao':
             cotacaoAtual = getYahooAPI(ticker)['valorAtual']
             valorTotalAtivo = round(quantidade * cotacaoAtual, 2)
-            porcent['Acao'][3][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Acao'][0] * 100, 2)}
+            porcent['Acao']['tickers'][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Acao']['valor'] * 100, 2)}
         
     for chave in porcent:
+        print(chave)
         if chave == 'valorTotal': continue
         try:
-            porcent[chave][2] = round((porcent[chave][0] / porcent['valorTotal']) * 100, 2)
+            porcent[chave]['porcentagem'] = round((porcent[chave]['valor'] / porcent['valorTotal']) * 100, 2)
         except ZeroDivisionError:
-            porcent[chave][2] = 0
+            porcent[chave]['porcentagem'] = 0
 
     print(porcent)
     return porcent
@@ -389,6 +390,7 @@ def getVariacao():
     variacoes = comandoSQL(['SELECT * FROM carteira_variacao WHERE id_usuario = ? ORDER BY tipo ASC'], [(session['id'],)])
     chave_anterior = None
     index = 0
+    print(porcentWallet())
     for variacao in variacoes[0]:
         variacao = list(variacao)
         variacao[2] = round(float(variacao[2]), 2)

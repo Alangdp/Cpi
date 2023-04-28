@@ -18,7 +18,12 @@
     
     
     <div class="teste" style="margin-left: 300px; max-width:400px; max-height:400px;">
-        <canvas id="rentabilidade" class="rounded"  width="400" height="400" ></canvas>
+      <div class="botoes d-flex justify-content-center p-1">
+        <button type="button" class="btn btn-primary m-1" id="Semana">Semana</button>
+        <button type="button" class="btn btn-primary m-1" id="Mes">Mês</button>
+        <button type="button" class="btn btn-primary m-1" id="Ano">Ano</button>
+      </div>
+      <canvas id="rentabilidade" class="rounded"  width="600" height="300" ></canvas>
     </div>
 </body>
 </html>
@@ -26,147 +31,196 @@
 
 
 <script>
-    var dados = JSON.parse('{{ userVariation | tojson | safe }}');
-    console.log(dados['variacao'])
-    var userInfo = dados['variacao']
-    var ibov = dados['IBOV']
-    var selic = dados['SELIC']
+  var dados = JSON.parse('{{ userVariation | tojson | safe }}');
+  var userInfo = dados['variacao']
+  var ibov = dados['IBOV']
+  var selic = dados['SELIC']
+  const datas = {semana: [], mes: [], ano:[]}
 
-    var dataAtual = moment().format("DD/MM/YYYY");
+  var dataAtual = moment().format("DD/MM/YYYY");
 
-    function ehBissexto(ano) {
-        return (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
+  function ehBissexto(ano) {
+    return (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
+  }
+
+  for (var i = 0; i <= 7; i++) {
+    datas.semana.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
+  }
+
+  for (var i = 0; i <= 30; i++) {
+    datas.mes.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
+  }
+
+  var numDias = ehBissexto(moment().year()) ? 366 : 365; 
+  for (var i = 0; i < numDias; i++) {
+    datas.ano.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
+  }
+
+
+  function organiza(dados = [], datas = [], tipo = false){
+    porMes = {}, consolidado = {}, consolidList = []
+    dados, datas, ultimoValor = 0
+    let soma = 0, dias = [], valores = []
+
+    for (var i = 0; i < Object.keys(dados).length; i++ ){
+        var chave = dados[i][0].replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
+        var valor = dados[i][2];
+        consolidado[chave] = valor
     }
 
-    var datasSemana = [];
-    for (var i = -7; i <= 0; i++) {
-        datasSemana.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
-    }
-
-    var datasMes = []; 
-    for (var i = 0; i <= 30; i++) {
-        datasMes.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
-    }
-
-    var datasAno = [];
-    var numDias = ehBissexto(moment().year()) ? 366 : 365; 
-    for (var i = 0; i < numDias; i++) {
-        datasAno.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
-    }
-
-    function organiza(dados = [], datas = [], tipo = false){
-        porMes = {}, consolidado = {}, consolidList = []
-        userInfo = dados, datasMes = datas, ultimoValor = 0
-        let soma = 0
-        dias = [], valores = []
-
-        for (var i = 0; i < Object.keys(userInfo).length; i++ ){
-            var chave = userInfo[i][0].replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
-            var valor = userInfo[i][2];
-            consolidado[chave] = valor
+    for (var i = 0; i < datas.length; i++) {
+        if (Object.keys(consolidado).includes(datas[i])) {
+          porMes[datas[i]] = consolidado[datas[i]]
+          dias.push(datas[i])
+          if(tipo === 'SELIC'){
+            soma =  ultimoValor + consolidado[datas[i]];
+            valores.push(parseFloat(soma).toFixed(2));
+            ultimoValor = soma;
+          } else {
+            valores.push(consolidado[datas[i]])
+          }
+        } else {
+          dias.push(datas[i])
+          valores.push(null)
         }
-
-        for (var i = 0; i < datasMes.length; i++) {
-            if (Object.keys(consolidado).includes(datasMes[i])) {
-              porMes[datasMes[i]] = consolidado[datasMes[i]]
-              dias.push(datasMes[i])
-              if(tipo === 'SELIC'){
-                soma =  ultimoValor + consolidado[datasMes[i]];
-                valores.push(soma);
-                ultimoValor = soma;
-              } else {
-                valores.push(consolidado[datasMes[i]])
-              }
-            } else {
-              dias.push(datasMes[i])
-              valores.push(null)
-            }
-        }
-        retornar = {1: dias, 2: valores}
-        return retornar
     }
+    retornar = {1: dias, 2: valores}
+    return retornar
+  }
 
-    function renderizaGrafico(select = datasMes, data = [], dataSelic = [], dataIbov = []) {
-      const ctxL = document.getElementById("rentabilidade").getContext('2d');
-      ctxL.heigth = 100;
-        
-      const myLineChart = new Chart(ctxL, {
-        type: 'line',
-        data: {
-          labels: select,
-          datasets: [
-            {
-              label: "Carteira",
-              data: data,
-              backgroundColor: ['transparent'],
-              pointBackgroundColor: 'rgb(253,180,92',
-              borderColor: ['rgb(253,180,92)'],
-              borderWidth: 2,
-              borderDash: [5, 5]
-            },
-            {
-              label: "Ibovespa",
-              data: dataIbov,
-              backgroundColor: ['transparent'],
-              pointBackgroundColor: 'rgb(255, 8, 0)',
-              borderColor: ['rgb(255, 8, 0)'],
-              borderWidth: 2
-            },
-            {
-              label: "Selic",
-              data: dataSelic,
-              backgroundColor: ['transparent'],
-              pointBackgroundColor: 'rgb(0, 153, 255)',
-              borderColor: ['rgb(0, 153, 255)'],
-              borderWidth: 2
+  function renderizaGrafico(select = datasMes, data = [], dataSelic = [], dataIbov = []) {
+    const ctxL = document.getElementById("rentabilidade").getContext('2d');
+    ctxL.heigth = 100;
+      
+    const myLineChart = new Chart(ctxL, {
+      type: 'line',
+      data: {
+        labels: select,
+        datasets: [
+          {
+            label: "Carteira",
+            data: data,
+            backgroundColor: ['transparent'],
+            pointBackgroundColor: 'rgb(253,180,92',
+            borderColor: ['rgb(253,180,92)'],
+            borderWidth: 2,
+            borderDash: [5, 5]
+          },
+          {
+            label: "Ibovespa",
+            data: dataIbov,
+            backgroundColor: ['transparent'],
+            pointBackgroundColor: 'rgb(255, 8, 0)',
+            borderColor: ['rgb(255, 8, 0)'],
+            borderWidth: 2
+          },
+          {
+            label: "Selic",
+            data: dataSelic,
+            backgroundColor: ['transparent'],
+            pointBackgroundColor: 'rgb(0, 153, 255)',
+            borderColor: ['rgb(0, 153, 255)'],
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: function(tooltipItem, data) {
+                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                return value + `%`
             }
-          ]
+          }
         },
-        options: {
-          maintainAspectRatio: false,
-          tooltips: {
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: function(tooltipItem, data) {
-                  var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                  return value + `%`
-              }
+        hover: {
+          mode: 'index',
+          intersect: false
+        },
+        scales: {
+          xAxes: [{
+            ticks: {
+              display: true
             }
-          },
-          hover: {
-            mode: 'index',
-            intersect: false
-          },
-          scales: {
-            xAxes: [{
-              ticks: {
-                display: true
-              }
-            }],
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                suggestedMax: 30, // Valor máximo da escala Y
-                suggestedMin: 0, // Valor mínimo da escala Y
-                callback: function(value, index, values) {
-                  if (value === 0) { // Se o valor for zero, retorna uma string vazia
-                    return '';
-                  } else {
-                    return value;
-                  }
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              suggestedMax: 30, // Valor máximo da escala Y
+              suggestedMin: 0, // Valor mínimo da escala Y
+              callback: function(value, index, values) {
+                if (value === 0) { // Se o valor for zero, retorna uma string vazia
+                  return '';
+                } else {
+                  return value;
                 }
               }
-            }]
-          }
+            }
+          }]
         }
-      });
-    }
-    
-    dataMes = datasMes.reverse()
-    dadosUser = organiza(userInfo, datasMes)
-    dadosSelic = organiza(selic, datasMes, 'SELIC')
-    dadosIbov = organiza(ibov, datasMes)
+      }
+    });
+  }
+  
+  Object.keys(datas).forEach( key => {
+    console.log(datas[key].reverse())
+  })
 
-    renderizaGrafico(datasMes, dadosUser[2], dadosSelic[2], dadosIbov[2])
+  function criaDivRentabilidade(graficoDiv){
+    removeDivRentabilidade(graficoDiv)
+    const canvasRentabilidade = document.createElement('canvas');
+    canvasRentabilidade.setAttribute('id', 'rentabilidade'); 
+    canvasRentabilidade.setAttribute('width', '400'); 
+    canvasRentabilidade.setAttribute('height', '400'); 
+    canvasRentabilidade.setAttribute('style', 'display: block; width: 400px; height: 400px;');
+    graficoDiv.appendChild(canvasRentabilidade);
+  }
+
+  function removeDivRentabilidade(){
+    const rentabilidade = document.getElementById('rentabilidade'); 
+    const jsMonitor = document.querySelector('.chartjs-size-monitor'); 
+    jsMonitor.remove()
+    rentabilidade.remove() 
+  }
+
+  function botoes(){  
+
+    const graficoDiv = document.querySelector('.teste')
+    const botoes = document.querySelector('.botoes');
+
+    botoes.addEventListener('click', (e) => {
+
+      if (e.target.id === 'Semana') {
+        var dadosUser = organiza(userInfo, datas.semana)
+        var dadosSelic = organiza(selic, datas.semana, 'SELIC')
+        var dadosIbov = organiza(ibov, datas.semana)
+        criaDivRentabilidade(graficoDiv)
+        renderizaGrafico(datas.semana, dadosUser[2], dadosSelic[2], dadosIbov[2])
+      } else if (e.target.id === 'Mes'){
+        var dadosUser = organiza(userInfo, datas.mes)
+        var dadosSelic = organiza(selic, datas.mes, 'SELIC')
+        var dadosIbov = organiza(ibov, datas.mes)
+        criaDivRentabilidade(graficoDiv)
+        renderizaGrafico(datas.mes, dadosUser[2], dadosSelic[2], dadosIbov[2])
+      } else if (e.target.id === 'Ano'){
+        var dadosUser = organiza(userInfo, datas.ano)
+        var dadosSelic = organiza(selic, datas.ano, 'SELIC')
+        var dadosIbov = organiza(ibov, datas.ano)
+        criaDivRentabilidade(graficoDiv)
+        renderizaGrafico(datas.ano, dadosUser[2], dadosSelic[2], dadosIbov[2])
+      }
+    })
+  }
+
+  var dadosUser = organiza(userInfo, datas.ano)
+  var dadosSelic = organiza(selic, datas.ano, 'SELIC')
+  var dadosIbov = organiza(ibov, datas.ano)
+
+  renderizaGrafico(datas.ano, dadosUser[2], dadosSelic[2], dadosIbov[2])
+  botoes()
+
 </script>
