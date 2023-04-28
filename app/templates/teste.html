@@ -54,9 +54,10 @@
         datasAno.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
 
-    function organiza(dados = [], datas = []){
+    function organiza(dados = [], datas = [], tipo = false){
         porMes = {}, consolidado = {}, consolidList = []
-        userInfo = dados, datasMes = datas
+        userInfo = dados, datasMes = datas, ultimoValor = 0
+        let soma = 0
         dias = [], valores = []
 
         for (var i = 0; i < Object.keys(userInfo).length; i++ ){
@@ -67,12 +68,18 @@
 
         for (var i = 0; i < datasMes.length; i++) {
             if (Object.keys(consolidado).includes(datasMes[i])) {
-                porMes[datasMes[i]] = consolidado[datasMes[i]]
-                dias.push(datasMes[i])
+              porMes[datasMes[i]] = consolidado[datasMes[i]]
+              dias.push(datasMes[i])
+              if(tipo === 'SELIC'){
+                soma =  ultimoValor + consolidado[datasMes[i]];
+                valores.push(soma);
+                ultimoValor = soma;
+              } else {
                 valores.push(consolidado[datasMes[i]])
+              }
             } else {
-                dias.push(datasMes[i])
-                valores.push(null)
+              dias.push(datasMes[i])
+              valores.push(null)
             }
         }
         retornar = {1: dias, 2: valores}
@@ -82,22 +89,6 @@
     function renderizaGrafico(select = datasMes, data = [], dataSelic = [], dataIbov = []) {
       const ctxL = document.getElementById("rentabilidade").getContext('2d');
       ctxL.heigth = 100;
-      
-      // Calcula a média dos valores dos pontos que estão presentes no gráfico
-      const dataPoints = data.filter(value => value !== null);
-      const dataPointsSum = dataPoints.reduce((total, value) => total + Number(value), 0);
-      const dataPointsMean = (dataPointsSum / dataPoints.length).toFixed(1);
-      
-      // Preenche os pontos ausentes com o valor médio
-      const filledData = data.map(value => {
-        if (dataPointsMean === 'NaN') {
-          return 0
-        } if (value == null) {
-          return dataPointsMean;
-        } else {
-          return value;
-        }
-      });
         
       const myLineChart = new Chart(ctxL, {
         type: 'line',
@@ -106,7 +97,7 @@
           datasets: [
             {
               label: "Carteira",
-              data: filledData,
+              data: data,
               backgroundColor: ['transparent'],
               pointBackgroundColor: 'rgb(253,180,92',
               borderColor: ['rgb(253,180,92)'],
@@ -174,7 +165,7 @@
     
     dataMes = datasMes.reverse()
     dadosUser = organiza(userInfo, datasMes)
-    dadosSelic = organiza(selic, datasMes)
+    dadosSelic = organiza(selic, datasMes, 'SELIC')
     dadosIbov = organiza(ibov, datasMes)
 
     renderizaGrafico(datasMes, dadosUser[2], dadosSelic[2], dadosIbov[2])
