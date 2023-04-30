@@ -24,6 +24,8 @@
         <button type="button" class="btn btn-primary m-1" id="Ano">Ano</button>
       </div>
       <canvas id="rentabilidade" class="rounded"  width="600" height="300" ></canvas>
+      <canvas id="porcent" class="rounded"  width="600" height="300" ></canvas>
+
     </div>
 </body>
 </html>
@@ -32,6 +34,8 @@
 
 <script>
   var dados = JSON.parse('{{ userVariation | tojson | safe }}');
+  var dadosPorcent = JSON.parse('{{ userPorcent | tojson | safe }}');
+  console.log(dadosPorcent)
   var userInfo = dados['variacao']
   var ibov = dados['IBOV']
   var selic = dados['SELIC']
@@ -96,6 +100,7 @@
       type: 'line',
       data: {
         labels: select,
+        spangaps: true,
         datasets: [
           {
             label: "Carteira",
@@ -133,7 +138,7 @@
           callbacks: {
             label: function(tooltipItem, data) {
                 var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                return value + `%`
+                return `${value}%| ${12}R$`
             }
           }
         },
@@ -216,11 +221,67 @@
     })
   }
 
+  function gerarCorAleatoria() {
+    let cor = '#';
+    const letras = '0123456789ABCDEF';
+  
+    for (let i = 0; i < 6; i++) {
+      cor += letras[Math.floor(Math.random() * 16)];
+    }
+  
+    return cor;
+  }
+
   var dadosUser = organiza(userInfo, datas.ano)
   var dadosSelic = organiza(selic, datas.ano, 'SELIC')
   var dadosIbov = organiza(ibov, datas.ano)
+  const valores = [];
+  const cores = [];
+
 
   renderizaGrafico(datas.ano, dadosUser[2], dadosSelic[2], dadosIbov[2])
   botoes()
+
+  
+  const labelPie = Object.keys(dadosPorcent)
+  .map(key => {
+    if(key !== 'valorTotal') {
+      valores.push(dadosPorcent[key]['porcentagem']);
+      return key;
+    } else {
+      return null;
+    }
+  })
+  .filter(label => label !== null && label !== undefined);
+
+  for (let i = 0; i < Object.keys(dadosPorcent).length; i++) {
+    cores.push(gerarCorAleatoria());
+  }
+
+  const config = {
+    type: 'doughnut',
+    data: {
+      labels: labelPie,
+      datasets: [{
+        data: valores,
+        backgroundColor: cores,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+            var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            return `${value}%`
+        }
+      },
+      cutoutPercentage: 50,
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  };
+
+  const meuGrafico = new Chart(document.getElementById("porcent"), config);
+
 
 </script>

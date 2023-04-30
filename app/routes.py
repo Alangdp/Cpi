@@ -22,9 +22,10 @@ def routes(app):
     @app.route('/teste')
     def teste():
         userVariation = getVariacao()
+        userPorcent = porcentWallet()
         # changeSelicIbov()
         # consolidWallet([],[],True)
-        return render_template('teste.html', userVariation = userVariation)
+        return render_template('teste.html', userVariation = userVariation, userPorcent = userPorcent)
 
     @app.route('/')
     @app.route('/home')
