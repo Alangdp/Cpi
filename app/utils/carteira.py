@@ -215,14 +215,12 @@ def porcentWallet():
             porcent['Acao']['tickers'][ticker] = {'valor': valorTotalAtivo, 'porcentagem': round(valorTotalAtivo / porcent['Acao']['valor'] * 100, 2)}
         
     for chave in porcent:
-        print(chave)
         if chave == 'valorTotal': continue
         try:
             porcent[chave]['porcentagem'] = round((porcent[chave]['valor'] / porcent['valorTotal']) * 100, 2)
         except ZeroDivisionError:
             porcent[chave]['porcentagem'] = 0
 
-    print(porcent)
     return porcent
 
 def consolidWallet(comands = [], arguments = [], All = False, selic = 0, ibov = 0 ):

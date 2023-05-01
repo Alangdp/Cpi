@@ -11,400 +11,335 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 
     <title>Document</title>
-
-    
-    <style>
-
-        .sidebar {
-            position: fixed !important;
-        }
-
-        #rentabilidade {
-            background: white;
-            max-height: 100% !important;
-            max-width: 100% !important;
-            width: 100%;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        @media screen and (max-width: 990px) {
-            body .container-fluid{
-                width: 100% !important;
-                margin-left: 0px !important;
-            }
-        }
-
-        body .container-fluid {
-            width: calc(100% - 300px);
-            margin-left: 300px;
-            height: 100vh;
-            margin-top: -0.5rem
-        }
-
-        .d-flex-center {
-            display: flex;
-            align-items: center;    
-            justify-content: center;
-        }
-
-        .d-column {
-            flex-direction: column;
-        }
-
-   
-        .btn-group .btn:focus,
-        .btn-group .btn:active,
-        .btn-group .btn.active {
-            background-color: #007bff;
-            box-shadow: none;
-            color: #fff;
-            border-color: #007bff;
-        }   
-
-        .p-0 {
-            padding: 0 !important;
-        }
-
-        .gap {
-            gap: 1rem !important;
-        }
-
-        .t-white-space {
-            white-space: nowrap;
-        }
-    
-        .content-dashboard {
-            width: 98%;
-            height: 100%;
-            gap: 0.5rem;
-            padding: 0.5rem;
-        }
-
-        .content-dashboard .column-dir {
-            display: grid;
-            gap: 0.5rem ;
-            padding: 0.5rem;         
-            grid-template-rows: 1fr 1fr;
-        }
-
-        .content-dashboard .column-dir .top {
-            display: grid;
-            grid-template-columns: 60% auto;
-            gap: 0.5rem;
-            padding: 0.5rem;         
-
-        }
-
-        .content-dashboard .column-dir .bottom {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 0.5rem;
-            padding: 0.5rem;         
-        }
-
-        .content-dashboard .column-dir .bottom .teste {
-            height: 100% !important;
-        }
-
-        @media screen and (max-width: 990px) {
-
-            
-            .add-top{
-                width: 100% !important;
-                margin-left: 0px !important;
-                height: 50px;
-                height: 50px;
-                background: blue;
-                margin-top: 0.5rem !important;
-            }
-
-            .content-dashboard  {
-                display: flex !important;
-                flex-direction: column;
-            }
-
-            .content-dashboard .column-dir .top {
-                grid-template-columns: 1fr !important;
-            }
-
-            .container-fluid.p-2.d-flex-center {
-                padding: 0 !important;
-                width: 103% !important;
-            }
-
-            .row.w-98.h-9.mt-2.h-75.bg-light.rounded {
-                height: 70% !important;
-            }
-
-            .bottom.bg-dark.rounded.h-100 {
-                grid-template-columns: 1fr !important;
-            }
-        }
-
-        .w-98 {
-            width: 98% !important;
-        }
-
-        .h-98 {
-            width: 98% !important;
-        }
-
-        .add-top {
-            width: calc(100% - 300px);
-            margin-left: 300px;
-            margin-top: -3.32vh;
-            height: 50px;
-            background: blue;
-            margin-top: -1.5vh;
-            margin-bottom: 0.5vh;
-        }
-    </style>
-
     {% include './includes/bootstrap.html'%}
 
 </head>
-<body class="">
 
+<style>
+
+    .mg-sidebar {
+        margin-left: 300px;
+    }
+
+    .vh-100 {
+        height: 100vh !important;
+    }
+
+
+    .container-stock {
+        width: calc(100% - 300px);
+        background: rgb(207, 204, 207) !important;
+    }
+
+    .p-0 {
+        padding: 0 !important;
+    }
+</style>
+
+<body>
+    {% include './includes/mobile.html'%}
     {% include './includes/sidebar.html'%}
 
-    <div class="container d-flex-center">
-        <div class=" w-100 add-top rounded"></div>
-    </div>
-    <div class="container-fluid p-2 d-flex-center">
-        <div class="content-dashboard rounded">
-            <div class="column column-dir rounded bg-light h-100">
-                <div class="top bg-dark rounded h-100 ">
-                    <div class="rentabilidade bg-warning rounded">
-                        <div class="row p-0 ml-3 mt-1">Rentabilidade</div>
-                        <div class="row p-0 ml-3">
-                            <div class="col p-0">Atual (1231)</div>
-                            <div class="col p-0">Périodo (1234)</div>
-                        </div>
-                        <div class="row w-98 h-75 mt-2" style="margin-left:0.3rem;">
-                            <canvas id="rentabilidade" class="rounded" style="width: 90%; height: 90%;"></canvas>
+    <div class="container-fluid vh-100 p-0">
+
+        <div class="container-stock vh-100 mg-sidebar">
+            <div class="container  h-100">
+                <div class="row h-100 ">
+                    <div class="col-12 p-1 h-50 bg-dark row">
+                        
+                        <div class="col-6 bg-warning h-100 p-1">
+                            <div class="col-12 bg-light row p-0 ml-0">
+                                <div class="col-5">
+                                    <div class="col-3">
+                                        <h3 class="font-weight-bold">Rentabilidade</h3>
+                                    </div>
+                                </div>
+                                <div class="col botoes">
+                                    <button type="button" class="btn btn-primary m-1" id="Semana">Semana</button>
+                                    <button type="button" class="btn btn-primary m-1" id="Mes">Mês</button>
+                                    <button type="button" class="btn btn-primary m-1" id="Ano">Ano</button>
+                                </div>
+                                <div class="col-12 row p-0 ml-0 d-flex d-column align-items-center">
+                                    <div class="rentabilidadeGrafico">
+                                        <canvas id="rentabilidade" class="rounded"  width="550" height="400" ></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+
+                        <div class="col-6 bg-warning h-100 p-1">
+                            <div class="col-12 bg-light row p-0 ml-0">
+                                <div class="col-3">
+                                    <h3 class="font-weight-bold">Porcentagem</h3>
+                                </div>
+                                <div class="col-12 row p-0 ml-0 d-flex d-column align-items-center">
+                                    <div class="porcentagemGrafico">
+                                        <canvas id="porcentagem" class="rounded"  width="550" height="400" ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="alocao bg-warning rounded">
-                        <div class="row p-0 ml-3 mt-1">Alocação</div>
-                        <div class="row p-0 ml-3 mt-4"></div>
-                        <div class="row w-98 h-9 mt-2 h-75 bg-light rounded" style="margin-left:0.3rem;">
-                            <canvas id="alocacao" class="rounded bg-light" style="width: 90%; height: 80%;"></canvas>
-                        </div>
+                    <div class="col-12 p-1 h-50 bg-dark row">
+                        <div class="col-6 bg-warning h-100 p-1"></div>
+                        <div class="col-6 bg-warning h-100 p-1"></div>
                     </div>
                 </div>
-
-                <div class="bottom bg-dark rounded h-100">
-                    <div class="teste bg-warning rounded p-2">
-                        <div class="row p-0 ml-3 mt-1">Patrimônio</div>
-                        <canvas id="teste" class="bg-light rounded"></canvas>
-
-                    </div>
-                    <div class="teste bg-warning rounded">
-                        <div class="row p-0 ml-3 mt-1">Patrimônio</div>
-                        <canvas id="teste" class="bg-light rounded"></canvas>
-                    </div>
-                    <div class="teste bg-warning rounded">
-                        <div class="column bg-light rounded h-100"></div>
-                    </div>
-
-                </div>
-
             </div>
-
         
         </div>
     </div>
+
 </body>
 </html>
 
 <script>
-    var ctx = document.getElementById('teste').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
-            datasets: [{
-                label: 'Vendas Mensais',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            },
-            responsive: true,
-            maintainAspectRatio: true
-        }
-    });
-</script>
-
-<script>
-    var ctxP = document.getElementById("alocacao").getContext('2d');
-    var myPieChart = new Chart(ctxP, {
-    type: 'pie',
-    data: {
-        labels: ["Red", "Green", "Yellow"],
-        datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
-        }]
-    },
-    options: {
-        responsive: true
-    }
-    });
-</script>
-
-
-<script>
-const grafico = () => {
-
-    function botoes(meses , semana, anos) {
-        document.addEventListener('click', e => {
-            const botao = e.target.textContent;
-            console.log(e.target)
-            console.log(botao)
-            if(botao === "Anos") {
-                select = anos.reverse();
-            }
-
-            if(botao === "Mês") {
-                meses = semana.reverse()
-                select = meses;
-            }
-
-            if(botao === "Semana") {
-                semana = semana.reverse()
-                select = semana;
-            }
-
-            const chart = document.querySelector("#rentabilidade");
-            const canvaClone = chart.cloneNode(true);
-            const divPai = document.querySelector('.chartjs-size-monitor')
-            divPai.appendChild(canvaClone)
-
-            renderizaGrafico()
-        })
-    }
-
-    function ehBissexto(ano) {
-        return (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
-    }
-        
-
+    var dados = JSON.parse('{{ userVariation | tojson | safe }}');
+    var dadosPorcent = JSON.parse('{{ userPorcent | tojson | safe }}');
+    console.log(dadosPorcent)
+    var userInfo = dados['variacao']
+    var ibov = dados['IBOV']
+    var selic = dados['SELIC']
+    const datas = {semana: [], mes: [], ano:[]}
+  
     var dataAtual = moment().format("DD/MM/YYYY");
-    var dataInicial = moment()
-
-    console.log(dataInicial)
-
-    var datasSemana = [];
-    for (var i = -7; i <= 0; i++) {
-        datasSemana.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+  
+    function ehBissexto(ano) {
+      return (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0;
     }
-
-    var datasMes = []; 
+  
+    for (var i = 0; i <= 7; i++) {
+      datas.semana.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
+    }
+  
     for (var i = 0; i <= 30; i++) {
-        datasMes.push(moment().subtract(i, 'days').format('DD/MM/YYYY'));
+      datas.mes.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
-
-    var datasAno = [];
+  
     var numDias = ehBissexto(moment().year()) ? 366 : 365; 
     for (var i = 0; i < numDias; i++) {
-        datasAno.push(dataInicial.format("DD/MM/YYYY"));
-        dataInicial.subtract(1, 'day');
+      datas.ano.push(moment().subtract(i, 'days').format('YYYY/MM/DD'));
     }
-
-    function renderizaGrafico(select = datasMes, data = []) {
-        const ctxL = document.getElementById("rentabilidade").getContext('2d');
-        ctxL.heigth = 100;
-        const myLineChart = new Chart(ctxL, {
-            type: 'line',
-            data: {
-                labels: select,
-                datasets: [{
-                    label: "Carteira",
-                    data: [60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 60, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65],
-                    backgroundColor: ['transparent'],
-                    pointBackgroundColor: 'rgb(253,180,92',
-                    borderColor: ['rgb(253,180,92)'],
-                    borderWidth: 2
-                }, {
-                    label: "Ibovespa",
-                    data: [28, 48, 40, 19, 86, 27, 28, 48, 40, 19, 86, 27],
-                    backgroundColor: ['transparent'],
-                    pointBackgroundColor: 'rgb(255, 8, 0)',
-                    borderColor: ['rgb(255, 8, 0)'],
-                    borderWidth: 2
-                }, {
-                    label: "Selic",
-                    data: [28, 48, 40, 19, 86, 27, 28, 78, 40, 12, 98, 99],
-                    backgroundColor: ['transparent'],
-                    pointBackgroundColor: 'rgb(0, 153, 255)',
-                    borderColor: ['rgb(0, 153, 255)'],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function(tooltipItem, data) {
-                            const label = data.labels[tooltipItem.index];
-                            label.display = true;
-                            return label;
-                        }
-                    }
-                },
-                hover: {
-                    mode: 'index',
-                    intersect: false
-                },
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            display: true
-                        }
-                    }]
-                }
+  
+  
+    function organiza(dados = [], datas = [], tipo = false){
+      porMes = {}, consolidado = {}, consolidList = []
+      dados, datas, ultimoValor = 0
+      let soma = 0, dias = [], valores = []
+  
+      for (var i = 0; i < Object.keys(dados).length; i++ ){
+          var chave = dados[i][0].replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
+          var valor = dados[i][2];
+          consolidado[chave] = valor
+      }
+  
+      for (var i = 0; i < datas.length; i++) {
+          if (Object.keys(consolidado).includes(datas[i])) {
+            porMes[datas[i]] = consolidado[datas[i]]
+            dias.push(datas[i])
+            if(tipo === 'SELIC'){
+              soma =  ultimoValor + consolidado[datas[i]];
+              valores.push(parseFloat(soma).toFixed(2));
+              ultimoValor = soma;
+            } else {
+              valores.push(consolidado[datas[i]])
             }
-        });
+          } else {
+            dias.push(datas[i])
+            valores.push(null)
+          }
+      }
+      retornar = {1: dias, 2: valores}
+      return retornar
+    }
+  
+    function renderizaGrafico(select = datasMes, data = [], dataSelic = [], dataIbov = []) {
+      const ctxL = document.getElementById("rentabilidade").getContext('2d');
+        
+      const myLineChart = new Chart(ctxL, {
+        type: 'line',
+        data: {
+          labels: select,
+          spangaps: true,
+          datasets: [
+            {
+              label: "Carteira",
+              data: data,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(253,180,92',
+              borderColor: ['rgb(253,180,92)'],
+              borderWidth: 2,
+              borderDash: [5, 5]
+            },
+            {
+              label: "Ibovespa",
+              data: dataIbov,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(255, 8, 0)',
+              borderColor: ['rgb(255, 8, 0)'],
+              borderWidth: 2
+            },
+            {
+              label: "Selic",
+              data: dataSelic,
+              backgroundColor: ['transparent'],
+              pointBackgroundColor: 'rgb(0, 153, 255)',
+              borderColor: ['rgb(0, 153, 255)'],
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(tooltipItem, data) {
+                  var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                  return `${value}%| ${12}R$`
+              }
+            }
+          },
+          hover: {
+            mode: 'index',
+            intersect: false
+          },
+          scales: {
+            xAxes: [{
+              ticks: {
+                display: true
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                suggestedMax: 30, // Valor máximo da escala Y
+                suggestedMin: 0, // Valor mínimo da escala Y
+                callback: function(value, index, values) {
+                  if (value === 0) { // Se o valor for zero, retorna uma string vazia
+                    return '';
+                  } else {
+                    return value;
+                  }
+                }
+              }
+            }]
+          }
+        }
+      });
     }
     
-    let select = datasMes
+    Object.keys(datas).forEach( key => {
+      console.log(datas[key].reverse())
+    })
+  
+    function criaDivRentabilidade(graficoDiv){
+      removeDivRentabilidade(graficoDiv)
+      const canvasRentabilidade = document.createElement('canvas');
+      canvasRentabilidade.setAttribute('id', 'rentabilidade'); 
+      canvasRentabilidade.setAttribute('width', '550'); 
+      canvasRentabilidade.setAttribute('height', '400'); 
+      canvasRentabilidade.setAttribute('style', 'display: block; width: 550; height: 400px;');
+      graficoDiv.appendChild(canvasRentabilidade);
+    }
+  
+    function removeDivRentabilidade(){
+      const rentabilidade = document.getElementById('rentabilidade'); 
+      const jsMonitor = document.querySelector('.chartjs-size-monitor'); 
+      jsMonitor.remove()
+      rentabilidade.remove() 
+    }
+  
+    function botoes(){  
+  
+      const graficoDiv = document.querySelector('.rentabilidadeGrafico')
+      const botoes = document.querySelector('.botoes');
+  
+      botoes.addEventListener('click', (e) => {
+  
+        if (e.target.id === 'Semana') {
+          var dadosUser = organiza(userInfo, datas.semana)
+          var dadosSelic = organiza(selic, datas.semana, 'SELIC')
+          var dadosIbov = organiza(ibov, datas.semana)
+          criaDivRentabilidade(graficoDiv)
+          renderizaGrafico(datas.semana, dadosUser[2], dadosSelic[2], dadosIbov[2])
+        } else if (e.target.id === 'Mes'){
+          var dadosUser = organiza(userInfo, datas.mes)
+          var dadosSelic = organiza(selic, datas.mes, 'SELIC')
+          var dadosIbov = organiza(ibov, datas.mes)
+          criaDivRentabilidade(graficoDiv)
+          renderizaGrafico(datas.mes, dadosUser[2], dadosSelic[2], dadosIbov[2])
+        } else if (e.target.id === 'Ano'){
+          var dadosUser = organiza(userInfo, datas.ano)
+          var dadosSelic = organiza(selic, datas.ano, 'SELIC')
+          var dadosIbov = organiza(ibov, datas.ano)
+          criaDivRentabilidade(graficoDiv)
+          renderizaGrafico(datas.ano, dadosUser[2], dadosSelic[2], dadosIbov[2])
+        }
+      })
+    }
 
-    renderizaGrafico(select)
-    botoes(mes = datasMes, semana = datasSemana, ano = datasAno)
+    function gerarCorAleatoria() {
+        let cor = '#';
+        const letras = '0123456789ABCDEF';
+
+        for (let i = 0; i < 6; i++) {
+            cor += letras[Math.floor(Math.random() * 16)];
+        }
+
+        return cor;
+    }
     
-}
 
-grafico()
+    var dadosUser = organiza(userInfo, datas.mes)
+    var dadosSelic = organiza(selic, datas.mes, 'SELIC')
+    var dadosIbov = organiza(ibov, datas.mes)
+    const valores = [];
+    const cores = [];
+  
+    renderizaGrafico(datas.mes, dadosUser[2], dadosSelic[2], dadosIbov[2])
+    botoes()
+
+    const labelPie = Object.keys(dadosPorcent)
+  .map(key => {
+    if(key !== 'valorTotal') {
+      valores.push(dadosPorcent[key]['porcentagem']);
+      return key;
+    } else {
+      return null;
+    }
+  })
+  .filter(label => label !== null && label !== undefined);
+
+  for (let i = 0; i < Object.keys(dadosPorcent).length; i++) {
+    cores.push(gerarCorAleatoria());
+  }
+
+  const config = {
+    type: 'doughnut',
+    data: {
+      labels: labelPie,
+      datasets: [{
+        data: valores,
+        backgroundColor: cores,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+            var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            return `${value}%`
+        }
+      },
+      cutoutPercentage: 50,
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  };
+
+  const meuGrafico = new Chart(document.getElementById("porcentagem"), config);
 </script>

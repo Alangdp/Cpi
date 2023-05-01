@@ -105,6 +105,14 @@
             "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=12"
         },
         {
+            "ticker": "EGIE3",
+            "name": "ENGIE",
+            "value": 1.7834,
+            "type": "Dividendo",
+            "date": "08/05/2023",
+            "url-image": "https://statusinvest.com.br/img/company/avatar/473.jpg?v=12"
+        },
+        {
             "ticker": "ITUB4",
             "name": "BANCO",
             "value": 0.0177,
@@ -127,64 +135,7 @@
             "type": "JCP",
             "date": "01/06/2023",
             "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=12"
-        },
-        {
-            "ticker": "ITUB4",
-            "name": "BANCO",
-            "value": 0.0177,
-            "type": "JCP",
-            "date": "30/06/2023",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/344.jpg?v=12"
         }
     ],
-    [
-        {
-            "ticker": "VALE3",
-            "name": "VALE",
-            "amount": "4",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/384.jpg?v=12",
-            "type": "4comunicado",
-            "url": "https://statusinvest.com.br/acoes/VALE3#go-document-section"
-        },
-        {
-            "ticker": "PETR4",
-            "name": "PETROBRAS",
-            "amount": "4",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/408.jpg?v=12",
-            "type": "4comunicado",
-            "url": "https://statusinvest.com.br/acoes/PETR4#go-document-section"
-        },
-        {
-            "ticker": "ITUB4",
-            "name": "BANCO",
-            "amount": "2",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/344.jpg?v=12",
-            "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/ITUB4#go-document-section"
-        },
-        {
-            "ticker": "BBDC4",
-            "name": "BRADESCO",
-            "amount": "2",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/330.jpg?v=12",
-            "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/BBDC4#go-document-section"
-        },
-        {
-            "ticker": "WEGE3",
-            "name": "WEG",
-            "amount": "2",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/189.jpg?v=12",
-            "type": "comunicado",
-            "url": "https://statusinvest.com.br/acoes/WEGE3#go-document-section"
-        },
-        {
-            "ticker": "ITSA4",
-            "name": "ITAUSA",
-            "amount": "7",
-            "url-image": "https://statusinvest.com.br/img/company/avatar/345.jpg?v=12",
-            "type": "7comunicado",
-            "url": "https://statusinvest.com.br/acoes/ITSA4#go-document-section"
-        }
-    ]
+    []
 ]

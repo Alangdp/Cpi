@@ -23,8 +23,8 @@ def routes(app):
     def teste():
         userVariation = getVariacao()
         userPorcent = porcentWallet()
-        # changeSelicIbov()
-        # consolidWallet([],[],True)
+        changeSelicIbov()
+        consolidWallet([],[],True)
         return render_template('teste.html', userVariation = userVariation, userPorcent = userPorcent)
 
     @app.route('/')
@@ -181,9 +181,9 @@ def routes(app):
     @app.route('/carteira', methods=['GET'])
     @app.route('/carteira/dashboard', methods=['GET'])
     def dashboard():
-        ticker = 'BBAS3'.upper()
-        updateWallet(ticker, 300, 100, 5)
-        return render_template('stockwallet.html')
+        userVariation = getVariacao()
+        userPorcent = porcentWallet()
+        return render_template('stockwallet.html', userVariation = userVariation, userPorcent = userPorcent)
 
     @app.route('/db/')
     @app.route('/db/index')
@@ -255,6 +255,7 @@ def routes(app):
     @app.route('/db/getVariacao')
     def variacao():
         return json.dumps(getVariacao())
+    
 def init_routes(app):
     routes(app)
 
