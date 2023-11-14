@@ -1,6 +1,9 @@
 
 # CPI - Controle Produtivo de Investimentos
 
+| Alerta: Este projeto foi feito usando bibliotecas antigas e conceitos errados, durante o inicio de meu aprendizado, ou seja ele tende a não funcionar mais atualmente  |
+| ---|
+
 O site é um projeto de portfólio que tem como objetivo fornecer informações e recomendações sobre investimentos em bolsa de valores. Com base em análises e estudos de mercado, o site oferece sugestões de investimentos em renda variável para ajudar os usuários a tomar decisões financeiras mais informadas.
 
 Por meio de uma interface simples e intuitiva, os usuários podem acessar informações sobre diferentes empresas, setores e tendências do mercado de ações. Além disso, o site também oferece ferramentas e recursos para ajudar os usuários a entender melhor o mercado financeiro e tomar decisões mais inteligentes sobre seus investimentos.
