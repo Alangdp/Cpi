@@ -1,5 +1,7 @@
 
-# CPI - Controle Produtivo de Investimentos
+# CPI - Controle Produtivo de Investimentos - PROJETO CANCELADO 
+
+## Este projeto foi feito junto ao inicio dos meus estudos e não está completo, além de estar a um longo tempo sem ereceber manutenções dessa forma provavelmente não funcionara
 
 | Alerta: Este projeto foi feito usando bibliotecas antigas e conceitos errados, durante o inicio de meu aprendizado, ou seja ele tende a não funcionar mais atualmente  |
 | ---|
